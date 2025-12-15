@@ -519,7 +519,7 @@
         box-shadow: var(--shadow-card);
         position: relative;
         overflow: hidden;
-        border-bottom: 4px solid var(--primary);
+        border-bottom: 0px solid var(--primary);
         transition: transform 0.1s ease;
     }
     .islamic-card:hover .card-icon-frame { 
@@ -546,9 +546,8 @@
         margin: 0 auto 1.5rem;
         background: var(--accent);
         color: var(--primary);
-        border-radius: 50%;
         /* Bentuk Bintang 8 Sisi Sederhana (Octagon rotate) */
-        /*clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);*/
+        clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
         display: flex; 
         align-items: center; 
         justify-content: center;
