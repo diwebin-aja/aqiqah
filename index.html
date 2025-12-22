@@ -12,14 +12,15 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <style>
+  <style>
     /* --- CSS VARIABLES --- */
     :root {
+        --primary-bg: #F2F4F8;
         --primary: #1E5631;
-        --primary-dark: #143d22;
+        --primary-dark: #143d22; 
         --primary-light: #effaf1;
         --accent: #D4AF37; /* Emas */
-        --accent-light: #fff9e6;
+        --accent-light: #fff9e6; 
         --brand-50: #fff7ed;
         --gray-50: #fafaf9;
         --gray-100: #f3f4f6;
@@ -28,7 +29,7 @@
         --gray-800: #262626;
         --gray-900: #171717;
         --shadow-soft: 0 20px 40px -10px rgba(30, 86, 49, 0.08);
-        --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.06);
         --wa-green: #25D366; 
         
         /* Font Setup */
@@ -36,8 +37,7 @@
         --font-body: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* --- PATTERN BACKGROUND ISLAMI --- */
-    /* --- PATTERN BACKGROUND ISLAMI --- */
+    /* --- GLOBAL STYLES --- */
     body {
         font-family: var(--font-body);
         background-color: #FAFAFA;
@@ -45,41 +45,20 @@
         line-height: 1.6;
         overflow-x: hidden;
         cursor: default;
-        
-        /* Tambahkan baris ini agar child absolute mengikutinya */
-        position: relative; 
+        position: relative;
         min-height: 100vh;
-
-        /* Pola Geometris Halus */
-        background-image: radial-gradient(#1E5631 0.5px, transparent 0.5px), radial-gradient(#1E5631 0.5px, #FAFAFA 0.5px);
+        background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px), radial-gradient(#D4AF37 0.5px, var(--primary-bg) .5px);
         background-size: 20px 20px;
         background-position: 0 0, 10px 10px;
-        background-blend-mode: multiply;
-    }
-
-    /* Overlay putih transparan */
-    body::before {
-        content: "";
-        
-        /* UBAH DARI FIXED KE ABSOLUTE */
-        position: absolute; 
-        
-        top: 0; left: 0; 
-        width: 100%; 
-        
-        /* UBAH HEIGHT AGAR MENGIKUTI KONTEN, BUKAN LAYAR */
-        height: 100%; 
-        
-        background: rgba(255, 255, 255, 0.94);
-        z-index: -1;
-        
-        /* Tambahkan ini untuk mencegah interaksi sentuh pada background */
-        pointer-events: none; 
+        background-color: #F8F9FB;
     }
 
     * {
-        margin: 0; padding: 0; box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent; outline: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
 
     h1, h2, h3, h4 {
@@ -89,35 +68,34 @@
     }
 
     a, button {
-        cursor: default;
+        cursor: pointer;
         text-decoration: none;
         color: inherit;
     }
 
-    button { border: none; font-family: inherit; }
+    button {
+        border: none;
+        font-family: inherit;
+    }
 
     /* --- UTILITIES --- */
     .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0; /*0 1.5rem*/
+        padding: 0;
     }
 
-    /* Ornament Divider */
-    .ornament-divider {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        margin: 1.5rem 0;
-        opacity: 0.6;
-    }
-    .ornament-line {
-        height: 2.3px;
-        width: 60px;
-        background: var(--accent);
+    .text-highlight {
+        font-weight: 800;
+        color: var(--gray-900);
     }
 
+    .icon-right {
+        margin-left: 5px;
+    }
+
+    /* --- ORNAMENTS --- */
+    .ornament-divider,
     .ornament-divider-1 {
         display: flex;
         align-items: center;
@@ -126,10 +104,24 @@
         margin: 1.5rem 0;
         opacity: 0.6;
     }
+
+    .ornament-line,
     .ornament-line-1 {
         height: 2.3px;
         width: 60px;
+    }
+
+    .ornament-line {
+        background: var(--accent);
+    }
+
+    .ornament-line-1 {
         background: var(--primary);
+    }
+
+    .ornament-divider-1.align-start {
+        justify-content: flex-start;
+        margin-left: 0;
     }
 
     .ornament-icon {
@@ -142,11 +134,59 @@
         font-size: 0.95rem;
     }
 
-    /* Text Gradient Gold */
-    .text-gold {
-        background: linear-gradient(135deg, #D4AF37, #F2C94C);
+    /* --- ANIMATIONS --- */
+/* 1. Base Style (Tanpa animasi shine di sini) */
+.text-gold {
+    background: linear-gradient(110deg, #D4AF37 0%, #D4AF37 40%, #ffffff 50%, #D4AF37 60%, #D4AF37 100%);
+    background-size: 235% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    
+    font-weight: 800;
+    display: inline-block;
+    padding-top: 2px;
+    line-height: 1.3;
+    transform-origin: center bottom;
+
+    /* TAMBAHAN UNTUK FADE */
+    opacity: 1; 
+    transition: opacity 0.5s ease-in-out; /* Durasi fade 0.5 detik */
+}
+
+/* 2. Class untuk menyembunyikan text (Fade Out) */
+.text-gold.fade-out {
+    opacity: 0;
+}
+
+/* 3. Class untuk memicu animasi kilau (Shine) */
+.text-gold.shining {
+    animation: shine 4.5s linear forwards;
+}
+
+@keyframes shine {
+    0% { background-position: 0% center; }
+    100% { background-position: -200% center; }
+}
+
+    .text-gold-aqiqahin {
+        background: linear-gradient(110deg, #D4AF37 0%, #D4AF37 40%, #ffffff 50%, #D4AF37 60%, #D4AF37 100%);
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shine 3s linear infinite;
+        color: transparent;
+        font-weight: 800;
+        display: inline-block;
+        padding-top: 2px;
+        line-height: 1.3;
+        transform-origin: center bottom;
+    }
+    
+    .text-emas {
+        color: var(--accent);
     }
 
     .text-hijau {
@@ -154,37 +194,23 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    
-    .text-primary {
-        color: var(--primary);
+
+    .star-spin {
+        animation: spin 0s linear infinite; /*4s*/
+        color: var(--accent);
     }
 
-    /* --- HERO SECTION --- */
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
+
+    /* --- HERO --- */
     .hero {
-        padding: 4rem 0 5rem 0;  
+        padding: 4rem 0 5rem 0;
         position: relative;
         overflow: hidden;
         padding-left: 1.23rem;
         padding-right: 1.5rem;
-    }
-
-    /* Dekorasi Sudut Islami */
-    .islamic-corner {
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='%231E5631' fill-opacity='0.08'/%3E%3C/svg%3E");
-        z-index: -1;
-    }
-    .top-right { 
-        top: -50px; 
-        right: -50px; 
-        transform: rotate(45deg); 
-    }
-    .bottom-left { 
-        bottom: -50px; 
-        left: -50px; 
-        transform: rotate(45deg); 
     }
 
     .hero-grid {
@@ -199,8 +225,7 @@
         position: relative;
         z-index: 2;
     }
-
-    /* Badge */
+     
     .badge-islamic {
         display: inline-flex;
         align-items: center;
@@ -215,16 +240,7 @@
         margin-bottom: 2.5rem;
         letter-spacing: .2px;
     }
-    .star-spin { 
-        animation: spin 4s linear infinite;
-        color: var(--accent); 
-    }
-    @keyframes spin { 
-        100% { 
-            transform: rotate(360deg); 
-        } 
-    }
-
+    
     .hero-title {
         font-size: 2.8rem;
         color: var(--gray-900);
@@ -233,43 +249,40 @@
         letter-spacing: -.2px;
         line-height: 1.1;
     }
-    
+
     .hero-desc {
         font-size: 1.1rem;
         color: var(--gray-600);
         margin-bottom: 2rem;
         max-width: 500px;
-        margin-left: auto; margin-right: auto;
+        margin-left: auto;
+        margin-right: auto;
         font-weight: 500;
         letter-spacing: .2px;
     }
 
-    /* Islamic Arch Image Style */
     .hero-image-wrapper {
         position: relative;
         width: 100%;
         max-width: 450px;
         margin: 0 auto;
-        /* BENTUK KUBAH MASJID */
-        border-radius: 200px 200px 20px 20px; 
+        border-radius: 200px 200px 20px 20px;
         overflow: hidden;
         border: 4px solid white;
         box-shadow: var(--shadow-soft);
         height: 500px;
     }
-    
-    /* Cari bagian ini: */
-/* Cari bagian ini: */
-.hero-image-wrapper::after {
-    content: '';
-    position: absolute;
-    inset: 0; /* HAPUS INI */
-    border-radius: 200px 200px 20px 20px; /* HAPUS INI (akan disesuaikan) */
-    border: 2px solid rgba(212, 175, 55, 0.3); /* HAPUS INI */
-    pointer-events: none;
-    z-index: 2; 
-    margin: .85rem;
-}
+
+    .hero-image-wrapper::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 200px 200px 20px 20px;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        pointer-events: none;
+        z-index: 2;
+        margin: .85rem;
+    }
 
     .hero-img {
         width: 100%;
@@ -278,7 +291,6 @@
         display: block;
     }
 
-    /* Floating Tags on Image */
     .float-tag {
         position: absolute;
         background: rgba(255, 255, 255, 0.9);
@@ -292,18 +304,48 @@
         z-index: 3;
         border-left: 3px solid var(--accent);
     }
-    .float-tag.price { bottom: 30px; right: 20px; }
-    
-    .tag-label { font-size: 0.75rem; color: var(--gray-500); display: block; line-height: 1; text-transform: uppercase; font-weight: 700; }
-    .tag-value { font-size: 1.1rem; font-weight: 800; color: var(--primary); font-family: var(--font-heading); }
 
-    /* Buttons Modern + Cubit */
+    .float-tag.price {
+        bottom: 30px;
+        right: 20px;
+    }
+
+    .tag-label {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        display: block;
+        line-height: 1;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .tag-value {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--primary);
+        font-family: var(--font-heading);
+    }
+
+    /* --- BUTTONS --- */
     .btn-group {
         display: flex;
         flex-direction: column;
         gap: 12px;
         justify-content: center;
         margin-bottom: 2rem;
+    }
+
+    /* --- TAMBAHAN CSS ICON WA --- */
+    .wa-icon-style {
+        font-size: 1.3rem; /* Ukuran icon sedikit lebih besar dari teks */
+        margin-right: 4px; /* Jarak tambahan dikit */
+        vertical-align: middle;
+        margin-bottom: 2px; /* Penyesuaian posisi agar sejajar tengah */
+    }
+
+    /* Khusus tombol pricing agar icon tetap putih dan jelas */
+    .pm-btn .wa-icon-style {
+        color: inherit; /* Mengikuti warna teks tombol */
     }
 
     .btn {
@@ -317,32 +359,43 @@
         gap: 10px;
         transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         user-select: none;
-        position: relative;   
+        position: relative;
         letter-spacing: .2px;
     }
 
-    .btn:active { transform: scale(0.96); }
+    .btn:active {
+        transform: scale(0.96);
+    }
 
     .btn-primary {
         background: var(--primary);
         color: white;
         box-shadow: 0 8px 20px -5px rgba(30, 86, 49, 0.4);
     }
-    
+
+    .btn-primary.full-width {
+        margin-top: 1.5rem;
+        width: 100%;
+    }
+
     .btn-outline {
         background: white;
         border: 2px solid var(--primary);
         color: var(--primary);
     }
-    .btn-outline:active { background: var(--primary-light); }
 
-    /* Trust Grid */
+    .btn-outline:active {
+        background: var(--primary-light);
+    }
+
+    /* --- TRUST & WHY --- */
     .trust-grid {
         display: flex;
         justify-content: center;
         gap: 1rem;
         flex-wrap: wrap;
     }
+
     .trust-pill {
         display: flex;
         align-items: center;
@@ -357,14 +410,15 @@
         border: 1px solid var(--gray-100);
         transition: transform 0.1s;
     }
-    .trust-pill:hover { 
-        transform: scale(0.95); 
-    }
-    .trust-pill i { 
-        color: var(--accent); 
+
+    .trust-pill:hover {
+        transform: scale(0.95);
     }
 
-    /* --- WHY / SLIDER SECTION --- */
+    .trust-pill i {
+        color: var(--accent);
+    }
+
     .why-section {
         padding: 4rem 0;
         position: relative;
@@ -384,8 +438,7 @@
         position: relative;
         width: 100%;
         height: 350px;
-        /* Bentuk Kubah Terbalik sedikit di bawah */
-        border-radius: 20px 20px 100px 100px; 
+        border-radius: 20px 20px 100px 100px;
         overflow: hidden;
         margin-bottom: 2rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -396,16 +449,17 @@
         height: 100%;
         transition: transform 0.5s ease;
     }
+
     .slide {
         min-width: 100%;
         height: 100%;
         position: relative;
     }
-    .slide img {
-        width: 100%; 
-        height: 100%; 
-        object-fit: cover;
 
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .slider-nav {
@@ -421,26 +475,30 @@
         border-radius: 50px;
         backdrop-filter: blur(4px);
     }
+
     .nav-btn {
-        width: 40px; 
+        width: 40px;
         height: 40px;
         border-radius: 50%;
         background: white;
         color: var(--primary);
-        display: flex; align-items: center; justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         font-size: 1.2rem;
         transition: transform 0.1s;
+        cursor: pointer;
     }
-    .nav-btn:active { 
-        transform: translateY(-0px) scale(0.95); 
-        background: white; }
     
-    #prevBtn { 
-        left: 1rem; 
-    }
-    #nextBtn { 
-        right: 1rem; 
+    .why-label {
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #444;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        margin-bottom: 0.5rem;
     }
 
     .why-text h2 {
@@ -451,10 +509,16 @@
         line-height: 1.25;
     }
 
+    .why-desc {
+        color: var(--gray-600);
+        margin-bottom: 2rem;
+    }
+
     .feature-list {
         display: grid;
         gap: 1.5rem;
     }
+
     .feature-row {
         display: flex;
         align-items: flex-start;
@@ -465,30 +529,32 @@
         transition: transform 0.1s;
         border: 1px solid transparent;
     }
+
     .feature-row:active {
         transform: scale(0.98);
         background: white;
         border-color: var(--accent);
     }
+
     .feature-icon {
-        width: 40px; 
+        width: 40px;
         height: 40px;
         border-radius: 10px;
         background: var(--primary);
         color: var(--accent);
-        display: flex; 
-        align-items: center; 
+        display: flex;
+        align-items: center;
         justify-content: center;
         font-size: 1.5rem;
         flex-shrink: 0;
-        /* Rotasi sedikit biar artistik */
-        transform: rotate(45deg); 
+        transform: rotate(45deg);
         box-shadow: 0 4px 10px rgba(30, 86, 49, 0.3);
     }
-    .feature-icon i { 
-        transform: rotate(-45deg); 
+
+    .feature-icon i {
+        transform: rotate(-45deg);
     }
-    
+
     .feature-row h3 {
         font-size: 1.2rem;
         font-weight: 700;
@@ -497,13 +563,27 @@
         color: var(--gray-900);
     }
 
-    /* --- BENEFITS / KEUNTUNGAN --- */
-    .benefits { 
-        padding: 0rem 0; 
-        text-align: center; 
+    .feature-desc {
+        font-size: 0.9rem;
+        color: var(--gray-500);
     }
-    
-    /* Grid Kartu Islami */
+
+    /* --- BENEFITS & BONUS --- */
+    .benefits {
+        padding: 0rem 0;
+        text-align: center;
+    }
+
+    .keuntungan__title {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+        letter-spacing: -.2px;
+    }
+
+    .keuntungan__subtitle {
+        color: var(--gray-500);
+    }
+
     .card-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -519,21 +599,21 @@
         box-shadow: var(--shadow-card);
         position: relative;
         overflow: hidden;
-        border-bottom: 0px solid var(--primary);
         transition: transform 0.1s ease;
     }
+
     .islamic-card:hover .card-icon-frame { 
         background-color: var(--primary);
         color: var(--accent);
         transform: scale(-0px);
     }
 
-    /* Pola background kartu */
     .islamic-card::before {
         content: '';
         position: absolute;
-        top: 0; right: 0;
-        width: 80px; 
+        top: 0;
+        right: 0;
+        width: 80px;
         height: 80px;
         background: radial-gradient(circle at top right, var(--primary-light) 0%, transparent 70%);
         border-radius: 0 0 0 100%;
@@ -541,31 +621,48 @@
     }
 
     .card-icon-frame {
-        width: 70px; 
+        width: 70px;
         height: 70px;
         margin: 0 auto 1.5rem;
         background: var(--accent);
         color: var(--primary);
-        /* Bentuk Bintang 8 Sisi Sederhana (Octagon rotate) */
         clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-        display: flex; 
-        align-items: center; 
+        display: flex;
+        align-items: center;
         justify-content: center;
         font-size: 2rem;
     }
 
-    /* Bonus Grid */
-    .bonus-section { 
-        margin-top: 4rem; 
+    .card-desc {
+        font-size: 0.9rem;
+        color: var(--gray-500);
+        margin-top: 8px;
+    }
+    
+    .bonus-section {
+        margin-top: 4rem;
         padding-bottom: 4rem;
     }
+
+    .bonus-title-main {
+        margin-bottom: 1.5rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.4;
+        font-size: 1.35rem;
+        padding: 1.5rem;
+        margin-top: -1.5rem;
+    }
+
     .bonus-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
-        padding-left: 1.5rem; 
+        padding-left: 1.5rem;
         padding-right: 1.5rem;
     }
+
     .bonus-item {
         background: white;
         padding: 1rem;
@@ -577,236 +674,407 @@
         gap: 10px;
         transition: transform 0.1s;
     }
-    .bonus-item:active { 
-        transform: scale(0.95); 
-        background: var(--brand-50); 
+
+    .bonus-item:active {
+        transform: scale(0.95);
+        background: var(--brand-50);
     }
+
     .bonus-img {
-        width: 80px; 
+        width: 80px;
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
         border: 3px solid var(--accent);
     }
-    .bonus-text { 
-        font-size: 0.95rem; 
-        font-weight: 700; 
-        color: var(--primary); 
+
+    .bonus-text {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--primary);
     }
 
-    /* --- FLOATING WA --- */
-    .wa-float {
-        position: fixed;
-        bottom: 24px; 
-        right: 24px;
-        z-index: 100;
-        display: flex; 
-        align-items: center; 
-        gap: 12px;
+    /* =========================================
+       NEW PRICING SECTION - FIGMA/APP STYLE
+       ========================================= */
+    .pricing-section {
+        padding: 2rem 1.5rem;
+        background-image: radial-gradient(#128C7E 0.5px, transparent 0.5px), radial-gradient(#128C7E 0.5px, #F8F9FB .5px);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+        background-color: #F8F9FB;
     }
-    .wa-bubble {
+    
+    .pricing-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .pricing-title {
+        font-size: 2.2rem;
+        color: var(--primary-dark);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+    }
+
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: flex-start;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    /* Modern Card */
+    .pm-card {
         background: white;
-        padding: 7px 16px;
-        border-radius: 12px 12px 2px 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        font-weight: 700; 
-        color: var(--gray-800);
-        font-size: 0.9rem;
-        animation: floatMsg 3s ease-in-out infinite;
+        border-radius: 28px;
+        padding: 6px; /* Inner padding for border effect if needed */
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.03);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
     }
-    .wa-btn {
-        width: 50px; 
-        height: 50px;
-        background: var(--wa-green);
-        border-radius: 50%;
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        color: white; 
-        font-size: 2.3rem;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-        transition: transform 0.1s;
-    }
-    .wa-btn:active { 
-        transform: scale(0.9); 
-    }
-    @keyframes floatMsg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-    /* --- MODAL PRICING --- */
-    dialog {
-        border: none;
+    .pm-card:hover {
+        box-shadow: 0 20px 50px -10px rgba(0,0,0,0.12);
+    }
+
+    /* Content Container inside card */
+    .pm-content {
+        background: white;
         border-radius: 24px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        width: 100%; 
-        max-width: 450px;
-        padding: 0; 
-        margin: auto;
-        overflow: hidden;
-    }
-    dialog::backdrop { 
-        background: rgba(30, 86, 49, 0.4); 
-        backdrop-filter: blur(4px); 
-    }
-    
-    .modal-head {
-        background: white;
-        padding: 20px 24px;
-        border-bottom: 1px solid var(--gray-100);
-        display: flex; justify-content: space-between; align-items: center;
-        position: sticky; top: 0; z-index: 10;
-    }
-    .close-modal {
-        width: 36px; 
-        height: 36px;
-        border-radius: 50%;
-        background: var(--gray-100);
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        color: var(--gray-500);
-        font-size: 1.2rem;
-    }
-    .close-modal:active { transform: scale(0.9); }
-
-    .modal-body {
-        padding: 24px;
-        background: var(--gray-50);
-        max-height: 70vh;
-        overflow-y: auto;
+        padding: 2rem 1.8rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
-    .price-card {
-        background: white;
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 16px;
-        border: 1px solid transparent;
-        transition: transform 0.1s;
+    /* Popular Card Special Styling */
+    .pm-card.popular {
+        box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.25);
+        border: 1px solid var(--accent);
+        transform: scale(1.02);
+        z-index: 5;
     }
-    .price-card:active { 
-        transform: scale(0.98); 
-        border-color: var(--accent); 
-    }
+
+     
     
-    .price-card.popular {
-        border: 2px solid var(--accent);
-        background: linear-gradient(to bottom, #FFFEF5, #FFFFFF);
-    }
-    .pop-badge {
-        background: var(--accent); 
+    .pm-popular-tag {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, var(--accent), #eec956);
         color: white;
-        font-size: 0.7rem; 
-        font-weight: 800; 
+        padding: 6px 18px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 800;
         text-transform: uppercase;
-        padding: 4px 12px; 
-        border-radius: 20px;
-        display: inline-block; 
+        letter-spacing: 1px;
+        box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Header Area */
+    .pm-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px dashed var(--gray-200);
+    }
+
+    .pm-name {
+        font-size: 1.1rem;
+        color: var(--gray-500);
+        font-weight: 700;
+        display: block;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .pm-price-box {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 4px;
+        color: var(--gray-900);
+    }
+
+    .pm-currency {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-top: 8px;
+    }
+
+    .pm-price {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1;
+        font-family: var(--font-heading);
+        color: var(--primary);
+    }
+
+    .pm-unit {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--gray-400);
+        align-self: flex-end;
         margin-bottom: 8px;
     }
 
-    .price-header { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: baseline; 
-        margin-bottom: 8px; 
-    }
-    .p-title { 
-        font-size: 1.2rem; 
-        font-weight: 700; 
-        color: var(--gray-900); 
-    }
-    .p-amount { 
-        font-size: 1.4rem; 
-        font-weight: 800; 
-        color: var(--primary); 
-        font-family: var(--font-heading); 
-    }
-    
-    .p-desc { 
-        font-size: 0.95rem; 
-        color: var(--gray-600); 
-        margin-bottom: 1rem; 
-        line-height: 1.5; 
-    }
-    .p-list { 
-        list-style: none; 
-        margin: 16px 0; 
-        display: grid; 
-        gap: 8px; 
-    }
-    .p-list li { 
-        display: flex; 
-        gap: 10px; 
-        font-size: 0.9rem; 
-        color: var(--gray-700); 
-        align-items: center; 
-        font-weight: 500; 
-    }
-    .p-list li i { 
-        color: var(--accent); 
-        font-size: 1rem; 
+    .pm-desc {
+        text-align: center;
+        color: var(--gray-500);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 0;
     }
 
-    .action-btn {
+    /* Features List */
+    .pm-features {
+        flex-grow: 1;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .pm-feat-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.95rem;
+        color: var(--gray-700);
+        font-weight: 500;
+    }
+    
+    .pm-check {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    
+    /* Button */
+    .pm-btn {
         width: 100%;
-        padding: 12px;
+        padding: 16px;
+        border-radius: 18px;
+        font-weight: 700;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s;
+        margin-top: auto;
+    }
+    
+    .pm-btn-primary {
         background: var(--primary);
         color: white;
-        border-radius: 12px;
-        font-weight: 700;
-        display: flex; justify-content: center; gap: 8px;
-        transition: transform 0.1s;
+        box-shadow: 0 10px 20px -5px rgba(30, 86, 49, 0.3);
     }
-    .action-btn:active { 
-        transform: scale(0.96); 
-        background: var(--primary-dark); 
+
+    .pm-btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
     }
+    
+    .pm-btn-accent {
+        background: linear-gradient(135deg, var(--accent), #cba220);
+        color: white;
+        box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.4);
+    }
+
+    .pm-btn-accent:hover {
+        filter: brightness(1.05);
+        transform: translateY(-2px);
+    }
+
+    /* Container Floating Utama */
+        .wa-float-container {
+            position: fixed; 
+            bottom: 20px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* Styling Tombol Bulat Hijau */
+        .wa-button {
+            width: 45px;
+            height: 45px;
+            background: #25D366; /* Warna WA */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Efek hover sedikit membesar */
+        .wa-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Icon Styling */
+        .wa-button i {
+            font-size: 2.2rem;
+            color: white;
+            line-height: 1;
+            display: block;
+            /* Titik putar di tengah agar gerakan seimbang */
+            transform-origin: center center;
+            transition: transform 0.2s ease;
+        }
+
+        /* --- ANIMASI GAGANG PINTU (HANDLE PRESS) --- */
+        @keyframes handlePress {
+            0% {
+                transform: rotate(0deg);
+            }
+            30% {
+                /* Tahap 1: Naik Sedikit (Ancang-ancang) */
+                /* Bagian lancip (kanan bawah) akan naik */
+                transform: rotate(-25deg); 
+            }
+            60% {
+                /* Tahap 2: Turun (Seperti ditekan) */
+                transform: rotate(10deg);
+            }
+            100% {
+                /* Kembali normal */
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Class pemicu animasi */
+        .wa-button.animating i {
+            animation: handlePress 1s ease-in-out;
+        }
+
+        /* ---------------------------------------------------- */
+        /* Styling Bubble Teks */
+        .wa-text-bubble {
+            background-color: white;
+            padding: 0;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            font-weight: 600; 
+            font-size: .9rem;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transform: translateX(10px);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+            height: 35px;
+            display: flex;
+            align-items: center;
+        }
+
+        .wa-text-content {
+            padding-left: 0;
+            padding-right: 0;
+            margin: 0;
+        }
+
+        .cursor { 
+            border-right: 0px solid #25D366;
+            animation: blink 0.7s infinite;
+            display: none;
+            margin-left: 4px;
+            height: 18px;
+        }
+
+        @keyframes blink { 
+            50% { border-color: transparent; } 
+        }
+
+        .wa-text-bubble.active {
+            max-width: 300px;
+            opacity: 1;
+            transform: translateX(0);
+            padding: 0 16px;
+        }
 
     /* Responsive */
     @media (min-width: 768px) {
-        .hero-grid { 
-            grid-template-columns: 1fr 1fr; 
-            text-align: left; 
+        .hero-grid {
+            grid-template-columns: 1fr 1fr;
+            text-align: left;
         }
-        .hero-content { 
-            text-align: left; 
+        .hero-content {
+            text-align: left;
         }
-        .hero-desc { 
-            margin-left: 0; 
+        .hero-desc {
+            margin-left: 0;
         }
-        .btn-group { 
-            flex-direction: row; 
-            justify-content: flex-start; 
+        .btn-group {
+            flex-direction: row;
+            justify-content: flex-start;
         }
-        .trust-grid { 
-            justify-content: flex-start; 
+        .trust-grid {
+            justify-content: flex-start;
         }
-        .hero-image-wrapper { 
-            margin: 0; 
+        .hero-image-wrapper {
+            margin: 0;
         }
-        .why-grid { 
-            grid-template-columns: 1fr 1fr; 
-            gap: 3rem; 
+        .why-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
         }
-        .keuntungan__grid { 
-            grid-template-columns: repeat(3, 1fr); 
+        .keuntungan__grid {
+            grid-template-columns: repeat(3, 1fr);
         }
-        .bonus-grid { 
-            grid-template-columns: repeat(4, 1fr); 
+        .bonus-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .pricing-grid {
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+        }
+        .pm-card.popular {
+            transform: scale(1.1);
+        }
+        .pm-card.popular:hover {
+            transform: scale(1.13);
         }
     }
-    </style>
+</style>
+    
 </head>
 <body>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="islamic-corner top-right"></div>
-        <div class="islamic-corner bottom-left"></div>
-        
         <div class="container">
             <div class="hero-grid">
-                
                 <div class="hero-content">
                     <div class="badge-islamic">
                         <i class="fa-solid fa-star-and-crescent star-spin"></i>
@@ -814,21 +1082,21 @@
                     </div>
 
                     <h1 class="hero-title">
-                        Kambing Guling <span class="text-gold">Paling Dicari</span>, Rasa Otentik! <br> Berpengalaman <span class="text-gold">Sejak 2011!</span>
-                    </h1>
+    Kambing Guling <span id="changing-text" class="text-gold">Paling Dicari</span><br> 
+    Rasa Otentik! <br> 
+    Berpengalaman <span class="text-emas">Sejak 2011</span> !
+</h1>
 
                     <p class="hero-desc">
-                        Nikmati Kambing Guling <span style="font-weight: 800; color: var(--gray-900);">Fresh</span> (dari kandang langsung) dengan bumbu rempah rahasia yang meresap sempurna. Siap <i>Live Cooking</i>.
+                        Nikmati Kambing Guling <span class="text-highlight">Fresh</span> (dari kandang langsung) dengan bumbu rempah rahasia yang meresap sempurna. Siap <i>Live Cooking</i>.
                     </p>
 
                     <div class="btn-group">
                         <button onclick="window.open('https://wa.me/?text=Halo%20saya%20mau%20konsultasi%20kambing%20guling', '_blank')" class="btn btn-primary">
-                            <i class="ri-whatsapp-line"></i>
-                            Konsultasi Gratis
+                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Konsultasi Gratis
                         </button>
-                        <button onclick="document.getElementById('pricing-modal').showModal()" class="btn btn-outline">
-                            Lihat Paket Harga
-                            <i class="ri-arrow-right-line" style="margin-left: 5px;"></i>
+                        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})" class="btn btn-outline">
+                            Lihat Paket Harga <i class="ri-arrow-right-line icon-right"></i>
                         </button>
                     </div>
 
@@ -839,10 +1107,8 @@
                     </div>
                 </div>
 
-                <!-- Gambar Bentuk Kubah -->
                 <div class="hero-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop" class="hero-img" alt="Kambing Guling">
-                    
                     <div class="float-tag price">
                         <div>
                             <span class="tag-label">Mulai Dari</span>
@@ -850,34 +1116,21 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Why Section -->
     <section class="why-section">
         <div class="container">
             <div class="why-wrapper">
-                <div class="hero-grid why-grid"> <!-- Reuse grid layout -->
-                    
+                <div class="hero-grid why-grid"> 
                     <div class="slider-area">
                         <div class="slider-frame">
                             <div class="slider-track" id="sliderTrack">
-                                <!-- Slide 1 (Label Dihapus) -->
-                                <div class="slide">
-                                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop" alt="Proses Panggang">
-                                </div>
-                                <!-- Slide 2 (Label Dihapus) -->
-                                <div class="slide">
-                                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop" alt="Makanan Sehat">
-                                </div>
-                                <!-- Slide 3 (Label Dihapus) -->
-                                <div class="slide">
-                                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop" alt="Penyajian Mewah">
-                                </div>
+                                <div class="slide"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop" alt="Proses Panggang"></div>
+                                <div class="slide"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop" alt="Makanan Sehat"></div>
+                                <div class="slide"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop" alt="Penyajian Mewah"></div>
                             </div>
-                            
                             <div class="slider-nav">
                                 <button class="nav-btn" id="prevBtn"><i class="ri-arrow-left-s-line"></i></button>
                                 <button class="nav-btn" id="nextBtn"><i class="ri-arrow-right-s-line"></i></button>
@@ -886,65 +1139,35 @@
                     </div>
 
                     <div class="why-text">
-                        <span style="font-size: 0.85rem; font-weight: 800; color: #444; text-transform: uppercase; letter-spacing: 0.05em; display:block; margin-bottom: 0.5rem;">KENAPA MEMILIH KAMBING GULING DI AqiqahIn?</span>
-
-                        <div class="ornament-divider-1" style="justify-content: flex-start; margin-left: 0;">
+                        <span class="why-label">KENAPA MEMILIH KAMBING GULING DI AqiqahIn?</span>
+                        <div class="ornament-divider-1 align-start">
                             <div class="ornament-line-1"></div>
                             <i class="fa-solid fa-star-of-life ornament-icon-1"></i>
                         </div>
-                        
-                        <h2>
-                            Kambing Guling Fresh Bumbu Meresap,
-                            <span class="text-hijau">Yang Punya Hajat Anti Repot!</span>
-                        </h2>
-                        
-                        <p style="color: var(--gray-600); margin-bottom: 2rem;">
-                            Kami mengelola kandang sendiri, memanggang langsung di lokasi, dan menyediakan tim lengkap agar Anda tinggal terima jadi dan menikmati momen spesial.
-                        </p>
+                        <h2>Kambing Guling Fresh Bumbu Meresap, <span class="text-hijau">Yang Punya Hajat Anti Repot!</span></h2>
+                        <p class="why-desc">Kami mengelola kandang sendiri, memanggang langsung di lokasi, dan menyediakan tim lengkap agar Anda tinggal terima jadi dan menikmati momen spesial.</p>
 
                         <div class="feature-list">
                             <div class="feature-row">
                                 <div class="feature-icon"><i class="ri-store-3-fill"></i></div>
-                                <div>
-                                    <h3>Dapur & Bahan Baku Sendiri</h3>
-                                    <p style="font-size: 0.9rem; color: var(--gray-500);">Daging selalu fresh & dijamin halal, langsung dari kandang Gonam sendiri tanpa perantara.</p>
-                                </div>
+                                <div><h3>Dapur & Bahan Baku Sendiri</h3><p class="feature-desc">Daging selalu fresh & dijamin halal, langsung dari kandang Gonam sendiri tanpa perantara.</p></div>
                             </div>
                             <div class="feature-row">
                                 <div class="feature-icon"><i class="fa-solid fa-fire"></i></div>
-                                <div>
-                                    <h3>Live Cooking & Rasa Otentik</h3>
-                                    <p style="font-size: 0.9rem; color: var(--gray-500);">Sejak 2011, proses dipanggang on-site (di lokasi) agar bumbu meresap sempurna dan aroma maksimal.</p>
-                                </div>
+                                <div><h3>Live Cooking & Rasa Otentik</h3><p class="feature-desc">Sejak 2011, proses dipanggang on-site (di lokasi) agar bumbu meresap sempurna dan aroma maksimal.</p></div>
                             </div>
                             <div class="feature-row">
                                 <div class="feature-icon"><i class="ri-team-fill"></i></div>
-                                <div>
-                                    <h3>Tim Profesional & Anti-Repot</h3>
-                                    <p style="font-size: 0.9rem; color: var(--gray-500);">All-in-one: pengiriman, peralatan makan, hingga server (pramusaji) profesional standby di lokasi Anda.</p>
-                                </div>
-                            </div>
-                            <div class="feature-row">
-                                <div class="feature-icon"><i class="ri-star-fill"></i></div>
-                                <div>
-                                    <h3>Rasa Konsisten</h3>
-                                    <p style="font-size: 0.9rem; color: var(--gray-500);">Tim kami selalu <strong>menakar semua bumbu</strong> dll agar menciptakan rasa yang konsisten.</p>
-                                </div>
+                                <div><h3>Tim Profesional & Anti-Repot</h3><p class="feature-desc">All-in-one: pengiriman, peralatan makan, hingga server (pramusaji) profesional standby di lokasi Anda.</p></div>
                             </div>
                         </div>
-                        
-                        <button onclick="document.getElementById('pricing-modal').showModal()" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;">
-                            Lihat Paket Harga
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
+                        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})" class="btn btn-primary full-width">Lihat Paket Harga <i class="ri-arrow-right-line"></i></button>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Keuntungan & Bonus -->
     <section class="benefits">
         <div class="container">
             <div class="ornament-divider">
@@ -952,164 +1175,261 @@
                 <i class="fa-solid fa-moon ornament-icon"></i>
                 <div class="ornament-line"></div>
             </div>
-            
-            <h2 class="keuntungan__title" style="margin-bottom: 0.5rem;">Kenapa harus di <span class="text-gold">Aqiqahin?</span></h2>
-            <p style="color: var(--gray-500);">Karena Bapak & Ibu akan mendapatkan keuntungan dibawah ini</p>
+             
+            <h2 class="keuntungan__title">Kenapa harus di <span class="text-gold-aqiqahin">Aqiqahin</span> ?</h2>
+            <p class="keuntungan__subtitle">Karena Bapak & Ibu akan mendapatkan keuntungan dibawah ini</p>
 
             <div class="card-grid keuntungan__grid">
                 <div class="islamic-card">
                     <div class="card-icon-frame"><i class="fa-solid fa-scale-balanced"></i></div>
                     <h3>Tepat Jumlah</h3>
-                    <p style="font-size: 0.9rem; color: var(--gray-500); margin-top: 8px;">Amanah sesuai dengan jumlah pesanan yang telah disepakati.</p>
+                    <p class="card-desc">Amanah sesuai dengan jumlah pesanan yang telah disepakati.</p>
                 </div>
                 <div class="islamic-card">
                     <div class="card-icon-frame"><i class="fa-solid fa-utensils"></i></div>
                     <h3>Tepat Rasa</h3>
-                    <p style="font-size: 0.9rem; color: var(--gray-500); margin-top: 8px;">Diramu oleh Chef Hotel Bintang 5 dengan Jaminan Kualitas Rasa dan Jaminan Anti Basi.</p>
+                    <p class="card-desc">Diramu oleh Chef Hotel Bintang 5 dengan Jaminan Kualitas Rasa dan Jaminan Anti Basi.</p>
                 </div>
                 <div class="islamic-card">
                     <div class="card-icon-frame"><i class="fa-solid fa-clock"></i></div>
                     <h3>Tepat Waktu</h3>
-                    <p style="font-size: 0.9rem; color: var(--gray-500); margin-top: 8px;">Amanah Pengiriman sesuai dengan Waktu yang dikehendaki.</p>
+                    <p class="card-desc">Amanah Pengiriman sesuai dengan Waktu yang dikehendaki.</p>
                 </div>
             </div>
 
             <div class="bonus-section">
-                <h3 style="margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.4; font-size: 1.35rem; padding: 1.5rem;">Bapak & Ibu akan mendapatkan keuntungan saat membeli setiap masing-masing paket</h3>
+                <div class="ornament-divider">
+                    <div class="ornament-line"></div>
+                    <i class="fa-solid fa-moon ornament-icon"></i>
+                    <div class="ornament-line"></div>
+                </div>
+                <h3 class="bonus-title-main">Bapak & Ibu akan mendapatkan keuntungan saat membeli setiap masing-masing paket</h3>
                 <div class="bonus-grid"> 
-                    <div class="bonus-item">
-                        <img src="https://images.unsplash.com/photo-1558231920-d336b13e8954?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Boneka">
-                        <span class="bonus-text">Boneka Kambing</span>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Sertifikat">
-                        <span class="bonus-text">Sertifikat Aqiqah</span>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Buku">
-                        <span class="bonus-text">Risalah Doa</span>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Foto">
-                        <span class="bonus-text">Dokumentasi Foto</span>
-                    </div>
+                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1558231920-d336b13e8954?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Boneka"><span class="bonus-text">Boneka Kambing</span></div>
+                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Sertifikat"><span class="bonus-text">Sertifikat Aqiqah</span></div>
+                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Buku"><span class="bonus-text">Risalah Doa</span></div>
+                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Foto"><span class="bonus-text">Dokumentasi Foto</span></div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Floating WA -->
-    <div class="wa-float">
-        <div class="wa-bubble">Hubungi Kami?</div>
-        <a href="https://wa.me/?text=Halo%20saya%20tertarik%20dengan%20layanan%20kambing%20guling" target="_blank" class="wa-btn">
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            
+            <div class="pricing-header">
+                <div class="ornament-divider">
+                    <div class="ornament-line"></div>
+                    <i class="fa-solid fa-star ornament-icon"></i>
+                    <div class="ornament-line"></div>
+                </div>
+                <h2 class="pricing-title">Pilihan Paket Spesial</h2>
+                <p class="keuntungan__subtitle">Harga transparan, fasilitas lengkap, tinggal terima beres.</p>
+            </div>
+
+            <div class="pricing-grid">
+                
+                <div class="pm-card">
+                    <div class="pm-content">
+                        <div class="pm-header">
+                            <span class="pm-name">Paket Hemat</span>
+                            <div class="pm-price-box">
+                                <span class="pm-currency">Rp</span>
+                                <span class="pm-price">1.8</span>
+                                <span class="pm-unit">juta</span>
+                            </div>
+                            <p class="pm-desc">Solusi syukuran kecil keluarga inti (20-25 Porsi).</p>
+                        </div>
+                        
+                        <div class="pm-features">
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 1 Ekor Kambing Guling</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Lontong & Acar</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Sambal Lengkap</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 1 Orang Pramusaji</div>
+                        </div>
+
+                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Hemat', '_blank')" class="pm-btn pm-btn-primary">
+                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pilih Paket Hemat
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pm-card popular">
+                    <div class="pm-popular-tag"><i class="fa-solid fa-crown"></i> Paling Laris</div>
+                    <div class="pm-content">
+                        <div class="pm-header">
+                            <span class="pm-name" style="color:var(--accent)">Paket Keluarga</span>
+                            <div class="pm-price-box">
+                                <span class="pm-currency">Rp</span>
+                                <span class="pm-price" style="color:var(--accent)">2.5</span>
+                                <span class="pm-unit">juta</span>
+                            </div>
+                            <p class="pm-desc">Menu lengkap dengan Gule. Favorit pelanggan (40-50 Porsi).</p>
+                        </div>
+                        
+                        <div class="pm-features">
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Kambing Ukuran Sedang</strong></div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Bonus Gule (1 Panci)</strong></div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Lontong & Acar Lengkap</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Alat Makan Premium</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 2 Pramusaji Standby</div>
+                        </div>
+
+                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Keluarga%20(Best%20Seller)', '_blank')" class="pm-btn pm-btn-accent">
+                           <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pesan Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-content">
+                        <div class="pm-header">
+                            <span class="pm-name">Paket Sultan</span>
+                            <div class="pm-price-box">
+                                <span class="pm-currency">Rp</span>
+                                <span class="pm-price">3.5</span>
+                                <span class="pm-unit">juta</span>
+                            </div>
+                            <p class="pm-desc">Untuk acara kantor/besar. Porsi super puas.</p>
+                        </div>
+                        
+                        <div class="pm-features">
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Kambing Ukuran Besar</strong></div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Gule + Sate (Opsional)</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Setup VIP Service</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 2 Pramusaji Senior</div>
+                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Prioritas Pengiriman</div>
+                        </div>
+
+                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Sultan', '_blank')" class="pm-btn pm-btn-primary">
+                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pilih Paket Sultan
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+     <div class="wa-float-container">
+        
+        <div class="wa-text-bubble" id="waBubble">
+            <span class="wa-text-content" id="waText"></span><span class="cursor" id="cursor"></span>
+        </div>
+        
+        <a href="https://wa.me/628123456789" target="_blank" class="wa-button">
             <i class="ri-whatsapp-line"></i>
         </a>
+
     </div>
 
-    <!-- Modal Pricing -->
-    <dialog id="pricing-modal">
-        <div class="modal-head">
-            <h3 style="font-size: 1.2rem; margin:0;">Paket Harga</h3>
-            <button class="close-modal" onclick="document.getElementById('pricing-modal').close()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            
-            <p style="text-align: center; color: var(--gray-500); margin-bottom: 20px;">Cocokkan dengan kebutuhan acara Anda</p>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textElement = document.getElementById('changing-text');
+        const phrases = ["Paling Dicari", "Paling Nikmat"]; 
+        let phraseIndex = 0;
 
-            <!-- Paket 1 -->
-            <div class="price-card">
-                <div class="price-header">
-                    <span class="p-title">Paket Hemat</span>
-                    <span class="p-amount">1.8jt</span>
-                </div>
-                <p class="p-desc">Pilihan tepat untuk acara syukuran kecil keluarga inti. Cukup untuk 20-25 porsi.</p>
-                
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase;">Mendapatkan:</span>
-                <ul class="p-list">
-                    <li><i class="fa-solid fa-circle-check"></i> 1 Ekor Kambing Guling</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Lontong & Acar</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Sambal Kecap & Kacang</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Peralatan Makan (Piring, dll)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> 1 Orang Pramusaji</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Gratis Ongkir (Area Tertentu)</li>
-                </ul>
-                <button onclick="window.open('https://wa.me/6283853096446?text=halo%20kak%20saya%20ingin%20berkonsultasi%20tentang%20Paket%20Hemat%20di%20Aqiqahin.%20mohon%20dibantu%20yaa', '_blank')" class="action-btn">
-                    <i class="ri-whatsapp-line"></i> Dapatkan Sekarang
-                </button>
-            </div>
+        function runAnimationCycle() {
+            // 1. Mulai Animasi Shine
+            // Reset class dulu
+            textElement.classList.remove('shining');
+            void textElement.offsetWidth; // Trigger reflow
+            textElement.classList.add('shining');
 
-            <!-- Paket 2 -->
-            <div class="price-card popular">
-                <span class="pop-badge">Best Seller</span>
-                <div class="price-header">
-                    <span class="p-title">Paket Keluarga</span>
-                    <span class="p-amount">2.5jt</span>
-                </div>
-                <p class="p-desc">Favorit pelanggan. Menu lebih lengkap dengan tambahan Gule yang gurih. Cukup untuk 40-50 porsi.</p>
-                
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase;">Mendapatkan:</span>
-                <ul class="p-list">
-                    <li><i class="fa-solid fa-circle-check"></i> 1 Ekor Kambing (Ukuran Sedang)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Menu Gule Kambing (1 Panci)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Lontong, Acar, Sambal Lengkap</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Set Alat Makan Premium</li>
-                    <li><i class="fa-solid fa-circle-check"></i> 2 Orang Pramusaji Standby</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Gratis Ongkir & Display Bakar</li>
-                </ul>
-                <button onclick="window.open('https://wa.me/?text=halo%20kak%20saya%20ingin%20berkonsultasi%20tentang%20Paket%20Keluarga%20di%20Aqiqahin.%20mohon%20dibantu%20yaa', '_blank')" class="action-btn">
-                    <i class="ri-whatsapp-line"></i> Dapatkan Sekarang
-                </button>
-            </div>
+            // 2. Tunggu Shine Selesai (3 detik), lalu Fade Out
+            setTimeout(() => {
+                textElement.classList.add('fade-out'); // Mulai menghilang
 
-            <!-- Paket 3 -->
-            <div class="price-card">
-                <div class="price-header">
-                    <span class="p-title">Paket Sultan</span>
-                    <span class="p-amount">3.5jt</span>
-                </div>
-                <p class="p-desc">Untuk acara besar atau kantor. Kambing ukuran besar super puas.</p>
-                
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase;">Mendapatkan:</span>
-                <ul class="p-list">
-                    <li><i class="fa-solid fa-circle-check"></i> 1 Ekor Kambing (Ukuran Besar)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Gule + Sate (Opsional)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Lontong & Condiments Lengkap</li>
-                    <li><i class="fa-solid fa-circle-check"></i> VIP Service & Setup</li>
-                    <li><i class="fa-solid fa-circle-check"></i> 2 Orang Pramusaji Senior</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Prioritas Pengiriman</li>
-                </ul>
-                <button onclick="window.open('https://wa.me/?text=halo%20kak%20saya%20ingin%20berkonsultasi%20tentang%20Paket%20Sultan%20di%20Aqiqahin.%20mohon%20dibantu%20yaa', '_blank')" class="action-btn">
-                    <i class="ri-whatsapp-line"></i> Dapatkan Sekarang
-                </button>
-            </div>
+                // 3. Tunggu Fade Out Selesai (0.5 detik), lalu Ganti Teks
+                setTimeout(() => {
+                    // Ganti Teks saat invisible
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    textElement.innerText = phrases[phraseIndex];
 
-        </div>
-    </dialog>
+                    // 4. Fade In (Muncul kembali)
+                    textElement.classList.remove('fade-out');
+
+                    // 5. Tunggu Fade In selesai (0.5 detik), lalu Ulangi Shine
+                    setTimeout(runAnimationCycle, 100); 
+
+                }, 500); // Sesuai durasi transition CSS (0.5s)
+
+            }, 4000); // Sesuai durasi animation shine CSS (3s)
+        }
+
+        // Jalankan pertama kali
+        runAnimationCycle();
+    });
+</script>
 
     <script>
-        /* Simple Slider Logic */
         const track = document.getElementById('sliderTrack');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        let index = 0;
-        const slides = 3;
+        let index = 0; const slides = 3;
+        function updateSlide() { track.style.transform = `translateX(-${index * 100}%)`; }
+        nextBtn.addEventListener('click', () => { index = (index + 1) % slides; updateSlide(); });
+        prevBtn.addEventListener('click', () => { index = (index - 1 + slides) % slides; updateSlide(); });
+    </script>
 
-        function updateSlide() {
-            track.style.transform = `translateX(-${index * 100}%)`;
+    <script>
+        const texts = ["Butuh bantuan..?", "Hubungi kami sekarang..."]; 
+        let textIndex = 0;
+        
+        const bubble = document.getElementById('waBubble');
+        const textElement = document.getElementById('waText');
+        const cursor = document.getElementById('cursor');
+        const waButton = document.querySelector('.wa-button');
+
+        const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        async function typeWriter(text) {
+            textElement.innerHTML = "";
+            cursor.style.display = "inline-block";
+            for (let i = 0; i < text.length; i++) {
+                textElement.innerHTML += text.charAt(i);
+                await wait(40);
+            }
+            cursor.style.display = "none";
         }
 
-        nextBtn.addEventListener('click', () => {
-            index = (index + 1) % slides;
-            updateSlide();
+        async function startAnimationLoop() {
+            while (true) {
+                // 1. Munculkan Bubble
+                bubble.classList.add('active');
+                await wait(500); 
+
+                // 2. Ketik Teks
+                await typeWriter(texts[textIndex]);
+                await wait(5000); 
+                 
+                // 3. Sembunyikan Bubble
+                textElement.innerHTML = ""; 
+                bubble.classList.remove('active');
+
+                // 4. ANIMASI IKON (Naik lalu Turun)
+                await wait(300); 
+                
+                // Tambah class trigger
+                waButton.classList.add('animating');
+                
+                // Tunggu durasi animasi (1s)
+                await wait(500);
+                
+                // Reset Class
+                waButton.classList.remove('animating');
+
+                // 5. Loop Index Teks
+                textIndex = (textIndex + 1) % texts.length;
+                await wait(500);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(startAnimationLoop, 1000);  
         });
 
-        prevBtn.addEventListener('click', () => {
-            index = (index - 1 + slides) % slides;
-            updateSlide();
-        });
     </script>
+
 </body>
 </html>
