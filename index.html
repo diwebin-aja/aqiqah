@@ -364,6 +364,86 @@
     .spin { animation: spin 1s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
 
+    /* --- NEW EXPLORE GRID STYLES (ADDED) --- */
+    .explore-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 16px 20px 20px;
+    }
+
+    .exp-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        border: 1px solid rgba(0,0,0,0.02);
+        transition: all 0.2s ease;
+        height: 140px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .exp-card:active {
+        transform: scale(0.96);
+    }
+
+    .exp-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 12px;
+        transition: 0.3s;
+    }
+
+    /* Varian warna icon explore */
+    .exp-blue .exp-icon { background: #EFF6FF; color: #3B82F6; }
+    .exp-purple .exp-icon { background: #F5F3FF; color: #8B5CF6; }
+    .exp-orange .exp-icon { background: #FFF7ED; color: #F97316; }
+    .exp-teal .exp-icon { background: #F0FDFA; color: #14B8A6; }
+
+    .exp-card h4 {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 2px;
+    }
+
+    .exp-card span {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    /* Decorative Circle */
+    .exp-card::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: currentColor;
+        border-radius: 50%;
+        opacity: 0.03;
+        right: -20px;
+        bottom: -20px;
+        pointer-events: none;
+    }
+
+    .exp-blue { color: #3B82F6; }
+    .exp-purple { color: #8B5CF6; }
+    .exp-orange { color: #F97316; }
+    .exp-teal { color: #14B8A6; }
+
+
     /* --- READING DETAIL VIEW (OVERLAY) --- */
     #view-detail-surah {
         position: absolute;
@@ -598,10 +678,44 @@
             </div>
 
             <div id="view-explore" class="view-section">
-                <div class="empty-state">
-                    <i class="ri-compass-3-line"></i>
-                    <h3>Explore</h3>
-                    <p>Temukan kajian dan inspirasi segera.</p>
+                <div class="header">
+                    <h1>Explore</h1>
+                    <p>Fitur penunjang ibadah</p>
+                </div>
+                <div class="explore-grid">
+                    
+                    <div class="exp-card exp-blue" onclick="toast('Fitur Baca Per Halaman')">
+                        <div class="exp-icon">
+                            <i class="ri-book-read-line"></i>
+                        </div>
+                        <h4>Per Halaman</h4>
+                        <span>Mushaf Madinah</span>
+                    </div>
+
+                    <div class="exp-card exp-purple" onclick="toast('Fitur Jadwal Sholat')">
+                        <div class="exp-icon">
+                            <i class="ri-time-line"></i>
+                        </div>
+                        <h4>Jadwal Sholat</h4>
+                        <span>Waktu Setempat</span>
+                    </div>
+
+                    <div class="exp-card exp-orange" onclick="toast('Fitur Arah Kiblat')">
+                        <div class="exp-icon">
+                            <i class="ri-compass-discover-line"></i>
+                        </div>
+                        <h4>Arah Kiblat</h4>
+                        <span>Pencari Kiblat</span>
+                    </div>
+
+                    <div class="exp-card exp-teal" onclick="toast('Lanjut membaca...')">
+                        <div class="exp-icon">
+                            <i class="ri-bookmark-3-line"></i>
+                        </div>
+                        <h4>Terakhir Baca</h4>
+                        <span>Lanjutkan Ayat</span>
+                    </div>
+
                 </div>
             </div>
 
