@@ -3,1433 +3,915 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kambing Guling Legendaris - Sejak 2011</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Murottal Premium App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-  <style>
-    /* --- CSS VARIABLES --- */
+    <style>
     :root {
-        --primary-bg: #F2F4F8;
-        --primary: #1E5631;
-        --primary-dark: #143d22; 
-        --primary-light: #effaf1;
-        --accent: #D4AF37; /* Emas */
-        --accent-light: #fff9e6; 
-        --brand-50: #fff7ed;
-        --gray-50: #fafaf9;
-        --gray-100: #f3f4f6;
-        --gray-200: #e5e5e5;
-        --gray-500: #737373;
-        --gray-800: #262626;
-        --gray-900: #171717;
-        --shadow-soft: 0 20px 40px -10px rgba(30, 86, 49, 0.08);
-        --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.06);
-        --wa-green: #25D366; 
-        
-        /* Font Setup */
-        --font-heading: 'Baloo Tammudu 2', cursive;
-        --font-body: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    /* --- GLOBAL STYLES --- */
-    body {
-        font-family: var(--font-body);
-        background-color: #FAFAFA;
-        color: var(--gray-800);
-        line-height: 1.6;
-        overflow-x: hidden;
-        cursor: default;
-        position: relative;
-        min-height: 100vh;
-        background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px), radial-gradient(#D4AF37 0.5px, var(--primary-bg) .5px);
-        background-size: 20px 20px;
-        background-position: 0 0, 10px 10px;
-        background-color: #F8F9FB;
+        --primary: #10B981;
+        --primary-dark: #047857;
+        --primary-light: #D1FAE5;
+        --text-main: #1F2937;
+        --text-muted: #9CA3AF;
+        --bg-body: #F3F4F6;
+        --surface: #FFFFFF; 
+        --shadow-card: 0 4px 20px -5px rgba(0,0,0,0.06);
+        --radius-card: 24px;
+        --nav-height: 60px;
     }
 
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         -webkit-tap-highlight-color: transparent;
-        outline: none;
     }
 
-    h1, h2, h3, h4 {
-        font-family: var(--font-heading);
-        color: var(--gray-900);
-        line-height: 1.25;
-    }
-
-    a, button {
-        cursor: pointer;
-        text-decoration: none;
-        color: inherit;
-    }
-
-    button {
-        border: none;
-        font-family: inherit;
-    }
-
-    /* --- UTILITIES --- */
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0;
-    }
-
-    .text-highlight {
-        font-weight: 800;
-        color: var(--gray-900);
-    }
-
-    .icon-right {
-        margin-left: 5px;
-    }
-
-    /* --- ORNAMENTS --- */
-    .ornament-divider,
-    .ornament-divider-1 {
+    body {
+        background-color: var(--bg-body);
         display: flex;
-        align-items: center;
         justify-content: center;
-        gap: 1rem;
-        margin: 1.5rem 0;
-        opacity: 0.6;
-    }
-
-    .ornament-line,
-    .ornament-line-1 {
-        height: 2.3px;
-        width: 60px;
-    }
-
-    .ornament-line {
-        background: var(--accent);
-    }
-
-    .ornament-line-1 {
-        background: var(--primary);
-    }
-
-    .ornament-divider-1.align-start {
-        justify-content: flex-start;
-        margin-left: 0;
-    }
-
-    .ornament-icon {
-        color: var(--accent);
-        font-size: 0.95rem;
-    }
-
-    .ornament-icon-1 {
-        color: var(--primary-dark);
-        font-size: 0.95rem;
-    }
-
-    /* --- ANIMATIONS --- */
-/* 1. Base Style (Tanpa animasi shine di sini) */
-.text-gold {
-    background: linear-gradient(110deg, #D4AF37 0%, #D4AF37 40%, #ffffff 50%, #D4AF37 60%, #D4AF37 100%);
-    background-size: 235% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    
-    font-weight: 800;
-    display: inline-block;
-    padding-top: 2px;
-    line-height: 1.3;
-    transform-origin: center bottom;
-
-    /* TAMBAHAN UNTUK FADE */
-    opacity: 1; 
-    transition: opacity 0.5s ease-in-out; /* Durasi fade 0.5 detik */
-}
-
-/* 2. Class untuk menyembunyikan text (Fade Out) */
-.text-gold.fade-out {
-    opacity: 0;
-}
-
-/* 3. Class untuk memicu animasi kilau (Shine) */
-.text-gold.shining {
-    animation: shine 4.5s linear forwards;
-}
-
-@keyframes shine {
-    0% { background-position: 0% center; }
-    100% { background-position: -200% center; }
-}
-
-    .text-gold-aqiqahin {
-        background: linear-gradient(110deg, #D4AF37 0%, #D4AF37 40%, #ffffff 50%, #D4AF37 60%, #D4AF37 100%);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: shine 3s linear infinite;
-        color: transparent;
-        font-weight: 800;
-        display: inline-block;
-        padding-top: 2px;
-        line-height: 1.3;
-        transform-origin: center bottom;
-    }
-    
-    .text-emas {
-        color: var(--accent);
-    }
-
-    .text-hijau {
-        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .star-spin {
-        animation: spin 0s linear infinite; /*4s*/
-        color: var(--accent);
-    }
-
-    @keyframes spin {
-        100% { transform: rotate(360deg); }
-    }
-
-    /* --- HERO --- */
-    .hero {
-        padding: 4rem 0 5rem 0;
-        position: relative;
+        min-height: 100vh;
         overflow: hidden;
-        padding-left: 1.23rem;
-        padding-right: 1.5rem;
     }
 
-    .hero-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        align-items: center;
-    }
-
-    .hero-content {
-        text-align: center;
-        position: relative;
-        z-index: 2;
-    }
-     
-    .badge-islamic {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        background: var(--primary-light);
-        border: 1px solid rgba(30, 86, 49, 0.1);
-        border-radius: 50px;
-        font-size: 0.85rem;
-        color: var(--primary);
-        font-weight: 700;
-        margin-bottom: 2.5rem;
-        letter-spacing: .2px;
-    }
-    
-    .hero-title {
-        font-size: 2.8rem;
-        color: var(--gray-900);
-        margin-bottom: 1rem;
-        font-weight: 800;
-        letter-spacing: -.2px;
-        line-height: 1.1;
-    }
-
-    .hero-desc {
-        font-size: 1.1rem;
-        color: var(--gray-600);
-        margin-bottom: 2rem;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-        font-weight: 500;
-        letter-spacing: .2px;
-    }
-
-    .hero-image-wrapper {
-        position: relative;
+    #app {
         width: 100%;
-        max-width: 450px;
-        margin: 0 auto;
-        border-radius: 200px 200px 20px 20px;
-        overflow: hidden;
-        border: 4px solid white;
-        box-shadow: var(--shadow-soft);
-        height: 500px;
-    }
-
-    .hero-image-wrapper::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 200px 200px 20px 20px;
-        border: 2px solid rgba(212, 175, 55, 0.3);
-        pointer-events: none;
-        z-index: 2;
-        margin: .85rem;
-    }
-
-    .hero-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .float-tag {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(5px);
-        padding: 10px 16px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        z-index: 3;
-        border-left: 3px solid var(--accent);
-    }
-
-    .float-tag.price {
-        bottom: 30px;
-        right: 20px;
-    }
-
-    .tag-label {
-        font-size: 0.75rem;
-        color: var(--gray-500);
-        display: block;
-        line-height: 1;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-
-    .tag-value {
-        font-size: 1.1rem;
-        font-weight: 800;
-        color: var(--primary);
-        font-family: var(--font-heading);
-    }
-
-    /* --- BUTTONS --- */
-    .btn-group {
+        max-width: 440px;
+        background: var(--bg-body);
+        height: 100dvh; 
+        height: 100vh; 
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        justify-content: center;
-        margin-bottom: 2rem;
-    }
-
-    /* --- TAMBAHAN CSS ICON WA --- */
-    .wa-icon-style {
-        font-size: 1.3rem; /* Ukuran icon sedikit lebih besar dari teks */
-        margin-right: 4px; /* Jarak tambahan dikit */
-        vertical-align: middle;
-        margin-bottom: 2px; /* Penyesuaian posisi agar sejajar tengah */
-    }
-
-    /* Khusus tombol pricing agar icon tetap putih dan jelas */
-    .pm-btn .wa-icon-style {
-        color: inherit; /* Mengikuti warna teks tombol */
-    }
-
-    .btn {
-        padding: 14px 28px;
-        border-radius: 16px;
-        font-weight: 700;
-        font-size: 1rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        user-select: none;
         position: relative;
-        letter-spacing: .2px;
     }
 
-    .btn:active {
-        transform: scale(0.96);
+    @media(min-width: 450px) {
+        #app {
+            height: 95vh;
+            margin-top: 2.5vh;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+            background: #fff;
+        }
     }
 
-    .btn-primary {
-        background: var(--primary);
-        color: white;
-        box-shadow: 0 8px 20px -5px rgba(30, 86, 49, 0.4);
-    }
-
-    .btn-primary.full-width {
-        margin-top: 1.5rem;
+    /* --- VIEWS CONTAINER --- */
+    .view-container {
+        height: 100%; 
         width: 100%;
-    }
-
-    .btn-outline {
-        background: white;
-        border: 2px solid var(--primary);
-        color: var(--primary);
-    }
-
-    .btn-outline:active {
-        background: var(--primary-light);
-    }
-
-    /* --- TRUST & WHY --- */
-    .trust-grid {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .trust-pill {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: white;
-        padding: 8px 16px;
-        border-radius: 50px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--gray-800);
-        border: 1px solid var(--gray-100);
-        transition: transform 0.1s;
-    }
-
-    .trust-pill:hover {
-        transform: scale(0.95);
-    }
-
-    .trust-pill i {
-        color: var(--accent);
-    }
-
-    .why-section {
-        padding: 4rem 0;
+        overflow-y: auto; 
+        overflow-x: hidden;
         position: relative;
-        padding-left: 15px;
-        padding-right: 15px;
+        background: #F9FAFB;
+        padding-bottom: 80px; /* Space for bottom nav */
     }
 
-    .why-wrapper {
-        background: var(--accent);
-        border-radius: 30px;
-        padding: 15px;
-        box-shadow: var(--shadow-soft);
-        border: 1px solid rgba(0,0,0,0.02);
+    .view-section {
+        display: none;
+        min-height: 100%;
+        flex-direction: column;
+        animation: fadeIn 0.4s ease;
     }
 
-    .slider-frame {
-        position: relative;
-        width: 100%;
-        height: 350px;
-        border-radius: 20px 20px 100px 100px;
-        overflow: hidden;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    .slider-track {
+    .view-section.active {
         display: flex;
-        height: 100%;
-        transition: transform 0.5s ease;
     }
 
-    .slide {
-        min-width: 100%;
-        height: 100%;
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- HEADER --- */
+    .header {
+        padding: 30px 24px 20px;
+        background: #ffffff;
+        position: relative;
+        z-index: 20;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .header h1 {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+    }
+
+    .header p {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-top: 2px;
+    }
+
+    /* --- SEARCH --- */
+    .search-wrap {
+        margin-top: 18px;
         position: relative;
     }
 
-    .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .slider-nav {
+    .search-wrap i {
         position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 10;
-        background: rgba(255,255,255,0.8);
-        padding: 8px;
-        border-radius: 50px;
-        backdrop-filter: blur(4px);
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9CA3AF;
     }
 
-    .nav-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: white;
-        color: var(--primary);
+    .search-input {
+        width: 100%;
+        padding: 16px 16px 16px 48px;
+        border: 2px solid transparent;
+        background: #F3F4F6;
+        border-radius: 18px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+        color: var(--text-main);
+        font-weight: 500;
+    }
+
+    .search-input:focus {
+        background: #fff;
+        border-color: var(--primary);
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+    }
+
+    /* --- LIST CONTENT --- */
+    .content-list {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-bottom: 20px;
+    }
+
+    /* --- CARD DESIGN (SHARED) --- */
+    .card {
+        background: var(--surface);
+        padding: 20px;
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; 
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid rgba(0, 0, 0, 0.02);
+        cursor: pointer;
+        min-height: 100px;
+    }
+
+    .card:active { transform: scale(0.98); }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        right: -30px;
+        bottom: -34px;
+        width: 150px;
+        height: 150px;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%2310B981' d='M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.2,-19.2,95.8,-5.3C93.5,8.6,82.1,21.5,70.9,32.4C59.7,43.3,48.7,52.2,36.5,60.2C24.3,68.2,10.9,75.3,-1.3,77.5C-13.5,79.8,-25.7,77.1,-37.2,70.6C-48.7,64.1,-59.4,53.8,-68.2,41.9C-77,30,-83.8,16.5,-84.3,2.7C-84.8,-11.2,-78.9,-25.3,-69.6,-36.8C-60.3,-48.3,-47.6,-57.2,-34.7,-64.9C-21.8,-72.6,-8.7,-79.1,5.2,-88.1L19.1,-97.1' transform='translate(100 100)' /%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        opacity: 0.05;
+        z-index: 0;
+        pointer-events: none;
+        transition: 0.3s;
+    }
+
+    .info {
         display: flex;
         align-items: center;
+        gap: 16px;
+        z-index: 1;
+        position: relative;
+        flex: 1;
+    }
+
+    .badge {
+        width: 44px;
+        height: 44px;
+        background: #ECFDF5;
+        color: var(--primary-dark);
+        border-radius: 14px;
+        display: flex;
         justify-content: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        font-size: 1.2rem;
-        transition: transform 0.1s;
+        align-items: center;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 2px; 
+    }
+
+    .details h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 2px;
+        line-height: 1.3;
+    }
+
+    .details .meaning {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-muted);
+        opacity: 0.9;
+    }
+
+    .meta-tags {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .tag {
+        display: flex;
+        align-items: center;
+        gap: 0px;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-muted);
+        background: #F3F4F6;
+        padding: 4px 6px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .tag i { font-size: 11px; margin-right: 2px; }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        z-index: 1;
+        position: relative;
+        min-width: 90px;
+        gap: 8px;
+    }
+
+    .arabic {
+        font-family: 'Amiri', serif;
+        font-size: 23px;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1; 
+        text-align: right;
+        margin-top: -1px; 
+        margin-bottom: 12px; 
+    }
+
+    .player-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: -5px;
+        padding-bottom: 5px;
+    }
+
+    .timer {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--primary);
+        font-variant-numeric: tabular-nums;
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(5px);
+    }
+
+    .btn-play-circle {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border-radius: 50%;
         cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+    }
+
+    .btn-play-circle i { 
+        font-size: 17px;
+        color: var(--text-main);
+        z-index: 2;
     }
     
-    .why-label {
-        font-size: 0.85rem;
-        font-weight: 800;
-        color: #444;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        display: block;
-        margin-bottom: 0.5rem;
-    }
-
-    .why-text h2 {
-        font-size: 1.9rem;
-        margin-bottom: .65rem;
-        font-weight: 800;
-        letter-spacing: -.2px;
-        line-height: 1.25;
-    }
-
-    .why-desc {
-        color: var(--gray-600);
-        margin-bottom: 2rem;
-    }
-
-    .feature-list {
-        display: grid;
-        gap: 1.5rem;
-    }
-
-    .feature-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        padding: 16px;
-        border-radius: 16px;
-        background: var(--gray-50);
-        transition: transform 0.1s;
-        border: 1px solid transparent;
-    }
-
-    .feature-row:active {
-        transform: scale(0.98);
-        background: white;
-        border-color: var(--accent);
-    }
-
-    .feature-icon {
-        width: 40px;
-        height: 40px;
+    .btn-read-arrow {
+        width: 32px;
+        height: 32px;
+        background: var(--primary-light);
         border-radius: 10px;
-        background: var(--primary);
-        color: var(--accent);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        flex-shrink: 0;
-        transform: rotate(45deg);
-        box-shadow: 0 4px 10px rgba(30, 86, 49, 0.3);
+        color: var(--primary-dark);
+        margin-top: 5px;
     }
 
-    .feature-icon i {
-        transform: rotate(-45deg);
-    }
-
-    .feature-row h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        letter-spacing: -.2px;
-        margin-bottom: 4px;
-        color: var(--gray-900);
-    }
-
-    .feature-desc {
-        font-size: 0.9rem;
-        color: var(--gray-500);
-    }
-
-    /* --- BENEFITS & BONUS --- */
-    .benefits {
-        padding: 0rem 0;
-        text-align: center;
-    }
-
-    .keuntungan__title {
-        margin-bottom: 0.5rem;
-        font-size: 1.5rem;
-        letter-spacing: -.2px;
-    }
-
-    .keuntungan__subtitle {
-        color: var(--gray-500);
-    }
-
-    .card-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        margin-top: 2rem;
-        padding: 1.5rem;
-    }
-
-    .islamic-card {
-        background: white;
-        padding: 2rem 1.5rem;
-        border-radius: 24px;
-        box-shadow: var(--shadow-card);
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.1s ease;
-    }
-
-    .islamic-card:hover .card-icon-frame { 
-        background-color: var(--primary);
-        color: var(--accent);
-        transform: scale(-0px);
-    }
-
-    .islamic-card::before {
-        content: '';
+    .progress-svg {
         position: absolute;
         top: 0;
-        right: 0;
-        width: 80px;
-        height: 80px;
-        background: radial-gradient(circle at top right, var(--primary-light) 0%, transparent 70%);
-        border-radius: 0 0 0 100%;
-        opacity: 0.5;
+        left: 0;
+        transform: rotate(-90deg);
+        z-index: 1;
     }
 
-    .card-icon-frame {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto 1.5rem;
-        background: var(--accent);
-        color: var(--primary);
-        clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    .prog-bg { fill: none; stroke: rgba(0, 0, 0, 0.05); }
+    .prog-bar { fill: none; stroke: var(--primary); stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; }
+
+    /* Active Card State */
+    .card.active {
+        background: linear-gradient(135deg, #10B981 0%, #047857 100%);
+        box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.4);
+    }
+    .card.active .badge { background: rgba(255, 255, 255, 0.2); color: #fff; }
+    .card.active h3, .card.active .meaning { color: #fff; }
+    .card.active .meaning { opacity: 0.8; }
+    .card.active .tag { background: rgba(255, 255, 255, 0.15); color: #fff; }
+    .card.active .arabic { color: #fff; }
+    .card.active::before { opacity: 0.15; filter: brightness(2); }
+    .card.active .timer { opacity: 1; transform: translateX(0); color: #D1FAE5; }
+    .card.active .btn-play-circle { background: #fff; }
+    .card.active .btn-play-circle i { color: var(--primary-dark); }
+    .card.active .prog-bg { stroke: rgba(16, 185, 129, 0.2); }
+    .card.active .prog-bar { stroke: var(--primary-dark); }
+
+    /* --- LOADING & EMPTY --- */
+    .loading, .empty-state {
+        text-align: center;
+        color: var(--text-muted);
+        padding: 60px 20px;
+        font-weight: 500;
+        font-size: 14px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
-    }
-
-    .card-desc {
-        font-size: 0.9rem;
-        color: var(--gray-500);
-        margin-top: 8px;
-    }
-    
-    .bonus-section {
-        margin-top: 4rem;
-        padding-bottom: 4rem;
-    }
-
-    .bonus-title-main {
-        margin-bottom: 1.5rem;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.4;
-        font-size: 1.35rem;
-        padding: 1.5rem;
-        margin-top: -1.5rem;
-    }
-
-    .bonus-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-
-    .bonus-item {
-        background: white;
-        padding: 1rem;
-        border-radius: 16px;
-        border: 1px dashed var(--accent);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        transition: transform 0.1s;
-    }
-
-    .bonus-item:active {
-        transform: scale(0.95);
-        background: var(--brand-50);
-    }
-
-    .bonus-img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid var(--accent);
-    }
-
-    .bonus-text {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--primary);
-    }
-
-    /* =========================================
-       NEW PRICING SECTION - FIGMA/APP STYLE
-       ========================================= */
-    .pricing-section {
-        padding: 2rem 1.5rem;
-        background-image: radial-gradient(#128C7E 0.5px, transparent 0.5px), radial-gradient(#128C7E 0.5px, #F8F9FB .5px);
-        background-size: 20px 20px;
-        background-position: 0 0, 10px 10px;
-        background-color: #F8F9FB;
-    }
-    
-    .pricing-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-
-    .pricing-title {
-        font-size: 2.2rem;
-        color: var(--primary-dark);
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-    }
-
-    .pricing-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        align-items: flex-start;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    /* Modern Card */
-    .pm-card {
-        background: white;
-        border-radius: 28px;
-        padding: 6px; /* Inner padding for border effect if needed */
-        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.03);
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        position: relative;
+        width: 100%;
     }
+    .empty-state i { font-size: 48px; margin-bottom: 10px; color: #E5E7EB; }
+    .spin { animation: spin 1s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
-    .pm-card:hover {
-        box-shadow: 0 20px 50px -10px rgba(0,0,0,0.12);
-    }
-
-    /* Content Container inside card */
-    .pm-content {
-        background: white;
-        border-radius: 24px;
-        padding: 2rem 1.8rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Popular Card Special Styling */
-    .pm-card.popular {
-        box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.25);
-        border: 1px solid var(--accent);
-        transform: scale(1.02);
-        z-index: 5;
-    }
-
-     
-    
-    .pm-popular-tag {
+    /* --- READING DETAIL VIEW (OVERLAY) --- */
+    #view-detail-surah {
         position: absolute;
-        top: -16px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: linear-gradient(135deg, var(--accent), #eec956);
-        color: white;
-        padding: 6px 18px;
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
-        z-index: 10;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 50; /* Above bottom nav */
+        display: none;
+        flex-direction: column;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #view-detail-surah.open {
+        transform: translateX(0);
+        display: flex;
+    }
+
+    .detail-header {
+        height: 70px;
         display: flex;
         align-items: center;
-        gap: 6px;
+        padding: 0 20px;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        flex-shrink: 0;
+        gap: 15px;
     }
 
-    /* Header Area */
-    .pm-header {
-        text-align: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px dashed var(--gray-200);
+    .btn-back {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-main);
     }
 
-    .pm-name {
-        font-size: 1.1rem;
-        color: var(--gray-500);
+    .detail-title h2 {
+        font-size: 18px;
         font-weight: 700;
-        display: block;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        color: var(--text-main);
     }
     
-    .pm-price-box {
+    .detail-title p {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .detail-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: #fafafa;
+    }
+
+    /* --- VERSE (AYAT) ITEM DESIGN --- */
+    .verse-item {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .verse-toolbar {
         display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 4px;
-        color: var(--gray-900);
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: #F3F4F6;
+        padding: 8px 12px;
+        border-radius: 12px;
     }
 
-    .pm-currency {
-        font-size: 1.2rem;
+    .verse-num {
+        font-size: 12px;
         font-weight: 700;
-        margin-top: 8px;
-    }
-
-    .pm-price {
-        font-size: 3.5rem;
-        font-weight: 800;
-        line-height: 1;
-        font-family: var(--font-heading);
         color: var(--primary);
+        background: #fff;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
-    .pm-unit {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--gray-400);
-        align-self: flex-end;
-        margin-bottom: 8px;
+    .verse-opts {
+        display: flex;
+        gap: 15px;
     }
 
-    .pm-desc {
+    .verse-opts i {
+        font-size: 18px;
+        color: #9CA3AF;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .verse-opts i:hover { color: var(--primary); }
+
+    .verse-arabic {
+        font-family: 'Amiri', serif;
+        font-size: 32px; 
+        text-align: right;
+        color: var(--text-main);
+        line-height: 2.2;
+        margin-bottom: 25px;
+        direction: rtl;
+    }
+
+    .verse-latin {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #4B5563;
+        text-align: left;
+    }
+
+    .bismillah-header {
         text-align: center;
-        color: var(--gray-500);
-        font-size: 0.9rem;
-        line-height: 1.5;
+        font-family: 'Amiri', serif;
+        font-size: 30px;
+        color: var(--text-main);
+        margin: 20px 0 40px;
+    }
+
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav {
+        background: #fff;
+        height: 60px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid rgba(0,0,0,0.04);
+        z-index: 40; /* Lower than detail overlay */
+        position: fixed; 
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 440px; 
+        margin: 0 auto; 
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #9CA3AF;
+        text-decoration: none;
+        cursor: pointer;
+        padding: 6px 16px; 
+        border-radius: 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        gap: 2px;
+        flex: 1;
+    }
+
+    .nav-item i {
+        font-size: 20px; 
+        transition: 0.3s;
         margin-bottom: 0;
     }
 
-    /* Features List */
-    .pm-features {
-        flex-grow: 1;
-        margin-bottom: 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+    .nav-item span {
+        font-size: 10px; 
+        font-weight: 600;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        transform: translateY(5px);
     }
 
-    .pm-feat-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.95rem;
-        color: var(--gray-700);
-        font-weight: 500;
-    }
-    
-    .pm-check {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--primary-light);
+    .nav-item.active {
         color: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        flex-shrink: 0;
-    }
-    
-    /* Button */
-    .pm-btn {
-        width: 100%;
-        padding: 16px;
-        border-radius: 18px;
-        font-weight: 700;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.2s;
-        margin-top: auto;
-    }
-    
-    .pm-btn-primary {
-        background: var(--primary);
-        color: white;
-        box-shadow: 0 10px 20px -5px rgba(30, 86, 49, 0.3);
+        background-color: var(--primary-light);
     }
 
-    .pm-btn-primary:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
+    .nav-item.active span {
+        max-height: 20px;
+        opacity: 1;
+        transform: translateY(0);
     }
-    
-    .pm-btn-accent {
-        background: linear-gradient(135deg, var(--accent), #cba220);
-        color: white;
-        box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.4);
-    }
-
-    .pm-btn-accent:hover {
-        filter: brightness(1.05);
-        transform: translateY(-2px);
-    }
-
-    /* Container Floating Utama */
-        .wa-float-container {
-            position: fixed; 
-            bottom: 20px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-
-        /* Styling Tombol Bulat Hijau */
-        .wa-button {
-            width: 45px;
-            height: 45px;
-            background: #25D366; /* Warna WA */
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s ease;
-        }
-        
-        /* Efek hover sedikit membesar */
-        .wa-button:hover {
-            transform: scale(1.05);
-        }
-
-        /* Icon Styling */
-        .wa-button i {
-            font-size: 2.2rem;
-            color: white;
-            line-height: 1;
-            display: block;
-            /* Titik putar di tengah agar gerakan seimbang */
-            transform-origin: center center;
-            transition: transform 0.2s ease;
-        }
-
-        /* --- ANIMASI GAGANG PINTU (HANDLE PRESS) --- */
-        @keyframes handlePress {
-            0% {
-                transform: rotate(0deg);
-            }
-            30% {
-                /* Tahap 1: Naik Sedikit (Ancang-ancang) */
-                /* Bagian lancip (kanan bawah) akan naik */
-                transform: rotate(-25deg); 
-            }
-            60% {
-                /* Tahap 2: Turun (Seperti ditekan) */
-                transform: rotate(10deg);
-            }
-            100% {
-                /* Kembali normal */
-                transform: rotate(0deg);
-            }
-        }
-
-        /* Class pemicu animasi */
-        .wa-button.animating i {
-            animation: handlePress 1s ease-in-out;
-        }
-
-        /* ---------------------------------------------------- */
-        /* Styling Bubble Teks */
-        .wa-text-bubble {
-            background-color: white;
-            padding: 0;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            color: #333;
-            font-weight: 600; 
-            font-size: .9rem;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            transform: translateX(10px);
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 1;
-            height: 35px;
-            display: flex;
-            align-items: center;
-        }
-
-        .wa-text-content {
-            padding-left: 0;
-            padding-right: 0;
-            margin: 0;
-        }
-
-        .cursor { 
-            border-right: 0px solid #25D366;
-            animation: blink 0.7s infinite;
-            display: none;
-            margin-left: 4px;
-            height: 18px;
-        }
-
-        @keyframes blink { 
-            50% { border-color: transparent; } 
-        }
-
-        .wa-text-bubble.active {
-            max-width: 300px;
-            opacity: 1;
-            transform: translateX(0);
-            padding: 0 16px;
-        }
-
-    /* Responsive */
-    @media (min-width: 768px) {
-        .hero-grid {
-            grid-template-columns: 1fr 1fr;
-            text-align: left;
-        }
-        .hero-content {
-            text-align: left;
-        }
-        .hero-desc {
-            margin-left: 0;
-        }
-        .btn-group {
-            flex-direction: row;
-            justify-content: flex-start;
-        }
-        .trust-grid {
-            justify-content: flex-start;
-        }
-        .hero-image-wrapper {
-            margin: 0;
-        }
-        .why-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-        .keuntungan__grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .bonus-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-        .pricing-grid {
-            grid-template-columns: repeat(3, 1fr);
-            align-items: center;
-        }
-        .pm-card.popular {
-            transform: scale(1.1);
-        }
-        .pm-card.popular:hover {
-            transform: scale(1.13);
-        }
-    }
-</style>
-    
+    </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <div class="badge-islamic">
-                        <i class="fa-solid fa-star-and-crescent star-spin"></i>
-                        <span>Sejak 2011 • Dijamin Tidak Prengus</span>
-                    </div>
-
-                    <h1 class="hero-title">
-    Kambing Guling <span id="changing-text" class="text-gold">Paling Dicari</span><br> 
-    Rasa Otentik! <br> 
-    Berpengalaman <span class="text-emas">Sejak 2011</span> !
-</h1>
-
-                    <p class="hero-desc">
-                        Nikmati Kambing Guling <span class="text-highlight">Fresh</span> (dari kandang langsung) dengan bumbu rempah rahasia yang meresap sempurna. Siap <i>Live Cooking</i>.
-                    </p>
-
-                    <div class="btn-group">
-                        <button onclick="window.open('https://wa.me/?text=Halo%20saya%20mau%20konsultasi%20kambing%20guling', '_blank')" class="btn btn-primary">
-                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Konsultasi Gratis
-                        </button>
-                        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})" class="btn btn-outline">
-                            Lihat Paket Harga <i class="ri-arrow-right-line icon-right"></i>
-                        </button>
-                    </div>
-
-                    <div class="trust-grid">
-                        <div class="trust-pill"><i class="fa-solid fa-medal"></i>100% Halal</div>
-                        <div class="trust-pill"><i class="fa-solid fa-truck-fast"></i> Layanan Antar</div>
-                        <div class="trust-pill"><i class="fa-solid fa-user-tie"></i> Chef Profesional</div>
-                    </div>
-                </div>
-
-                <div class="hero-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop" class="hero-img" alt="Kambing Guling">
-                    <div class="float-tag price">
-                        <div>
-                            <span class="tag-label">Mulai Dari</span>
-                            <span class="tag-value">Rp 1.8jt</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="why-section">
-        <div class="container">
-            <div class="why-wrapper">
-                <div class="hero-grid why-grid"> 
-                    <div class="slider-area">
-                        <div class="slider-frame">
-                            <div class="slider-track" id="sliderTrack">
-                                <div class="slide"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop" alt="Proses Panggang"></div>
-                                <div class="slide"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop" alt="Makanan Sehat"></div>
-                                <div class="slide"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop" alt="Penyajian Mewah"></div>
-                            </div>
-                            <div class="slider-nav">
-                                <button class="nav-btn" id="prevBtn"><i class="ri-arrow-left-s-line"></i></button>
-                                <button class="nav-btn" id="nextBtn"><i class="ri-arrow-right-s-line"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="why-text">
-                        <span class="why-label">KENAPA MEMILIH KAMBING GULING DI AqiqahIn?</span>
-                        <div class="ornament-divider-1 align-start">
-                            <div class="ornament-line-1"></div>
-                            <i class="fa-solid fa-star-of-life ornament-icon-1"></i>
-                        </div>
-                        <h2>Kambing Guling Fresh Bumbu Meresap, <span class="text-hijau">Yang Punya Hajat Anti Repot!</span></h2>
-                        <p class="why-desc">Kami mengelola kandang sendiri, memanggang langsung di lokasi, dan menyediakan tim lengkap agar Anda tinggal terima jadi dan menikmati momen spesial.</p>
-
-                        <div class="feature-list">
-                            <div class="feature-row">
-                                <div class="feature-icon"><i class="ri-store-3-fill"></i></div>
-                                <div><h3>Dapur & Bahan Baku Sendiri</h3><p class="feature-desc">Daging selalu fresh & dijamin halal, langsung dari kandang Gonam sendiri tanpa perantara.</p></div>
-                            </div>
-                            <div class="feature-row">
-                                <div class="feature-icon"><i class="fa-solid fa-fire"></i></div>
-                                <div><h3>Live Cooking & Rasa Otentik</h3><p class="feature-desc">Sejak 2011, proses dipanggang on-site (di lokasi) agar bumbu meresap sempurna dan aroma maksimal.</p></div>
-                            </div>
-                            <div class="feature-row">
-                                <div class="feature-icon"><i class="ri-team-fill"></i></div>
-                                <div><h3>Tim Profesional & Anti-Repot</h3><p class="feature-desc">All-in-one: pengiriman, peralatan makan, hingga server (pramusaji) profesional standby di lokasi Anda.</p></div>
-                            </div>
-                        </div>
-                        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})" class="btn btn-primary full-width">Lihat Paket Harga <i class="ri-arrow-right-line"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits">
-        <div class="container">
-            <div class="ornament-divider">
-                <div class="ornament-line"></div>
-                <i class="fa-solid fa-moon ornament-icon"></i>
-                <div class="ornament-line"></div>
-            </div>
-             
-            <h2 class="keuntungan__title">Kenapa harus di <span class="text-gold-aqiqahin">Aqiqahin</span> ?</h2>
-            <p class="keuntungan__subtitle">Karena Bapak & Ibu akan mendapatkan keuntungan dibawah ini</p>
-
-            <div class="card-grid keuntungan__grid">
-                <div class="islamic-card">
-                    <div class="card-icon-frame"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <h3>Tepat Jumlah</h3>
-                    <p class="card-desc">Amanah sesuai dengan jumlah pesanan yang telah disepakati.</p>
-                </div>
-                <div class="islamic-card">
-                    <div class="card-icon-frame"><i class="fa-solid fa-utensils"></i></div>
-                    <h3>Tepat Rasa</h3>
-                    <p class="card-desc">Diramu oleh Chef Hotel Bintang 5 dengan Jaminan Kualitas Rasa dan Jaminan Anti Basi.</p>
-                </div>
-                <div class="islamic-card">
-                    <div class="card-icon-frame"><i class="fa-solid fa-clock"></i></div>
-                    <h3>Tepat Waktu</h3>
-                    <p class="card-desc">Amanah Pengiriman sesuai dengan Waktu yang dikehendaki.</p>
-                </div>
-            </div>
-
-            <div class="bonus-section">
-                <div class="ornament-divider">
-                    <div class="ornament-line"></div>
-                    <i class="fa-solid fa-moon ornament-icon"></i>
-                    <div class="ornament-line"></div>
-                </div>
-                <h3 class="bonus-title-main">Bapak & Ibu akan mendapatkan keuntungan saat membeli setiap masing-masing paket</h3>
-                <div class="bonus-grid"> 
-                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1558231920-d336b13e8954?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Boneka"><span class="bonus-text">Boneka Kambing</span></div>
-                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Sertifikat"><span class="bonus-text">Sertifikat Aqiqah</span></div>
-                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Buku"><span class="bonus-text">Risalah Doa</span></div>
-                    <div class="bonus-item"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=300" class="bonus-img" alt="Foto"><span class="bonus-text">Dokumentasi Foto</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="pricing-section">
-        <div class="container">
+    <div id="app">
+        
+        <div class="view-container">
             
-            <div class="pricing-header">
-                <div class="ornament-divider">
-                    <div class="ornament-line"></div>
-                    <i class="fa-solid fa-star ornament-icon"></i>
-                    <div class="ornament-line"></div>
+            <div id="view-murottal" class="view-section active">
+                <div class="header">
+                    <h1>Al-Qur'an</h1>
+                    <p>Dengarkan lantunan ayat suci</p>
+                    <div class="search-wrap">
+                        <input type="text" id="search-murottal" class="search-input" placeholder="Cari surat untuk didengar..." oninput="filterSurah(this.value, 'list-murottal')">
+                        <i class="ri-search-2-line"></i>
+                    </div>
                 </div>
-                <h2 class="pricing-title">Pilihan Paket Spesial</h2>
-                <p class="keuntungan__subtitle">Harga transparan, fasilitas lengkap, tinggal terima beres.</p>
+                <div class="content-list" id="list-murottal">
+                    <div class="loading"><i class="ri-loader-4-line spin"></i><br><br>Memuat Surat...</div>
+                </div>
             </div>
 
-            <div class="pricing-grid">
-                
-                <div class="pm-card">
-                    <div class="pm-content">
-                        <div class="pm-header">
-                            <span class="pm-name">Paket Hemat</span>
-                            <div class="pm-price-box">
-                                <span class="pm-currency">Rp</span>
-                                <span class="pm-price">1.8</span>
-                                <span class="pm-unit">juta</span>
-                            </div>
-                            <p class="pm-desc">Solusi syukuran kecil keluarga inti (20-25 Porsi).</p>
-                        </div>
-                        
-                        <div class="pm-features">
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 1 Ekor Kambing Guling</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Lontong & Acar</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Sambal Lengkap</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 1 Orang Pramusaji</div>
-                        </div>
-
-                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Hemat', '_blank')" class="pm-btn pm-btn-primary">
-                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pilih Paket Hemat
-                        </button>
+            <div id="view-membaca" class="view-section">
+                <div class="header">
+                    <h1>Membaca</h1>
+                    <p>Pilih surat untuk mulai membaca</p>
+                    <div class="search-wrap">
+                        <input type="text" id="search-reading" class="search-input" placeholder="Cari surat untuk dibaca..." oninput="filterSurah(this.value, 'list-reading')">
+                        <i class="ri-search-2-line"></i>
                     </div>
                 </div>
-
-                <div class="pm-card popular">
-                    <div class="pm-popular-tag"><i class="fa-solid fa-crown"></i> Paling Laris</div>
-                    <div class="pm-content">
-                        <div class="pm-header">
-                            <span class="pm-name" style="color:var(--accent)">Paket Keluarga</span>
-                            <div class="pm-price-box">
-                                <span class="pm-currency">Rp</span>
-                                <span class="pm-price" style="color:var(--accent)">2.5</span>
-                                <span class="pm-unit">juta</span>
-                            </div>
-                            <p class="pm-desc">Menu lengkap dengan Gule. Favorit pelanggan (40-50 Porsi).</p>
-                        </div>
-                        
-                        <div class="pm-features">
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Kambing Ukuran Sedang</strong></div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Bonus Gule (1 Panci)</strong></div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Lontong & Acar Lengkap</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Alat Makan Premium</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 2 Pramusaji Standby</div>
-                        </div>
-
-                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Keluarga%20(Best%20Seller)', '_blank')" class="pm-btn pm-btn-accent">
-                           <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pesan Sekarang
-                        </button>
-                    </div>
+                <div class="content-list" id="list-reading">
+                    <div class="loading"><i class="ri-loader-4-line spin"></i><br><br>Memuat Daftar Surat...</div>
                 </div>
-
-                <div class="pm-card">
-                    <div class="pm-content">
-                        <div class="pm-header">
-                            <span class="pm-name">Paket Sultan</span>
-                            <div class="pm-price-box">
-                                <span class="pm-currency">Rp</span>
-                                <span class="pm-price">3.5</span>
-                                <span class="pm-unit">juta</span>
-                            </div>
-                            <p class="pm-desc">Untuk acara kantor/besar. Porsi super puas.</p>
-                        </div>
-                        
-                        <div class="pm-features">
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> <strong>Kambing Ukuran Besar</strong></div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Gule + Sate (Opsional)</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Setup VIP Service</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> 2 Pramusaji Senior</div>
-                            <div class="pm-feat-item"><div class="pm-check"><i class="fa-solid fa-check"></i></div> Prioritas Pengiriman</div>
-                        </div>
-
-                        <button onclick="window.open('https://wa.me/6283853096446?text=Halo,%20saya%20mau%20ambil%20Paket%20Sultan', '_blank')" class="pm-btn pm-btn-primary">
-                          <i class="fa-brands fa-whatsapp wa-icon-style"></i> Pilih Paket Sultan
-                        </button>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
 
-     <div class="wa-float-container">
-        
-        <div class="wa-text-bubble" id="waBubble">
-            <span class="wa-text-content" id="waText"></span><span class="cursor" id="cursor"></span>
+            <div id="view-explore" class="view-section">
+                <div class="empty-state">
+                    <i class="ri-compass-3-line"></i>
+                    <h3>Explore</h3>
+                    <p>Temukan kajian dan inspirasi segera.</p>
+                </div>
+            </div>
+
+            <div id="view-setting" class="view-section">
+                <div class="empty-state">
+                    <i class="ri-settings-4-line"></i>
+                    <h3>Pengaturan</h3>
+                    <p>Sesuaikan aplikasi dengan preferensi Anda.</p>
+                </div>
+            </div>
+
         </div>
-        
-        <a href="https://wa.me/628123456789" target="_blank" class="wa-button">
-            <i class="ri-whatsapp-line"></i>
-        </a>
+
+        <div id="view-detail-surah">
+            <div class="detail-header">
+                <div class="btn-back" onclick="closeDetail()">
+                    <i class="ri-arrow-left-line"></i>
+                </div>
+                <div class="detail-title">
+                    <h2 id="det-name">Nama Surat</h2>
+                    <p id="det-info">Arti & Jumlah Ayat</p>
+                </div>
+            </div>
+            <div class="detail-content" id="detail-list">
+                </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('murottal', this)">
+                <i class="ri-headphone-line"></i>
+                <span>Murottal</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('membaca', this)">
+                <i class="ri-book-open-line"></i>
+                <span>Membaca</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('explore', this)">
+                <i class="ri-compass-3-line"></i>
+                <span>Explore</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('setting', this)">
+                <i class="ri-settings-4-line"></i>
+                <span>Setting</span>
+            </div>
+        </nav>
 
     </div>
 
+    <audio id="audio"></audio>
+
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const textElement = document.getElementById('changing-text');
-        const phrases = ["Paling Dicari", "Paling Nikmat"]; 
-        let phraseIndex = 0;
+        // --- GLOBAL DATA ---
+        let allSurahData = [];
+        const audio = document.getElementById('audio');
+        let activeAudioId = null;
 
-        function runAnimationCycle() {
-            // 1. Mulai Animasi Shine
-            // Reset class dulu
-            textElement.classList.remove('shining');
-            void textElement.offsetWidth; // Trigger reflow
-            textElement.classList.add('shining');
+        // --- FETCH UTAMA (DAFTAR SURAT) ---
+        fetch('https://equran.id/api/v2/surat')
+            .then(r => r.json())
+            .then(json => {
+                allSurahData = json.data;
+                renderMurottalList(allSurahData);
+                renderReadingList(allSurahData); 
+            })
+            .catch(err => {
+                document.getElementById('list-murottal').innerHTML = '<div class="loading">Gagal memuat data.</div>';
+                document.getElementById('list-reading').innerHTML = '<div class="loading">Gagal memuat data.</div>';
+            });
 
-            // 2. Tunggu Shine Selesai (3 detik), lalu Fade Out
-            setTimeout(() => {
-                textElement.classList.add('fade-out'); // Mulai menghilang
+        // --- RENDER FUNCTION: MUROTTAL LIST ---
+        function renderMurottalList(data) {
+            const listEl = document.getElementById('list-murottal');
+            listEl.innerHTML = '';
+            
+            const R = 16; 
+            const C = 2 * Math.PI * R;
+            const svgRing = `
+                <svg class="progress-svg" width="35" height="35">
+                    <circle class="prog-bg" cx="17.5" cy="17.5" r="${R}" stroke-width="5" />
+                    <circle class="prog-bar" cx="17.5" cy="17.5" r="${R}" stroke-width="3" style="stroke-dasharray: ${C}; stroke-dashoffset: ${C};" />
+                </svg>`;
 
-                // 3. Tunggu Fade Out Selesai (0.5 detik), lalu Ganti Teks
-                setTimeout(() => {
-                    // Ganti Teks saat invisible
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    textElement.innerText = phrases[phraseIndex];
+            data.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.id = `card-${s.nomor}`;
+                
+                // Di dalam function renderMurottalList(data) ...
 
-                    // 4. Fade In (Muncul kembali)
-                    textElement.classList.remove('fade-out');
-
-                    // 5. Tunggu Fade In selesai (0.5 detik), lalu Ulangi Shine
-                    setTimeout(runAnimationCycle, 100); 
-
-                }, 500); // Sesuai durasi transition CSS (0.5s)
-
-            }, 4000); // Sesuai durasi animation shine CSS (3s)
+div.innerHTML = `
+    <div class="info"> 
+        <div class="badge">${s.nomor}</div>
+        <div class="details">
+            <h3>${s.namaLatin}</h3>
+            <span class="meaning">${s.arti}</span>
+            <div class="meta-tags">
+                <span class="tag">${s.jumlahAyat} Ayat</span>
+                <span class="tag"><i class="ri-map-pin-line"></i> ${s.tempatTurun}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="actions">
+        <div class="arabic">${s.nama}</div>
+        <div class="player-wrap">
+            <span class="timer" id="time-${s.nomor}">...</span>
+            
+            <div class="btn-play-circle" onclick="togglePlay(event, ${s.nomor}, '${s.audioFull['05']}')">
+                ${svgRing}
+                <i class="ri-play-fill" id="icon-${s.nomor}"></i>
+            </div>
+        </div>
+    </div>
+`;
+                listEl.appendChild(div);
+            });
         }
 
-        // Jalankan pertama kali
-        runAnimationCycle();
-    });
-</script>
+        // --- RENDER FUNCTION: READING LIST (TAB MEMBACA) ---
+        function renderReadingList(data) {
+            const listEl = document.getElementById('list-reading');
+            listEl.innerHTML = '';
 
-    <script>
-        const track = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let index = 0; const slides = 3;
-        function updateSlide() { track.style.transform = `translateX(-${index * 100}%)`; }
-        nextBtn.addEventListener('click', () => { index = (index + 1) % slides; updateSlide(); });
-        prevBtn.addEventListener('click', () => { index = (index - 1 + slides) % slides; updateSlide(); });
-    </script>
+            data.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'card';
+                // Saat card di tab membaca diklik, buka detail bacaan
+                div.onclick = () => openDetail(s);
+                
+                div.innerHTML = `
+                    <div class="info">
+                        <div class="badge" style="background: #F3F4F6; color: #374151;">${s.nomor}</div>
+                        <div class="details">
+                            <h3>${s.namaLatin}</h3>
+                            <span class="meaning">${s.arti}</span>
+                            <div class="meta-tags">
+                                <span class="tag"><i class="ri-map-pin-line"></i> ${s.tempatTurun}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="arabic" style="color:var(--text-main);">${s.nama}</div>
+                        <div class="btn-read-arrow">
+                            <i class="ri-arrow-right-s-line"></i>
+                        </div>
+                    </div>
+                `;
+                listEl.appendChild(div);
+            });
+        }
 
-    <script>
-        const texts = ["Butuh bantuan..?", "Hubungi kami sekarang..."]; 
-        let textIndex = 0;
-        
-        const bubble = document.getElementById('waBubble');
-        const textElement = document.getElementById('waText');
-        const cursor = document.getElementById('cursor');
-        const waButton = document.querySelector('.wa-button');
+        // --- SEARCH FUNCTION ---
+        function filterSurah(val, targetId) {
+            const v = val.toLowerCase();
+            const container = document.getElementById(targetId);
+            const cards = container.getElementsByClassName('card');
+            Array.from(cards).forEach(c => {
+                c.style.display = c.innerText.toLowerCase().includes(v) ? 'flex' : 'none';
+            });
+        }
 
-        const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        // --- DETAIL READING LOGIC ---
+        function openDetail(surah) {
+            const view = document.getElementById('view-detail-surah');
+            const list = document.getElementById('detail-list');
+            const title = document.getElementById('det-name');
+            const info = document.getElementById('det-info');
 
-        async function typeWriter(text) {
-            textElement.innerHTML = "";
-            cursor.style.display = "inline-block";
-            for (let i = 0; i < text.length; i++) {
-                textElement.innerHTML += text.charAt(i);
-                await wait(40);
+            // Set Header Info
+            title.innerText = surah.namaLatin;
+            info.innerText = `${surah.arti} • ${surah.jumlahAyat} Ayat`;
+            
+            // Show Loading
+            list.innerHTML = '<div class="loading"><i class="ri-loader-4-line spin"></i><br>Mengambil Ayat...</div>';
+            view.classList.add('open'); 
+
+            // Fetch Detail Ayat
+            fetch(`https://equran.id/api/v2/surat/${surah.nomor}`)
+                .then(r => r.json())
+                .then(res => {
+                    const data = res.data;
+                    let html = '';
+
+                    // Basmalah (kecuali Al-Fatihah & At-Taubah)
+                    if(surah.nomor !== 1 && surah.nomor !== 9) {
+                        html += `<div class="bismillah-header">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
+                    }
+
+                    data.ayat.forEach(a => {
+                        html += `
+                            <div class="verse-item">
+                                <div class="verse-toolbar">
+                                    <div class="verse-num">${a.nomorAyat}</div>
+                                    <div class="verse-opts">
+                                        <i class="ri-bookmark-line" onclick="toast('Ayat ditandai')"></i>
+                                        <i class="ri-share-forward-line" onclick="toast('Tautan disalin')"></i>
+                                    </div>
+                                </div>
+                                <div class="verse-arabic">${a.teksArab}</div>
+                                <div class="verse-latin">${a.teksIndonesia}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    list.innerHTML = html;
+                })
+                .catch(err => {
+                    list.innerHTML = '<div class="empty-state">Gagal memuat ayat.</div>';
+                });
+        }
+
+        function closeDetail() {
+            document.getElementById('view-detail-surah').classList.remove('open');
+        }
+
+        function toast(msg) {
+            alert(msg);
+        }
+
+        // --- TAB NAVIGATION LOGIC ---
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.view-section').forEach(view => {
+                if(view.id !== 'view-detail-surah') view.classList.remove('active');
+            });
+
+            const targetView = document.getElementById(`view-${tabName}`);
+            if (targetView) targetView.classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // --- AUDIO PLAYER LOGIC ---
+        function togglePlay(e, id, url) {
+            e.stopPropagation();
+            
+            if (activeAudioId === id) {
+                if(audio.paused) audio.play();
+                else audio.pause();
+            } else {
+                if (activeAudioId) resetUI(activeAudioId);
+                activeAudioId = id;
+                audio.src = url;
+                
+                const card = document.getElementById(`card-${id}`);
+                const icon = document.getElementById(`icon-${id}`);
+                const time = document.getElementById(`time-${id}`);
+                
+                if(card) card.classList.add('active');
+                if(icon) icon.className = 'ri-loader-4-line spin';
+                if(time) time.innerText = "...";
+                
+                audio.play();
             }
-            cursor.style.display = "none";
         }
 
-        async function startAnimationLoop() {
-            while (true) {
-                // 1. Munculkan Bubble
-                bubble.classList.add('active');
-                await wait(500); 
-
-                // 2. Ketik Teks
-                await typeWriter(texts[textIndex]);
-                await wait(5000); 
-                 
-                // 3. Sembunyikan Bubble
-                textElement.innerHTML = ""; 
-                bubble.classList.remove('active');
-
-                // 4. ANIMASI IKON (Naik lalu Turun)
-                await wait(300); 
-                
-                // Tambah class trigger
-                waButton.classList.add('animating');
-                
-                // Tunggu durasi animasi (1s)
-                await wait(500);
-                
-                // Reset Class
-                waButton.classList.remove('animating');
-
-                // 5. Loop Index Teks
-                textIndex = (textIndex + 1) % texts.length;
-                await wait(500);
-            }
-        }
-
-        window.addEventListener('load', () => {
-            setTimeout(startAnimationLoop, 1000);  
+        audio.addEventListener('playing', () => {
+             if(activeAudioId) document.getElementById(`icon-${activeAudioId}`).className = 'ri-pause-fill';
         });
 
-    </script>
+        audio.addEventListener('pause', () => {
+             if(activeAudioId) document.getElementById(`icon-${activeAudioId}`).className = 'ri-play-fill';
+        });
 
+        audio.addEventListener('ended', () => {
+            if(activeAudioId) resetUI(activeAudioId);
+            activeAudioId = null;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if(!activeAudioId) return;
+            const dur = audio.duration;
+            const cur = audio.currentTime;
+            if(isNaN(dur)) return;
+
+            const left = dur - cur;
+            const timeEl = document.getElementById(`time-${activeAudioId}`);
+            if(timeEl) timeEl.innerText = "-" + fmt(left);
+
+            // Update Ring (Cari di dalam card aktif)
+            const ringContainer = document.querySelector(`#card-${activeAudioId} .prog-bar`);
+            
+            if(ringContainer) {
+                const C = 2 * Math.PI * 16;
+                const offset = C - ((cur/dur) * C);
+                ringContainer.style.strokeDashoffset = offset;
+            }
+        });
+
+        function resetUI(id) {
+            const card = document.getElementById(`card-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            const ringContainer = document.querySelector(`#card-${id} .prog-bar`);
+            const time = document.getElementById(`time-${id}`);
+            const C = 2 * Math.PI * 16;
+
+            if(card) card.classList.remove('active');
+            if(icon) icon.className = 'ri-play-fill';
+            if(time) time.innerText = "";
+            if(ringContainer) ringContainer.style.strokeDashoffset = C;
+        }
+
+        function fmt(s) {
+            if(s<0) s=0;
+            const m = Math.floor(s/60);
+            const sc = Math.floor(s%60);
+            return `${m}:${sc<10?'0'+sc:sc}`;
+        }
+    </script>
 </body>
 </html>
