@@ -10,7 +10,16 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
+        @font-face {
+        font-family: 'LPMQ Isep Misbah';
+        src: url('LPMQ IsepMisbah.ttf') format('truetype');
+        font-display: swap;
+    }
+
     :root {
+        /* Gunakan LPMQ sebagai font utama, fallback ke Scheherazade */
+        --font-arab: 'LPMQ Isep Misbah', 'Scheherazade New', serif;
+
         --primary: #009860;
         --primary-dark: #007046;
         --primary-light: #E0F2E9;
@@ -613,11 +622,15 @@
 
     /* KEMBALI KE NILAI ASLI ANDA */
     .mushaf-page-text {
+        font-family: var(--font-arab); 
+        line-height: 2.2; /* LPMQ butuh line-height agak renggang */
+        font-size: 32px; /* Font ini terlihat sedikit lebih kecil, jadi size dibesarkan */
+        /* Fitur font khusus agar harakat tidak bertabrakan */
+        font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
         width: 100%;
         max-width: 600px;
         background: transparent;
         color: #000;
-        font-family: 'Scheherazade New', serif;
         direction: rtl;
         text-align: justify;
         line-height: 2.3;
