@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Murottal Premium App</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -42,11 +42,21 @@
         width: 100%;
         max-width: 440px;
         background: var(--bg-body);
+        
+        /* Gunakan 100dvh untuk tinggi dinamis yang akurat di mobile */
         height: 100dvh; 
-        height: 100vh; 
+        
         display: flex;
         flex-direction: column;
         position: relative;
+        
+        /* --- TAMBAHAN PENTING --- */
+        /* 1. Kunci scroll body utama agar tidak geser saat refresh */
+        overflow: hidden; 
+        
+        /* 2. Beri jarak otomatis sesuai tinggi poni HP (iPhone/Android) */
+        padding-top: env(safe-area-inset-top); 
+        padding-top: constant(safe-area-inset-top); /* Fallback untuk iOS lama */
     }
 
     @media(min-width: 450px) {
@@ -89,7 +99,9 @@
 
     /* --- HEADER --- */
     .header {
-        padding: 40px 24px 20px;
+        /* Padding atas dikurangi sedikit (misal dari 40px jadi 20px) 
+           karena #app sudah punya padding poni */
+        padding: 20px 24px 20px; 
         background: #ffffff;
         position: relative;
         z-index: 20;
@@ -473,7 +485,6 @@
         background: #fff;
         flex-shrink: 0;
         gap: 15px;
-        padding-top: 10px;
     }
 
     .btn-back {
