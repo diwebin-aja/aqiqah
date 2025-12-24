@@ -42,21 +42,13 @@
         width: 100%;
         max-width: 440px;
         background: var(--bg-body);
-        
-        /* Gunakan 100dvh untuk tinggi dinamis yang akurat di mobile */
         height: 100dvh; 
-        
         display: flex;
         flex-direction: column;
         position: relative;
-        
-        /* --- TAMBAHAN PENTING --- */
-        /* 1. Kunci scroll body utama agar tidak geser saat refresh */
         overflow: hidden; 
-        
-        /* 2. Beri jarak otomatis sesuai tinggi poni HP (iPhone/Android) */
         padding-top: env(safe-area-inset-top); 
-        padding-top: constant(safe-area-inset-top); /* Fallback untuk iOS lama */
+        padding-top: constant(safe-area-inset-top);
     }
 
     @media(min-width: 450px) {
@@ -99,9 +91,7 @@
 
     /* --- HEADER --- */
     .header {
-        /* Padding atas dikurangi sedikit (misal dari 40px jadi 20px) 
-           karena #app sudah punya padding poni */
-        padding: 20px 24px 20px; 
+        padding: 35px 24px 20px; 
         background: #ffffff;
         position: relative;
         z-index: 20;
@@ -376,7 +366,7 @@
     .spin { animation: spin 1s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
 
-    /* --- NEW EXPLORE GRID STYLES (ADDED) --- */
+    /* --- EXPLORE GRID STYLES --- */
     .explore-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -455,27 +445,27 @@
     .exp-orange { color: #F97316; }
     .exp-teal { color: #14B8A6; }
 
-
-    /* --- READING DETAIL VIEW (OVERLAY) --- */
-    #view-detail-surah {
+    /* --- OVERLAYS (SHARED) --- */
+    .overlay-view {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         background: #fff;
-        z-index: 50; /* Above bottom nav */
+        z-index: 50; 
         display: none;
         flex-direction: column;
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
     }
 
-    #view-detail-surah.open {
+    .overlay-view.open {
         transform: translateX(0);
         display: flex;
     }
 
+    /* --- READING DETAIL VIEW --- */
     .detail-header {
         height: 70px;
         display: flex;
@@ -518,7 +508,102 @@
         background: #fafafa;
     }
 
-    /* --- VERSE (AYAT) ITEM DESIGN --- */
+    /* --- MUSHAF VIEWER STYLES (NEW) --- */
+    #view-mushaf {
+        background: #fdfdfd;
+        z-index: 60; /* Higher than surah detail */
+    }
+
+    .mushaf-container {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0;
+        background: #FDFCF8; /* Warm paper tone */
+        position: relative;
+    }
+
+    .mushaf-img {
+        width: 100%;
+        height: auto;
+        max-width: 600px;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .mushaf-img.loaded {
+        opacity: 1;
+    }
+
+    .mushaf-loader {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--primary);
+    }
+
+    .mushaf-controls {
+        height: 70px;
+        background: #fff;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+    }
+
+    .page-input-wrap {
+        display: flex;
+        align-items: center;
+        background: #F3F4F6;
+        padding: 5px 12px;
+        border-radius: 10px;
+        gap: 8px;
+    }
+
+    .page-input {
+        width: 40px;
+        background: transparent;
+        border: none;
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 14px;
+        outline: none;
+    }
+
+    .page-input-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        font-size: 20px;
+        cursor: pointer;
+    }
+    
+    .nav-btn:active { transform: scale(0.95); }
+
+
+    /* --- VERSE ITEM DESIGN --- */
     .verse-item {
         background: #fff;
         border-radius: 20px;
@@ -696,9 +781,9 @@
                 </div>
                 <div class="explore-grid">
                     
-                    <div class="exp-card exp-blue" onclick="toast('Fitur Baca Per Halaman')">
+                    <div class="exp-card exp-blue" onclick="openMushaf()">
                         <div class="exp-icon">
-                            <i class="ri-book-read-line"></i>
+                            <i class="ri-book-open-fill"></i>
                         </div>
                         <h4>Per Halaman</h4>
                         <span>Mushaf Madinah</span>
@@ -741,7 +826,7 @@
 
         </div>
 
-        <div id="view-detail-surah">
+        <div id="view-detail-surah" class="overlay-view">
             <div class="detail-header">
                 <div class="btn-back" onclick="closeDetail()">
                     <i class="ri-arrow-left-line"></i>
@@ -752,7 +837,42 @@
                 </div>
             </div>
             <div class="detail-content" id="detail-list">
+            </div>
+        </div>
+
+        <div id="view-mushaf" class="overlay-view">
+            <div class="detail-header">
+                <div class="btn-back" onclick="closeMushaf()">
+                    <i class="ri-close-line"></i>
                 </div>
+                <div class="detail-title">
+                    <h2>Mushaf Madinah</h2>
+                    <p>Tampilan Cetak</p>
+                </div>
+            </div>
+            
+            <div class="mushaf-container">
+                <div id="mushaf-loader" class="mushaf-loader">
+                    <i class="ri-loader-4-line spin" style="font-size: 32px;"></i>
+                    <span style="font-size: 12px; margin-top: 10px; opacity: 0.7;">Memuat Halaman...</span>
+                </div>
+                <img id="mushaf-image" class="mushaf-img" alt="Halaman Quran" onload="onImageLoad()">
+            </div>
+
+            <div class="mushaf-controls">
+                <div class="nav-btn" onclick="prevPage()">
+                    <i class="ri-arrow-left-s-line"></i>
+                </div>
+                
+                <div class="page-input-wrap">
+                    <span class="page-input-label">Hal.</span>
+                    <input type="number" id="page-input" class="page-input" value="1" min="1" max="604" onchange="jumpToPage(this.value)">
+                </div>
+
+                <div class="nav-btn" onclick="nextPage()">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
         </div>
 
         <nav class="bottom-nav">
@@ -815,33 +935,31 @@
                 div.className = 'card';
                 div.id = `card-${s.nomor}`;
                 
-                // Di dalam function renderMurottalList(data) ...
-
-div.innerHTML = `
-    <div class="info"> 
-        <div class="badge">${s.nomor}</div>
-        <div class="details">
-            <h3>${s.namaLatin}</h3>
-            <span class="meaning">${s.arti}</span>
-            <div class="meta-tags">
-                <span class="tag">${s.jumlahAyat} Ayat</span>
-                <span class="tag"><i class="ri-map-pin-line"></i> ${s.tempatTurun}</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="actions">
-        <div class="arabic">${s.nama}</div>
-        <div class="player-wrap">
-            <span class="timer" id="time-${s.nomor}">...</span>
-            
-            <div class="btn-play-circle" onclick="togglePlay(event, ${s.nomor}, '${s.audioFull['05']}')">
-                ${svgRing}
-                <i class="ri-play-fill" id="icon-${s.nomor}"></i>
-            </div>
-        </div>
-    </div>
-`;
+                div.innerHTML = `
+                    <div class="info"> 
+                        <div class="badge">${s.nomor}</div>
+                        <div class="details">
+                            <h3>${s.namaLatin}</h3>
+                            <span class="meaning">${s.arti}</span>
+                            <div class="meta-tags">
+                                <span class="tag">${s.jumlahAyat} Ayat</span>
+                                <span class="tag"><i class="ri-map-pin-line"></i> ${s.tempatTurun}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <div class="arabic">${s.nama}</div>
+                        <div class="player-wrap">
+                            <span class="timer" id="time-${s.nomor}">...</span>
+                            
+                            <div class="btn-play-circle" onclick="togglePlay(event, ${s.nomor}, '${s.audioFull['05']}')">
+                                ${svgRing}
+                                <i class="ri-play-fill" id="icon-${s.nomor}"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 listEl.appendChild(div);
             });
         }
@@ -854,7 +972,6 @@ div.innerHTML = `
             data.forEach(s => {
                 const div = document.createElement('div');
                 div.className = 'card';
-                // Saat card di tab membaca diklik, buka detail bacaan
                 div.onclick = () => openDetail(s);
                 
                 div.innerHTML = `
@@ -896,22 +1013,18 @@ div.innerHTML = `
             const title = document.getElementById('det-name');
             const info = document.getElementById('det-info');
 
-            // Set Header Info
             title.innerText = surah.namaLatin;
             info.innerText = `${surah.arti} • ${surah.jumlahAyat} Ayat`;
             
-            // Show Loading
             list.innerHTML = '<div class="loading"><i class="ri-loader-4-line spin"></i><br>Mengambil Ayat...</div>';
             view.classList.add('open'); 
 
-            // Fetch Detail Ayat
             fetch(`https://equran.id/api/v2/surat/${surah.nomor}`)
                 .then(r => r.json())
                 .then(res => {
                     const data = res.data;
                     let html = '';
 
-                    // Basmalah (kecuali Al-Fatihah & At-Taubah)
                     if(surah.nomor !== 1 && surah.nomor !== 9) {
                         html += `<div class="bismillah-header">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
                     }
@@ -943,15 +1056,132 @@ div.innerHTML = `
             document.getElementById('view-detail-surah').classList.remove('open');
         }
 
+        // --- MUSHAF LOGIC (NEW) ---
+        // --- MUSHAF LOGIC (DIPERBARUI) ---
+        let currentMushafPage = 1;
+
+        function openMushaf() {
+            document.getElementById('view-mushaf').classList.add('open');
+            // Cek apakah gambar sudah ada isinya, jika belum load halaman 1
+            const img = document.getElementById('mushaf-image');
+            if(!img.getAttribute('src')) {
+                loadMushafPage(currentMushafPage);
+            }
+        }
+
+        function closeMushaf() {
+            document.getElementById('view-mushaf').classList.remove('open');
+        }
+
+        function loadMushafPage(page) {
+            const imgEl = document.getElementById('mushaf-image');
+            const loader = document.getElementById('mushaf-loader');
+            const input = document.getElementById('page-input');
+
+            // 1. Reset Tampilan (Tampilkan Loading)
+            imgEl.classList.remove('loaded');
+            // Sembunyikan gambar lama agar tidak bingung
+            imgEl.style.opacity = '0'; 
+            
+            loader.style.display = 'flex';
+            loader.innerHTML = '<i class="ri-loader-4-line spin" style="font-size: 32px;"></i><span style="font-size: 12px; margin-top: 10px;">Mengambil Halaman...</span>';
+            
+            input.value = page;
+
+            // 2. Format Nomor Halaman (001, 012, 123)
+            const padPage = String(page).padStart(3, '0');
+            
+            // 3. SUMBER GAMBAR YANG SANGAT STABIL (EveryAyah)
+            // Menggunakan format PNG agar tulisan tajam
+            const source = `https://everyayah.com/data/images_png/${padPage}.png`;
+
+            // 4. Memuat Gambar
+            imgEl.src = source;
+            
+            // 5. Handler Saat Sukses
+            imgEl.onload = function() {
+                loader.style.display = 'none';
+                imgEl.classList.add('loaded');
+                imgEl.style.opacity = '1';
+            };
+
+            // 6. Handler Error (Jika masih gagal, ganti ke server cadangan otomatis)
+            imgEl.onerror = function() {
+                // Coba Server Cadangan (Backup) dari Android Quran
+                console.log("Server 1 gagal, mencoba server cadangan...");
+                imgEl.src = `https://android.quran.com/data/width_1024/page${padPage}.jpg`;
+                
+                // Jika backup juga gagal baru tampilkan error
+                imgEl.onerror = function() {
+                     loader.innerHTML = '<i class="ri-error-warning-line" style="font-size: 32px; color: #EF4444"></i><span style="margin-top:10px">Halaman tidak tersedia.</span>';
+                }
+            };
+        }
+
+        function onImageLoad() {
+            document.getElementById('mushaf-loader').style.display = 'none';
+            document.getElementById('mushaf-image').classList.add('loaded');
+        }
+
+        function nextPage() {
+            if(currentMushafPage < 604) {
+                currentMushafPage++;
+                loadMushafPage(currentMushafPage);
+            } else {
+                toast("Ini halaman terakhir");
+            }
+        }
+
+        function prevPage() {
+            if(currentMushafPage > 1) {
+                currentMushafPage--;
+                loadMushafPage(currentMushafPage);
+            } else {
+                toast("Ini halaman pertama");
+            }
+        }
+
+        function jumpToPage(val) {
+            let p = parseInt(val);
+            if(p >= 1 && p <= 604) {
+                currentMushafPage = p;
+                loadMushafPage(p);
+            } else {
+                toast("Halaman tidak valid (1-604)");
+                document.getElementById('page-input').value = currentMushafPage;
+            }
+        }
+
+
         function toast(msg) {
-            alert(msg);
+            // Simple alert replacement for demo
+            const existing = document.querySelector('.toast-msg');
+            if(existing) existing.remove();
+
+            const d = document.createElement('div');
+            d.className = 'toast-msg';
+            d.style.cssText = `
+                position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+                background: rgba(31, 41, 55, 0.9); color: white; padding: 10px 20px;
+                border-radius: 20px; font-size: 12px; z-index: 100;
+                animation: fadeIn 0.3s;
+            `;
+            d.innerText = msg;
+            document.body.appendChild(d);
+            setTimeout(() => {
+                d.style.opacity = 0;
+                setTimeout(() => d.remove(), 300);
+            }, 2000);
         }
 
         // --- TAB NAVIGATION LOGIC ---
         function switchTab(tabName, element) {
             document.querySelectorAll('.view-section').forEach(view => {
-                if(view.id !== 'view-detail-surah') view.classList.remove('active');
+                view.classList.remove('active');
             });
+
+            // Close overlays when switching tabs
+            document.querySelectorAll('.overlay-view').forEach(ov => ov.classList.remove('open'));
 
             const targetView = document.getElementById(`view-${tabName}`);
             if (targetView) targetView.classList.add('active');
