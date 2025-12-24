@@ -1392,6 +1392,195 @@
         .city-option.active i {
             color: var(--primary-dark);
         }
+
+
+        /*arah kiblat*/
+        /* --- QIBLA COMPASS STYLES --- */
+        .qibla-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #FDFCF8;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .compass-wrap {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 
+                0 10px 30px -10px rgba(0,0,0,0.1),
+                inset 0 0 0 10px #F9FAFB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            transition: all 0.1s ease-out; /* Smooth rotation */
+        }
+
+        /* Indikator Jarum Merah (Penunjuk Atas/User) */
+        .user-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 4px;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0, 152, 96, 0.4);
+        }
+
+        /* Piringan Kompas yang berputar */
+        .compass-disc {
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #fff 0%, #f3f4f6 50%, #fff 100%);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            transition: transform 0.1s linear;
+            will-change: transform;
+        }
+
+        .compass-disc::after {
+            content: 'N';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 800;
+            color: #EF4444; /* Merah untuk Utara */
+            font-size: 14px;
+        }
+
+        /* Jarum/Indikator Kiblat di dalam piringan */
+        .qibla-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%); /* Rotasi diatur via JS */
+            pointer-events: none;
+        }
+
+        .kaaba-icon-wrap {
+            position: absolute;
+            top: 10px; /* Jarak dari pinggir dalam */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kaaba-icon {
+            font-size: 24px;
+            color: var(--text-main);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .kaaba-arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 10px solid var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        /* Status & Derajat */
+        .qibla-info {
+            text-align: center;
+            z-index: 5;
+        }
+
+        .degree-text {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .degree-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .qibla-status {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: #F3F4F6;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        /* Saat Lurus Kiblat */
+        .qibla-container.aligned .compass-wrap {
+            box-shadow: 0 0 0 8px var(--primary-light), 0 10px 40px -10px var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .qibla-container.aligned .user-pointer {
+            background: var(--primary-dark);
+        }
+
+        .qibla-container.aligned .qibla-status {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .qibla-container.aligned .kaaba-icon {
+            color: var(--primary);
+        }
+        
+        .qibla-container.aligned .kaaba-arrow {
+             border-bottom-color: var(--primary);
+        }
+
+        /* Permission Button (iOS) */
+        .permission-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .btn-permission {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 152, 96, 0.3);
+        }
+        /*akhir arah kiblat*/
     </style>
 </head>
 <body>
@@ -1443,7 +1632,7 @@
                         <h4>Jadwal Sholat</h4>
                         <span>Waktu Setempat</span>
                     </div>
-                    <div class="exp-card exp-orange" onclick="toast('Fitur Arah Kiblat')">
+                    <div class="exp-card exp-orange" onclick="openQibla()">
                         <div class="exp-icon"><i class="ri-compass-discover-line"></i></div>
                         <h4>Arah Kiblat</h4>
                         <span>Pencari Kiblat</span>
@@ -1580,6 +1769,51 @@
                         <div class="prayer-time" id="dhuha-time">06:30</div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="view-qibla" class="overlay-view">
+            <div class="detail-header">
+                <div class="btn-back" onclick="closeQibla()"><i class="ri-arrow-left-line"></i></div>
+                <div class="detail-title">
+                    <h2>Arah Kiblat</h2>
+                    <p>Cari arah Ka'bah</p>
+                </div>
+                <div class="font-trigger-btn" onclick="requestCompassPermission()" style="width: 40px; justify-content:center;">
+                    <i class="ri-compass-3-line"></i>
+                </div>
+            </div>
+
+            <div class="qibla-container" id="qibla-container">
+                
+                <div class="compass-wrap">
+                    <div class="user-pointer"></div>
+                    <div class="compass-disc" id="compass-disc">
+                        <div class="qibla-indicator" id="qibla-indicator">
+                            <div class="kaaba-icon-wrap">
+                                <div class="kaaba-arrow"></div>
+                                <i class="ri-kaaba-fill kaaba-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qibla-info">
+                    <div class="degree-text" id="alpha-text">0°</div>
+                    <div class="degree-label">Arah Ponsel Anda</div>
+                    
+                    <div class="qibla-status" id="qibla-status">
+                        <i class="ri-smartphone-line"></i> Putar ponsel Anda
+                    </div>
+                </div>
+
+                <div id="ios-permission-overlay" class="permission-overlay" style="display: none;">
+                    <i class="ri-compass-discover-line" style="font-size: 48px; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Izin Kompas</h3>
+                    <p style="font-size: 14px; color: var(--text-muted);">Aplikasi memerlukan izin untuk mengakses sensor orientasi ponsel Anda.</p>
+                    <button class="btn-permission" onclick="requestCompassPermission()">Izinkan Kompas</button>
+                </div>
+
             </div>
         </div>
 
@@ -2447,6 +2681,159 @@ function selectCity(cityName, lat, lng) {
     closeLocationModal();
     toast(`Lokasi diperbarui: ${cityName}`);
 }
+    </script>
+
+    <script>
+        //arah kiblat
+        // --- LOGIC ARAH KIBLAT ---
+        let compassWatchId;
+        const MECCA_LAT = 21.422487;
+        const MECCA_LNG = 39.826206;
+
+        function openQibla() {
+            document.getElementById('view-qibla').classList.add('open');
+            
+            // Cek lokasi tersimpan untuk menghitung sudut Kiblat
+            const location = JSON.parse(localStorage.getItem('prayer_location'));
+            if(location) {
+                initCompass(location.lat, location.lng);
+            } else {
+                toast("Mohon set lokasi terlebih dahulu");
+                // Fallback ke Jakarta jika null
+                initCompass(-6.2088, 106.8456); 
+            }
+        }
+
+        function closeQibla() {
+            document.getElementById('view-qibla').classList.remove('open');
+            // Matikan listener sensor untuk hemat baterai
+            if (window.removeEventListener) {
+                window.removeEventListener('deviceorientation', handleOrientation);
+                window.removeEventListener('deviceorientationabsolute', handleOrientation);
+            }
+        }
+
+        function initCompass(userLat, userLng) {
+            // 1. Hitung Qibla Bearing (Sudut Kiblat dari Utara Geografis)
+            const qiblaAngle = calculateQiblaAngle(userLat, userLng);
+            
+            // Set posisi jarum Ka'bah di piringan kompas relatif terhadap 'N' (Utara)
+            // Di CSS, 'N' ada di 0 derajat (atas). Kita putar div indicator sesuai sudut kiblat.
+            const indicator = document.getElementById('qibla-indicator');
+            indicator.style.transform = `translate(-50%, -50%) rotate(${qiblaAngle}deg)`;
+            
+            // 2. Deteksi Dukungan Sensor
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // Khusus iOS 13+
+                document.getElementById('ios-permission-overlay').style.display = 'flex';
+            } else {
+                // Android / Non-iOS
+                startCompassListener(qiblaAngle);
+            }
+
+            // Simpan angle global untuk referensi handler
+            window.targetQiblaAngle = qiblaAngle;
+        }
+
+        function requestCompassPermission() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response === 'granted') {
+                            document.getElementById('ios-permission-overlay').style.display = 'none';
+                            startCompassListener(window.targetQiblaAngle);
+                        } else {
+                            toast("Izin kompas ditolak");
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                startCompassListener(window.targetQiblaAngle);
+            }
+        }
+
+        function startCompassListener(qiblaAngle) {
+            // Android modern menggunakan 'deviceorientationabsolute' untuk kompas magnetik
+            if ('ondeviceorientationabsolute' in window) {
+                window.addEventListener('deviceorientationabsolute', handleOrientation);
+            } else {
+                // Standar lama atau iOS
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        }
+
+        function handleOrientation(e) {
+            let alpha = e.alpha; // Arah ponsel (0-360) relatif utara
+            
+            // Fix untuk Android 'deviceorientationabsolute' vs webkitCompassHeading (iOS)
+            if(e.webkitCompassHeading) {
+                // iOS
+                alpha = e.webkitCompassHeading;
+            } else if (e.absolute === false) {
+                 // Sensor tidak kalibrasi absolute (biasanya gyro murni), kurang akurat untuk kompas
+                 // Tapi kita coba gunakan alpha apa adanya
+            }
+            
+            // Jika alpha null (laptop/device tanpa sensor)
+            if (alpha === null) return;
+
+            // 1. Putar Piringan Kompas
+            // Piringan harus berlawanan dengan arah ponsel agar 'N' tetap menunjuk Utara
+            const disc = document.getElementById('compass-disc');
+            disc.style.transform = `rotate(${-alpha}deg)`;
+
+            // 2. Update UI Teks
+            document.getElementById('alpha-text').innerText = Math.round(alpha) + "°";
+
+            // 3. Cek Kelurusan (Alignment)
+            // Logika: 
+            // - Piringan diputar -alpha. 
+            // - Indikator kiblat ada di posisi qiblaAngle (relatif piringan).
+            // - Posisi visual Indikator Kiblat di layar = qiblaAngle - alpha.
+            // - Kita ingin posisi visual mendekati 0 (atas lurus)
+            
+            let visualAngle = window.targetQiblaAngle - alpha;
+            // Normalisasi ke -180 s/d 180 agar hitungan selisih gampang
+            while (visualAngle < -180) visualAngle += 360;
+            while (visualAngle > 180) visualAngle -= 360;
+
+            const container = document.getElementById('qibla-container');
+            const statusText = document.getElementById('qibla-status');
+
+            // Toleransi +- 5 derajat
+            if (Math.abs(visualAngle) < 5) {
+                if (!container.classList.contains('aligned')) {
+                    container.classList.add('aligned');
+                    // Getar jika support
+                    if (navigator.vibrate) navigator.vibrate(50);
+                }
+                statusText.innerHTML = '<i class="ri-check-double-line"></i> Anda menghadap Kiblat';
+            } else {
+                container.classList.remove('aligned');
+                // Beri petunjuk arah
+                if (visualAngle > 0) {
+                    statusText.innerHTML = '<i class="ri-arrow-right-line"></i> Putar Kanan';
+                } else {
+                    statusText.innerHTML = '<i class="ri-arrow-left-line"></i> Putar Kiri';
+                }
+            }
+        }
+
+        function calculateQiblaAngle(lat, lng) {
+            const PI = Math.PI;
+            // Konversi ke radian
+            const phiK = MECCA_LAT * PI / 180.0;
+            const lambdaK = MECCA_LNG * PI / 180.0;
+            const phi = lat * PI / 180.0;
+            const lambda = lng * PI / 180.0;
+
+            const psi = 180.0 / PI * Math.atan2(
+                Math.sin(lambdaK - lambda),
+                Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda)
+            );
+            
+            return Math.round(psi < 0 ? psi + 360 : psi);
+        }
     </script>
 </body>
 </html>
