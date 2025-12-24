@@ -1393,7 +1393,6 @@
             color: var(--primary-dark);
         }
 
-
         /*arah kiblat*/
         /* --- QIBLA COMPASS STYLES --- */
         .qibla-container {
@@ -1581,6 +1580,147 @@
             box-shadow: 0 4px 15px rgba(0, 152, 96, 0.3);
         }
         /*akhir arah kiblat*/
+        
+        /* LAST READ VIEW */
+        #view-last-read {
+            background: #F9FAFB;
+        }
+        
+        .last-read-container {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .last-read-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .last-read-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+        
+        .last-read-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .last-read-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .last-read-option {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .last-read-option:active {
+            transform: scale(0.98);
+        }
+        
+        .last-read-option-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .last-read-option.surah .last-read-option-icon {
+            background: #EFF6FF;
+            color: #3B82F6;
+        }
+        
+        .last-read-option.mushaf .last-read-option-icon {
+            background: #F5F3FF;
+            color: #8B5CF6;
+        }
+        
+        .last-read-option-info {
+            flex: 1;
+        }
+        
+        .last-read-option-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+        
+        .last-read-option-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .last-read-option-arrow {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+        }
+        
+        .empty-last-read {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-last-read i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #E5E7EB;
+        }
+        
+        .empty-last-read h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+        
+        .empty-last-read p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-explore {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-explore:active {
+            transform: scale(0.98);
+            background: var(--primary-dark);
+        }
     </style>
 </head>
 <body>
@@ -1637,7 +1777,7 @@
                         <h4>Arah Kiblat</h4>
                         <span>Pencari Kiblat</span>
                     </div>
-                    <div class="exp-card exp-teal" onclick="toast('Lanjut membaca...')">
+                    <div class="exp-card exp-teal" onclick="openLastRead()">
                         <div class="exp-icon"><i class="ri-bookmark-3-line"></i></div>
                         <h4>Terakhir Baca</h4>
                         <span>Lanjutkan Ayat</span>
@@ -1814,6 +1954,26 @@
                     <button class="btn-permission" onclick="requestCompassPermission()">Izinkan Kompas</button>
                 </div>
 
+            </div>
+        </div>
+
+        <!-- Last Read View -->
+        <div id="view-last-read" class="overlay-view">
+            <div class="detail-header">
+                <div class="btn-back" onclick="closeLastRead()"><i class="ri-arrow-left-line"></i></div>
+                <div class="detail-title">
+                    <h2>Terakhir Baca</h2>
+                    <p>Lanjutkan dari posisi terakhir</p>
+                </div>
+            </div>
+            <div class="last-read-container">
+                <div class="last-read-header">
+                    <h2>Lanjutkan Membaca</h2>
+                    <p>Pilih dari mana Anda ingin melanjutkan</p>
+                </div>
+                <div class="last-read-options" id="last-read-options">
+                    <!-- Options will be dynamically generated -->
+                </div>
             </div>
         </div>
 
@@ -2031,7 +2191,7 @@
                     if(surah.nomor !== 1 && surah.nomor !== 9) { html += `<div class="bismillah-header">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`; }
                     data.ayat.forEach(a => {
                         html += `
-                            <div class="verse-item">
+                            <div class="verse-item" data-surah="${surah.nomor}" data-ayah="${a.nomorAyat}">
                                 <div class="verse-toolbar">
                                     <div class="verse-num">${a.nomorAyat}</div>
                                     <div class="verse-opts">
@@ -2045,19 +2205,71 @@
                         `;
                     });
                     list.innerHTML = html;
+                    
+                    // Set up scroll tracking for last read
+                    setupScrollTracking(surah.nomor);
                 })
                 .catch(err => { list.innerHTML = '<div class="empty-state">Gagal memuat ayat.</div>'; });
         }
 
-        function closeDetail() { document.getElementById('view-detail-surah').classList.remove('open'); }
+        function closeDetail() { 
+            document.getElementById('view-detail-surah').classList.remove('open'); 
+        }
+
+        // Function to track scroll position for last read
+        function setupScrollTracking(surahNumber) {
+            const detailContent = document.getElementById('detail-list');
+            
+            // Set up scroll event listener
+            detailContent.addEventListener('scroll', function() {
+                const scrollTop = detailContent.scrollTop;
+                const scrollHeight = detailContent.scrollHeight;
+                const clientHeight = detailContent.clientHeight;
+                
+                // Get all verse items
+                const verseItems = detailContent.querySelectorAll('.verse-item');
+                
+                // Find the current visible verse
+                let currentVerse = null;
+                for (let i = 0; i < verseItems.length; i++) {
+                    const item = verseItems[i];
+                    const itemTop = item.offsetTop;
+                    const itemHeight = item.offsetHeight;
+                    
+                    // Check if this verse is in view
+                    if (scrollTop + clientHeight * 0.5 >= itemTop && scrollTop + clientHeight * 0.5 <= itemTop + itemHeight) {
+                        currentVerse = {
+                            surah: surahNumber,
+                            ayah: parseInt(item.dataset.ayah),
+                            timestamp: new Date().toISOString()
+                        };
+                        break;
+                    }
+                }
+                
+                // Save current position to localStorage
+                if (currentVerse) {
+                    localStorage.setItem('last_read_surah', JSON.stringify(currentVerse));
+                }
+            });
+        }
 
         let currentMushafPage = 1;
         function openMushaf() {
             document.getElementById('view-mushaf').classList.add('open');
             const content = document.getElementById('mushaf-content');
-            if(content.innerHTML.trim() === "") { loadMushafText(currentMushafPage); }
+            if(content.innerHTML.trim() === "") { 
+                // Check if there's a saved page
+                const savedPage = localStorage.getItem('last_read_mushaf_page');
+                if (savedPage) {
+                    currentMushafPage = parseInt(savedPage);
+                }
+                loadMushafText(currentMushafPage); 
+            }
         }
-        function closeMushaf() { document.getElementById('view-mushaf').classList.remove('open'); }
+        function closeMushaf() { 
+            document.getElementById('view-mushaf').classList.remove('open'); 
+        }
 
         function loadMushafText(page) {
             const loader = document.getElementById('mushaf-loader');
@@ -2066,6 +2278,9 @@
 
             content.classList.remove('loaded'); content.style.opacity = '0';
             loader.style.display = 'flex'; input.value = page;
+            
+            // Save current page to localStorage
+            localStorage.setItem('last_read_mushaf_page', page.toString());
 
             fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`)
                 .then(r => r.json())
@@ -2094,7 +2309,7 @@
                 // --- FIX: Regex untuk menghapus Bismillah di awal ayat 1 (selain Fatihah & Taubah) ---
                 if(ayah.numberInSurah === 1 && ayah.surah.number !== 1 && ayah.surah.number !== 9) {
                     // Regex ini menangkap Bismillah dengan variasi Shadda dan spasi di awal string
-                    text = text.replace(/^بِسْمِ ٱلل(َّ|َّ)هِ ٱلر(َّ|َّ)حْمَٰنِ ٱلر(َّ|َّ)حِيمِ\s*/, '');
+                    text = text.replace(/^بِسْمِ ٱلل(َّ|َّ)هِ ٱلر(َّ|َّ)حْمَٰنِ ٱلر(َّ|َّ)حِيمِ\s*/, '');
                 }
 
                 html += `${text} <span class="ayah-marker">۝${arabNum}</span> `;
@@ -2216,17 +2431,132 @@
             }
         }
 
-        // 3. Inisialisasi Saat Aplikasi Dibuka
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedFont = localStorage.getItem('pref_mushaf_font') || 'LPMQ';
-            changeMushafFont(savedFont); // Set font dan update centang UI
+        // --- LAST READ FUNCTIONS ---
+        function openLastRead() {
+            document.getElementById('view-last-read').classList.add('open');
+            renderLastReadOptions();
+        }
+
+        function closeLastRead() {
+            document.getElementById('view-last-read').classList.remove('open');
+        }
+
+        function renderLastReadOptions() {
+            const container = document.getElementById('last-read-options');
+            container.innerHTML = '';
             
-            // Inisialisasi tanggal saat ini
-            updateCurrentDate();
+            // Get last read data
+            const lastReadSurah = JSON.parse(localStorage.getItem('last_read_surah') || 'null');
+            const lastReadMushafPage = localStorage.getItem('last_read_mushaf_page');
             
-            // Load jadwal sholat default (Jakarta)
-            loadPrayerTimes(-6.2088, 106.8456, "Jakarta");
-        });
+            // Check if there's any data
+            if (!lastReadSurah && !lastReadMushafPage) {
+                container.innerHTML = `
+                    <div class="empty-last-read">
+                        <i class="ri-book-2-line"></i>
+                        <h3>Belum Ada Riwayat Bacaan</h3>
+                        <p>Anda belum memiliki riwayat membaca. Mulai membaca untuk menyimpan posisi terakhir Anda.</p>
+                        <button class="btn-explore" onclick="closeLastRead(); switchTab('membaca', document.querySelector('.nav-item:nth-child(2)'))">
+                            <i class="ri-book-open-line"></i> Mulai Membaca
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Render surah option if available
+            if (lastReadSurah) {
+                const surahData = allSurahData.find(s => s.nomor === lastReadSurah.surah);
+                if (surahData) {
+                    const date = new Date(lastReadSurah.timestamp);
+                    const formattedDate = date.toLocaleDateString('id-ID', { 
+                        day: 'numeric', 
+                        month: 'long', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const surahOption = document.createElement('div');
+                    surahOption.className = 'last-read-option surah';
+                    surahOption.innerHTML = `
+                        <div class="last-read-option-icon">
+                            <i class="ri-book-2-line"></i>
+                        </div>
+                        <div class="last-read-option-info">
+                            <div class="last-read-option-title">${surahData.namaLatin} - Ayat ${lastReadSurah.ayah}</div>
+                            <div class="last-read-option-desc">${formattedDate}</div>
+                        </div>
+                        <div class="last-read-option-arrow">
+                            <i class="ri-arrow-right-s-line"></i>
+                        </div>
+                    `;
+                    
+                    surahOption.addEventListener('click', () => {
+                        closeLastRead();
+                        openDetailAndScrollToAyah(surahData, lastReadSurah.ayah);
+                    });
+                    
+                    container.appendChild(surahOption);
+                }
+            }
+            
+            // Render mushaf option if available
+            if (lastReadMushafPage) {
+                const mushafOption = document.createElement('div');
+                mushafOption.className = 'last-read-option mushaf';
+                mushafOption.innerHTML = `
+                    <div class="last-read-option-icon">
+                        <i class="ri-book-open-line"></i>
+                    </div>
+                    <div class="last-read-option-info">
+                        <div class="last-read-option-title">Halaman Mushaf ${lastReadMushafPage}</div>
+                        <div class="last-read-option-desc">Lanjutkan membaca dari halaman ${lastReadMushafPage}</div>
+                    </div>
+                    <div class="last-read-option-arrow">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </div>
+                `;
+                
+                mushafOption.addEventListener('click', () => {
+                    closeLastRead();
+                    openMushafAndJumpToPage(parseInt(lastReadMushafPage));
+                });
+                
+                container.appendChild(mushafOption);
+            }
+        }
+
+        function openDetailAndScrollToAyah(surah, ayahNumber) {
+            // Open the detail view
+            openDetail(surah);
+            
+            // Wait for the content to load
+            setTimeout(() => {
+                const detailList = document.getElementById('detail-list');
+                const targetVerse = document.querySelector(`.verse-item[data-surah="${surah.nomor}"][data-ayah="${ayahNumber}"]`);
+                
+                if (targetVerse) {
+                    // Scroll to the target verse
+                    targetVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Highlight the target verse
+                    targetVerse.style.background = 'var(--primary-light)';
+                    setTimeout(() => {
+                        targetVerse.style.background = '';
+                    }, 2000);
+                }
+            }, 1000);
+        }
+
+        function openMushafAndJumpToPage(pageNumber) {
+            // Open the mushaf view
+            openMushaf();
+            
+            // Jump to the specific page
+            currentMushafPage = pageNumber;
+            loadMushafText(currentMushafPage);
+        }
 
         // --- JADWAL SHOLAT FUNCTIONS ---
         function openPrayerTimes() {
@@ -2535,7 +2865,7 @@ function openLocationModal() {
             }
         }
 
- function searchCity() {
+function searchCity() {
     const searchTerm = document.getElementById('city-search').value.trim();
     if (!searchTerm) {
         toast("Masukkan nama kota");
@@ -2589,7 +2919,7 @@ function openLocationModal() {
                          let pCity = address.city;
                          // Paksa tambah "Kota" di konteks jika belum ada
                          if (!pCity.toLowerCase().startsWith('kota')) pCity = 'Kota ' + pCity;
-                         
+                        
                          // Cek redudansi
                          if (!finalName.includes(pCity.replace('Kota ', ''))) contextParts.push(pCity);
                     } 
@@ -2597,7 +2927,7 @@ function openLocationModal() {
                          let pKab = address.county;
                          // Paksa tambah "Kabupaten" di konteks jika belum ada
                          if (!pKab.toLowerCase().startsWith('kabupaten')) pKab = 'Kabupaten ' + pKab;
-                         
+                        
                          // Cek redudansi
                          if (!finalName.includes(pKab.replace('Kabupaten ', ''))) contextParts.push(pKab);
                     }
@@ -2834,6 +3164,20 @@ function selectCity(cityName, lat, lng) {
             
             return Math.round(psi < 0 ? psi + 360 : psi);
         }
+    </script>
+
+    <script>
+        // Initialize the app
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedFont = localStorage.getItem('pref_mushaf_font') || 'LPMQ';
+            changeMushafFont(savedFont); // Set font dan update centang UI
+            
+            // Inisialisasi tanggal saat ini
+            updateCurrentDate();
+            
+            // Load jadwal sholat default (Jakarta)
+            loadPrayerTimes(-6.2088, 106.8456, "Jakarta");
+        });
     </script>
 </body>
 </html>
