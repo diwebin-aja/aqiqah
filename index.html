@@ -1669,9 +1669,20 @@
     <audio id="audio"></audio>
 
     <script>
-        let allSurahData = [];
-        const audio = document.getElementById('audio');
-        let activeAudioId = null;
+    let allSurahData = [];
+    const audio = document.getElementById('audio');
+    let activeAudioId = null;
+
+    // --- TEMPEL KODE const defaultCities DI SINI ---
+    const defaultCities = [
+        { name: 'Jakarta', lat: -6.2088, lng: 106.8456 },
+        { name: 'Surabaya', lat: -7.2575, lng: 112.7521 },
+        { name: 'Bandung', lat: -6.9175, lng: 107.6191 },
+        { name: 'Medan', lat: 3.5952, lng: 98.6722 },
+        { name: 'Semarang', lat: -6.9667, lng: 110.4167 }
+    ];
+    
+    // ... kode fetch API surat ...
 
         fetch('https://equran.id/api/v2/surat')
             .then(r => r.json())
@@ -2091,37 +2102,56 @@
             return date;
         }
 
-        function updateNextPrayer(timings) {
-            const now = new Date();
-            const prayers = [
-                { name: 'Subuh', time: parseTime(timings.Fajr) },
-                { name: 'Dzuhur', time: parseTime(timings.Dhuhr) },
-                { name: 'Ashar', time: parseTime(timings.Asr) },
-                { name: 'Maghrib', time: parseTime(timings.Maghrib) },
-                { name: 'Isya', time: parseTime(timings.Isha) }
-            ];
-            
-            // Cari sholat selanjutnya
-            let nextPrayer = null;
-            for (const prayer of prayers) {
-                // Jika waktu sholat sudah lewat hari ini, set untuk besok
-                if (prayer.time <= now) {
-                    prayer.time.setDate(prayer.time.getDate() + 1);
-                }
-                
-                if (!nextPrayer || prayer.time < nextPrayer.time) {
-                    nextPrayer = prayer;
-                }
-            }
-            
-            if (nextPrayer) {
-                document.getElementById('next-prayer-name').textContent = nextPrayer.name;
-                
-                // Update countdown setiap detik
-                updateCountdown(nextPrayer.time);
-                setInterval(() => updateCountdown(nextPrayer.time), 1000);
-            }
+        // 1. Tambahkan variabel ini di bagian paling atas script (di bawah let activeAudioId)
+let countdownInterval = null; 
+
+// ... kode lainnya ...
+
+// 2. Ganti fungsi updateNextPrayer dengan versi perbaikan ini:
+function updateNextPrayer(timings) {
+    const now = new Date();
+    const prayers = [
+        { name: 'Subuh', time: parseTime(timings.Fajr) },
+        { name: 'Dzuhur', time: parseTime(timings.Dhuhr) },
+        { name: 'Ashar', time: parseTime(timings.Asr) },
+        { name: 'Maghrib', time: parseTime(timings.Maghrib) },
+        { name: 'Isya', time: parseTime(timings.Isha) }
+    ];
+    
+    // Cari sholat selanjutnya
+    let nextPrayer = null;
+    for (const prayer of prayers) {
+        // Jika waktu sholat sudah lewat hari ini, anggap untuk besok (logika sederhana)
+        // Catatan: Untuk akurasi penuh besok, idealnya fetch API untuk tanggal besok, 
+        // tapi logika ini cukup untuk handle countdown visual sementara.
+        if (prayer.time <= now) {
+            prayer.time.setDate(prayer.time.getDate() + 1);
         }
+        
+        if (!nextPrayer || prayer.time < nextPrayer.time) {
+            nextPrayer = prayer;
+        }
+    }
+    
+    if (nextPrayer) {
+        document.getElementById('next-prayer-name').textContent = nextPrayer.name;
+        
+        // --- PERBAIKAN DI SINI ---
+        
+        // 1. Hentikan interval yang sedang berjalan (jika ada)
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+
+        // 2. Jalankan fungsi update sekali agar tidak menunggu 1 detik
+        updateCountdown(nextPrayer.time);
+
+        // 3. Simpan ID interval baru ke variabel global
+        countdownInterval = setInterval(() => {
+            updateCountdown(nextPrayer.time);
+        }, 1000);
+    }
+}
 
         function updateCountdown(targetTime) {
             const now = new Date();
@@ -2182,9 +2212,57 @@
         }
 
         // --- LOKASI MODAL FUNCTIONS ---
-        function openLocationModal() {
-            document.getElementById('location-modal').classList.add('open');
-        }
+        // --- CARI DAN GANTI FUNGSI openLocationModal() DENGAN INI ---
+
+// --- FUNGSI BUKA MODAL (DIPERBARUI UNTUK MEMUAT RIWAYAT + DEFAULT) ---
+function openLocationModal() {
+    // 1. Reset Input Pencarian
+    document.getElementById('city-search').value = '';
+
+    const citiesContainer = document.getElementById('location-cities');
+    citiesContainer.innerHTML = ''; // Bersihkan container
+
+    // 2. Ambil Riwayat dari LocalStorage
+    const history = JSON.parse(localStorage.getItem('prayer_city_history')) || [];
+
+    // 3. Gabungkan: [Riwayat] + [Default Cities]
+    // Filter kota default agar tidak muncul double jika sudah ada di riwayat
+    const historyNames = history.map(h => h.name);
+    const filteredDefaults = defaultCities.filter(d => !historyNames.includes(d.name));
+    
+    const finalDisplayList = [...history, ...filteredDefaults];
+
+    // 4. Render HTML
+    finalDisplayList.forEach((city, index) => {
+        // Cek apakah ini item dari riwayat (index kurang dari panjang history)
+        const isHistory = index < history.length;
+        
+        // Ikon berbeda untuk riwayat (jam) dan default (pin map)
+        const iconClass = isHistory ? 'ri-history-line' : 'ri-map-pin-line';
+        const iconColor = isHistory ? '#F59E0B' : 'var(--primary)'; // Kuning untuk riwayat
+
+        const div = document.createElement('div');
+        div.className = 'city-option';
+        
+        // Cek jika ini lokasi yang sedang aktif sekarang
+        const currentLocation = JSON.parse(localStorage.getItem('prayer_location') || '{}');
+        if(currentLocation.name === city.name) div.classList.add('active');
+
+        div.onclick = () => selectCity(city.name, city.lat, city.lng);
+        
+        div.innerHTML = `
+            <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:600; font-size:14px; color:var(--text-main);">${city.name}</span>
+                ${isHistory ? '<span style="font-size:10px; color:#9CA3AF;">Terakhir dicari</span>' : ''}
+            </div>
+            <i class="${iconClass}" style="color:${iconColor}; font-size: 16px;"></i>
+        `;
+        citiesContainer.appendChild(div);
+    });
+
+    // 5. Tampilkan Modal
+    document.getElementById('location-modal').classList.add('open');
+}
 
         function closeLocationModal() {
             document.getElementById('location-modal').classList.remove('open');
@@ -2223,64 +2301,152 @@
             }
         }
 
-        function searchCity() {
-            const searchTerm = document.getElementById('city-search').value.trim();
-            if (!searchTerm) {
-                toast("Masukkan nama kota");
-                return;
-            }
-            
-            // Gunakan API Nominatim untuk mencari kota
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchTerm}, Indonesia&limit=5`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        const citiesContainer = document.getElementById('location-cities');
-                        citiesContainer.innerHTML = '';
-                        
-                        data.forEach(city => {
-                            const cityName = city.display_name.split(',')[0];
-                            const lat = parseFloat(city.lat);
-                            const lng = parseFloat(city.lon);
-                            
-                            const cityOption = document.createElement('div');
-                            cityOption.className = 'city-option';
-                            cityOption.innerHTML = `
-                                <span>${cityName}</span>
-                                <i class="ri-check-line"></i>
-                            `;
-                            cityOption.onclick = () => {
-                                selectCity(cityName, lat, lng);
-                            };
-                            
-                            citiesContainer.appendChild(cityOption);
-                        });
-                    } else {
-                        toast("Kota tidak ditemukan");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error searching city:', error);
-                    toast("Gagal mencari kota");
-                });
-        }
+ function searchCity() {
+    const searchTerm = document.getElementById('city-search').value.trim();
+    if (!searchTerm) {
+        toast("Masukkan nama kota");
+        return;
+    }
+    
+    const citiesContainer = document.getElementById('location-cities');
+    citiesContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#9CA3AF;"><i class="ri-loader-4-line spin"></i> Mencari...</div>';
 
-        function selectCity(cityName, lat, lng) {
-            // Update UI
-            document.querySelectorAll('.city-option').forEach(el => {
-                el.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-            
-            // Load prayer times for selected city
-            loadPrayerTimes(lat, lng, cityName);
-            
-            // Close modal
-            closeLocationModal();
-            
-            // Show toast
-            toast(`Lokasi diperbarui: ${cityName}`);
-        }
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchTerm}&countrycodes=id&addressdetails=1&limit=15&accept-language=id`)
+        .then(response => response.json())
+        .then(data => {
+            citiesContainer.innerHTML = '';
+
+            if (data && data.length > 0) {
+                // Set ini akan menyimpan "Kunci Unik" dari apa yang SUDAH ditampilkan
+                const displayedEntries = new Set(); 
+
+                data.forEach(city => {
+                    // --- 1. BERSIHKAN NAMA ---
+                    // Hapus awalan apapun yang datang dari API agar kita bisa melabeli ulang dengan benar
+                    let cleanName = city.name.replace(/^(Kota|Kabupaten|Kecamatan|Kelurahan|Desa)\s+/i, '');
+                    
+                    const type = city.addresstype; 
+                    const address = city.address;
+
+                    // --- 2. DETEKSI HIERARKI (Induk/Anak) ---
+                    // Cek apakah lokasi ini punya induk (Kota/Kabupaten lain)
+                    let hasParent = false;
+                    if (address.city && !cleanName.includes(address.city.replace(/^(Kota)\s+/i, ''))) hasParent = true;
+                    if (address.county && !cleanName.includes(address.county.replace(/^(Kabupaten)\s+/i, ''))) hasParent = true;
+
+                    // --- 3. TENTUKAN LABEL (PREFIX) ---
+                    let finalName = cleanName;
+
+                    if (!hasParent) {
+                        // Hanya beri label Kota/Kabupaten jika dia adalah INDUK (tidak punya parent di atasnya)
+                        if (type === 'city') {
+                            finalName = 'Kota ' + cleanName;
+                        } else if (type === 'county') {
+                            finalName = 'Kabupaten ' + cleanName;
+                        }
+                    }
+                    // Jika dia Kecamatan (seperti Trowulan), hasParent akan true, jadi nama tetap "Trowulan" tanpa "Kota".
+
+                    // --- 4. SUSUN KONTEKS (Baris Bawah) ---
+                    let contextParts = [];
+                    
+                    // Logika menyusun teks bawah (Induk Wilayah)
+                    if (address.city && finalName !== address.city) {
+                         let pCity = address.city;
+                         // Paksa tambah "Kota" di konteks jika belum ada
+                         if (!pCity.toLowerCase().startsWith('kota')) pCity = 'Kota ' + pCity;
+                         
+                         // Cek redudansi
+                         if (!finalName.includes(pCity.replace('Kota ', ''))) contextParts.push(pCity);
+                    } 
+                    else if (address.county && finalName !== address.county) {
+                         let pKab = address.county;
+                         // Paksa tambah "Kabupaten" di konteks jika belum ada
+                         if (!pKab.toLowerCase().startsWith('kabupaten')) pKab = 'Kabupaten ' + pKab;
+                         
+                         // Cek redudansi
+                         if (!finalName.includes(pKab.replace('Kabupaten ', ''))) contextParts.push(pKab);
+                    }
+
+                    if (address.state) contextParts.push(address.state);
+                    const contextText = contextParts.join(', ');
+
+                    // --- 5. FILTER DUPLIKAT BERDASARKAN TAMPILAN (FIX FINAL) ---
+                    // Kita gabungkan Nama Final + Teks Konteks.
+                    // Jika "Trowulan" + "Kabupaten Mojokerto, Jawa Timur" sudah pernah dibuat,
+                    // maka data berikutnya yang menghasilkan teks SAMA PERSIS akan dibuang.
+                    
+                    const uniqueDisplayKey = (finalName + contextText).toLowerCase().trim();
+
+                    if (!displayedEntries.has(uniqueDisplayKey)) {
+                        displayedEntries.add(uniqueDisplayKey); // Catat bahwa tampilan ini sudah ada
+                        
+                        const lat = parseFloat(city.lat);
+                        const lng = parseFloat(city.lon);
+                        
+                        const cityOption = document.createElement('div');
+                        cityOption.className = 'city-option';
+                        cityOption.innerHTML = `
+                            <div style="display:flex; flex-direction:column; gap:2px; overflow:hidden;">
+                                <span style="font-weight:600; font-size:14px; color:var(--text-main);">${finalName}</span>
+                                <span style="font-size:11px; color:#6B7280; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${contextText}</span>
+                            </div>
+                            <i class="ri-check-line" style="margin-left: 10px; flex-shrink: 0;"></i>
+                        `;
+                        
+                        cityOption.onclick = () => {
+                            selectCity(finalName, lat, lng);
+                        };
+                        
+                        citiesContainer.appendChild(cityOption);
+                    }
+                });
+                
+                if (citiesContainer.children.length === 0) {
+                     citiesContainer.innerHTML = '<div style="text-align:center; padding:10px; color:#9CA3AF;">Hasil tidak spesifik.</div>';
+                }
+
+            } else {
+                citiesContainer.innerHTML = '<div style="text-align:center; padding:10px; color:#9CA3AF;">Kota tidak ditemukan</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error searching city:', error);
+            citiesContainer.innerHTML = '';
+            toast("Gagal mencari kota");
+        });
+}
+
+        // --- FUNGSI PILIH KOTA (DIPERBARUI UNTUK MENYIMPAN RIWAYAT) ---
+function selectCity(cityName, lat, lng) {
+    // 1. Simpan ke LocalStorage sebagai riwayat
+    let history = JSON.parse(localStorage.getItem('prayer_city_history')) || [];
+    
+    // Hapus kota jika sudah ada sebelumnya (supaya tidak duplikat & naik ke atas)
+    history = history.filter(c => c.name !== cityName);
+    
+    // Masukkan ke posisi paling atas (unshift)
+    history.unshift({ name: cityName, lat: lat, lng: lng });
+    
+    // Batasi riwayat maksimal 3 kota terakhir agar tidak terlalu panjang
+    if(history.length > 3) history.pop(); 
+
+    localStorage.setItem('prayer_city_history', JSON.stringify(history));
+
+    // 2. Update Tampilan UI (Active State)
+    document.querySelectorAll('.city-option').forEach(el => {
+        el.classList.remove('active');
+    });
+    // (Opsional) Highlight elemen yang diklik jika ada di DOM
+    if(event && event.currentTarget) event.currentTarget.classList.add('active');
+
+    // 3. Load Jadwal Sholat
+    loadPrayerTimes(lat, lng, cityName);
+    
+    // 4. Tutup Modal & Toast
+    closeLocationModal();
+    toast(`Lokasi diperbarui: ${cityName}`);
+}
     </script>
 </body>
 </html>
