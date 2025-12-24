@@ -697,18 +697,18 @@
 
         /* OVERLAYS */
         .overlay-view {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            bottom: 0; /* Updated sesuai instruksi */
-            background: #fff;
-            z-index: 50;
-            display: none;
-            flex-direction: column;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
+    position: fixed; /* Ubah dari absolute ke fixed agar menempel kuat di layar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Gunakan height 100% daripada bottom:0 untuk stabilitas mobile */
+    background: #fff;
+    z-index: 100; /* Pastikan lebih tinggi dari bottom-nav (yang 40) */
+    display: none;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
 
         .overlay-view.open {
             transform: translateX(0);
@@ -724,6 +724,8 @@
             background: #fff;
             flex-shrink: 0;
             gap: 15px;
+            position: relative;
+            z-index: 10;
         }
 
         .btn-back {
@@ -2528,26 +2530,45 @@
         }
 
         function openDetailAndScrollToAyah(surah, ayahNumber) {
-            // Open the detail view
-            openDetail(surah);
+    // 1. Buka view detail
+    openDetail(surah);
+    
+    // 2. Tunggu sebentar agar konten termuat (Fetch API selesai & DOM render)
+    // Kita gunakan interval checking agar lebih akurat daripada sekadar setTimeout statis
+    const checkExist = setInterval(() => {
+        const detailList = document.getElementById('detail-list');
+        const targetVerse = detailList.querySelector(`.verse-item[data-ayah="${ayahNumber}"]`);
+        
+        // Jika elemen sudah ditemukan di DOM
+        if (targetVerse) {
+            clearInterval(checkExist); // Hentikan pengecekan
+
+            // --- LOGIKA SCROLL BARU (MENGGUNAKAN SCROLLTOP) ---
+            // Rumus: Posisi Element - (Setengah Tinggi Layar) + (Setengah Tinggi Element)
+            // Ini akan menaruh elemen persis di tengah container tanpa menggeser body
             
-            // Wait for the content to load
+            const elementPosition = targetVerse.offsetTop;
+            const containerHeight = detailList.clientHeight;
+            const elementHeight = targetVerse.clientHeight;
+            
+            detailList.scrollTo({
+                top: elementPosition - (containerHeight / 2) + (elementHeight / 2),
+                behavior: 'smooth'
+            });
+
+            // --- LOGIKA HIGHLIGHT (TETAP SAMA) ---
+            targetVerse.style.transition = "background 0.5s";
+            targetVerse.style.background = 'var(--primary-light)';
+            
             setTimeout(() => {
-                const detailList = document.getElementById('detail-list');
-                const targetVerse = document.querySelector(`.verse-item[data-surah="${surah.nomor}"][data-ayah="${ayahNumber}"]`);
-                
-                if (targetVerse) {
-                    // Scroll to the target verse
-                    targetVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Highlight the target verse
-                    targetVerse.style.background = 'var(--primary-light)';
-                    setTimeout(() => {
-                        targetVerse.style.background = '';
-                    }, 2000);
-                }
-            }, 1000);
+                targetVerse.style.background = '';
+            }, 2000);
         }
+    }, 100); // Cek setiap 100ms
+
+    // Safety timeout: Hentikan interval jika data tidak muncul dalam 5 detik (misal error jaringan)
+    setTimeout(() => clearInterval(checkExist), 5000);
+}
 
         function openMushafAndJumpToPage(pageNumber) {
             // Open the mushaf view
