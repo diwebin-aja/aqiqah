@@ -1813,6 +1813,68 @@
 }
 
 /* Doa Styles - Menggunakan ulang style card yang ada */
+/* --- STYLE PENCARIAN DOA --- */
+
+/* Style tombol toggle di header */
+.btn-search-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 20px;
+    /* Reset margin dari class font-trigger-btn sebelumnya jika ada */
+    margin-left: auto; 
+}
+
+/* Transisi putaran ikon */
+.btn-search-toggle i {
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Keadaan aktif (saat tombol X) */
+.btn-search-toggle.active {
+    background: #FEE2E2; /* Merah muda lembut */
+    color: #EF4444;       /* Merah */
+    border-color: #FECACA;
+}
+
+.btn-search-toggle.active i {
+    transform: rotate(90deg); /* Efek memutar saat ganti icon */
+}
+
+/* Area Drawer Pencarian */
+/* Container pembungkus drawer */
+.search-drawer {
+    background: #fff;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 20px; /* Padding kiri-kanan */
+    
+    /* Transisi halus */
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Saat drawer terbuka */
+.search-drawer.open {
+    /* Perbesar max-height agar muat input + margin */
+    max-height: 100px; 
+    opacity: 1;
+    
+    /* Beri ruang atas dan bawah yang cukup */
+    padding-top: 32px;
+    padding-bottom: 42px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Pastikan input tidak memiliki margin aneh */
+.search-drawer .search-wrap {
+    margin-top: 0;
+    width: 100%;
+}
+
 .doa-arabic {
     /* UBAH PRIORITAS FONT KE AMIRI */
     font-family: 'Amiri', 'LPMQ Isep Misbah', 'Scheherazade New', serif;
@@ -1962,17 +2024,20 @@
             <h2>Doa Harian</h2>
             <p>Kumpulan doa sehari-hari</p>
         </div>
+        <div class="font-trigger-btn btn-search-toggle" onclick="toggleDoaSearch()">
+            <i class="ri-search-2-line" id="icon-search-doa"></i>
+        </div>
     </div>
     
-    <div style="padding: 0 20px 10px; padding-top: 10px; background: #fff; border-bottom: 1px solid #f0f0f0;">
+    <div id="doa-search-bar" class="search-drawer">
         <div class="search-wrap" style="margin-top: 0;">
-            <input type="text" class="search-input" placeholder="Cari doa (misal: tidur)..." oninput="filterDoa(this.value)">
+            <input type="text" id="input-doa" class="search-input" placeholder="Cari doa (misal: tidur)..." oninput="filterDoa(this.value)">
             <i class="ri-search-2-line"></i>
         </div>
     </div>
 
     <div class="content-list" id="list-doa" style="overflow-y: auto; background: #F9FAFB;">
-        </div>
+  </div>
 </div>
 
         </div>
@@ -3504,6 +3569,60 @@ function filterDoa(val) {
     const filtered = allDoaData.filter(item => item.judul.toLowerCase().includes(v));
     renderDoaList(filtered);
 }    
+
+// --- LOGIKA TOGGLE PENCARIAN DOA ---
+
+function toggleDoaSearch() {
+    const searchBar = document.getElementById('doa-search-bar');
+    const icon = document.getElementById('icon-search-doa');
+    const btn = document.querySelector('.btn-search-toggle');
+    const input = document.getElementById('input-doa');
+
+    // Cek apakah sedang terbuka
+    const isOpen = searchBar.classList.contains('open');
+
+    if (isOpen) {
+        // --- MENUTUP ---
+        searchBar.classList.remove('open');
+        btn.classList.remove('active');
+        
+        // Kembalikan ikon search
+        icon.className = 'ri-search-2-line';
+        
+        // Opsional: Kosongkan pencarian saat ditutup
+        // input.value = ''; 
+        // filterDoa('');
+        
+    } else {
+        // --- MEMBUKA ---
+        searchBar.classList.add('open');
+        btn.classList.add('active');
+        
+        // Ganti ke ikon silang (X)
+        icon.className = 'ri-close-line';
+        
+        // Fokus otomatis ke input agar keyboard muncul
+        setTimeout(() => {
+            input.focus();
+        }, 100); // Delay sedikit menunggu animasi
+    }
+}
+
+// Update fungsi closeDoa agar mereset tampilan pencarian saat keluar
+function closeDoa() {
+    document.getElementById('view-doa').classList.remove('open');
+    
+    // Reset Search Bar ke keadaan tertutup (default)
+    const searchBar = document.getElementById('doa-search-bar');
+    const icon = document.getElementById('icon-search-doa');
+    const btn = document.querySelector('.btn-search-toggle');
+
+    if(searchBar && searchBar.classList.contains('open')) {
+        searchBar.classList.remove('open');
+        btn.classList.remove('active');
+        icon.className = 'ri-search-2-line';
+    }
+}
 </script>
 </body>
 </html>
