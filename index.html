@@ -1723,6 +1723,121 @@
             transform: scale(0.98);
             background: var(--primary-dark);
         }
+
+        /* --- STYLE TAMBAHAN TASBIH & DOA --- */
+.exp-indigo { color: #6366F1; }
+.exp-indigo .exp-icon { background: #EEF2FF; color: #6366F1; }
+
+.exp-pink { color: #EC4899; }
+.exp-pink .exp-icon { background: #FDF2F8; color: #EC4899; }
+
+/* Tasbih Styles */
+.tasbih-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FDFCF8;
+    position: relative;
+}
+
+.tasbih-display {
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 40px;
+    text-shadow: 0 4px 20px rgba(0, 152, 96, 0.1);
+}
+
+.btn-tasbih-tap {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #009860 0%, #007046 100%);
+    box-shadow: 0 10px 40px rgba(0, 152, 96, 0.3), inset 0 4px 10px rgba(255,255,255,0.2);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-tasbih-tap:active {
+    transform: scale(0.95);
+}
+
+.btn-tasbih-tap i { font-size: 48px; margin-bottom: 5px; }
+.btn-tasbih-tap span { font-size: 16px; font-weight: 600; opacity: 0.9; }
+
+/* Efek Ripple saat klik */
+.btn-tasbih-tap::after {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s, transform 0.3s;
+}
+.btn-tasbih-tap:active::after {
+    opacity: 1;
+    transform: scale(1.5);
+    transition: 0s;
+}
+
+.tasbih-controls {
+    margin-top: 50px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-tasbih-reset {
+    background: #FEE2E2;
+    color: #EF4444;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Doa Styles - Menggunakan ulang style card yang ada */
+.doa-arabic {
+    font-family: 'Scheherazade New', serif;
+    font-size: 30px; /* Ukuran font diperbesar */
+    color: var(--text-main);
+    text-align: right;
+    margin: 20px 0; /* Jarak atas bawah agar tidak mepet */
+    line-height: 2.4; /* PENTING: Jarak antar baris diperbesar agar harakat tidak terpotong */
+    width: 100%;
+    display: block;
+    padding: 5px 2px; /* Bantalan aman */
+    white-space: normal; /* Pastikan teks turun ke bawah (wrap) */
+}
+
+.doa-latin {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+.doa-arti {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
     </style>
 </head>
 <body>
@@ -1766,23 +1881,35 @@
                 <div class="explore-grid">
                     <div class="exp-card exp-blue" onclick="openMushaf()">
                         <div class="exp-icon"><i class="ri-book-open-fill"></i></div>
-                        <h4>Per Halaman</h4>
-                        <span>Jumlah 604 Hal</span>
+                        <h4>Al-Qur'an</h4>
+                        <span>Jumlah 604 Halaman</span>
                     </div>
                     <div class="exp-card exp-purple" onclick="openPrayerTimes()">
                         <div class="exp-icon"><i class="ri-time-line"></i></div>
                         <h4>Jadwal Sholat</h4>
                         <span>Waktu Setempat</span>
                     </div>
+                    <div class="exp-card exp-teal" onclick="openLastRead()">
+                        <div class="exp-icon"><i class="ri-bookmark-3-line"></i></div>
+                        <h4>Terakhir Baca</h4>
+                        <span>Lanjutkan Ayat</span>
+                    </div>
                     <div class="exp-card exp-orange" onclick="openQibla()">
                         <div class="exp-icon"><i class="ri-compass-discover-line"></i></div>
                         <h4>Arah Kiblat</h4>
                         <span>Pencari Kiblat</span>
                     </div>
-                    <div class="exp-card exp-teal" onclick="openLastRead()">
-                        <div class="exp-icon"><i class="ri-bookmark-3-line"></i></div>
-                        <h4>Terakhir Baca</h4>
-                        <span>Lanjutkan Ayat</span>
+
+                    <div class="exp-card exp-indigo" onclick="openTasbih()">
+                      <div class="exp-icon"><i class="ri-add-circle-line"></i></div>
+                        <h4>Tasbih</h4>
+                        <span>Penghitung Dzikir</span>
+                    </div>
+
+                    <div class="exp-card exp-pink" onclick="openDoa()">
+                      <div class="exp-icon"><i class="ri-hand-heart-line"></i></div>
+                        <h4>Doa Harian</h4>
+                        <span>Kumpulan Doa</span>
                     </div>
                 </div>
             </div>
@@ -1794,6 +1921,50 @@
                     <p>Sesuaikan aplikasi dengan preferensi Anda.</p>
                 </div>
             </div>
+
+            <div id="view-tasbih" class="overlay-view">
+    <div class="detail-header">
+        <div class="btn-back" onclick="closeTasbih()"><i class="ri-arrow-left-line"></i></div>
+        <div class="detail-title">
+            <h2>Tasbih Digital</h2>
+            <p>Penghitung Dzikir</p>
+        </div>
+    </div>
+    <div class="tasbih-container">
+        <div class="tasbih-display" id="tasbih-count">0</div>
+        
+        <button class="btn-tasbih-tap" onclick="addTasbihCount()">
+            <i class="ri-fingerprint-line"></i>
+            <span>Tekan</span>
+        </button>
+
+        <div class="tasbih-controls">
+            <button class="btn-tasbih-reset" onclick="resetTasbih()">
+                <i class="ri-refresh-line"></i> Reset
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="view-doa" class="overlay-view">
+    <div class="detail-header">
+        <div class="btn-back" onclick="closeDoa()"><i class="ri-arrow-left-line"></i></div>
+        <div class="detail-title">
+            <h2>Doa Harian</h2>
+            <p>Kumpulan doa sehari-hari</p>
+        </div>
+    </div>
+    
+    <div style="padding: 0 20px 10px; padding-top: 10px; background: #fff; border-bottom: 1px solid #f0f0f0;">
+        <div class="search-wrap" style="margin-top: 0;">
+            <input type="text" class="search-input" placeholder="Cari doa (misal: tidur)..." oninput="filterDoa(this.value)">
+            <i class="ri-search-2-line"></i>
+        </div>
+    </div>
+
+    <div class="content-list" id="list-doa" style="overflow-y: auto; background: #F9FAFB;">
+        </div>
+</div>
 
         </div>
 
@@ -2182,7 +2353,7 @@
 
             title.innerText = surah.namaLatin;
             info.innerText = `${surah.arti} • ${surah.jumlahAyat} Ayat`;
-            list.innerHTML = '<div class="loading"><i class="ri-loader-4-line spin"></i><br>Mengambil Ayat...</div>';
+            list.innerHTML = '<div class="loading"><i class="ri-loader-4-line spin"></i><br>Loading...</div>';
             view.classList.add('open'); 
 
             fetch(`https://equran.id/api/v2/surat/${surah.nomor}`)
@@ -2298,24 +2469,31 @@
         function renderMushafPage(ayahs) {
             const content = document.getElementById('mushaf-content');
             let html = '';
+            
             ayahs.forEach(ayah => {
+                
                 if (ayah.numberInSurah === 1) {
-                    const surahName = ayah.surah.name; 
+                    const surahName = ayah.surah.name;
                     html += `<div class="surah-separator"><div class="surah-box"><span class="surah-name-display">${surahName}</span></div>`;
-                    if (ayah.surah.number !== 1 && ayah.surah.number !== 9) { html += `<span class="bismillah-text">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</span>`; }
+                    
+                    // Tampilkan Bismillah Header kecuali Fatihah (1) dan Taubah (9)
+                    if (ayah.surah.number !== 1 && ayah.surah.number !== 9) {
+                        html += `<span class="bismillah-text">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</span>`; 
+                    }
                     html += `</div>`;
                 }
+
                 const arabNum = toArabicNumerals(ayah.numberInSurah);
                 let text = ayah.text;
-                
-                // --- FIX: Regex untuk menghapus Bismillah di awal ayat 1 (selain Fatihah & Taubah) ---
+
                 if(ayah.numberInSurah === 1 && ayah.surah.number !== 1 && ayah.surah.number !== 9) {
-                    // Regex ini menangkap Bismillah dengan variasi Shadda dan spasi di awal string
-                    text = text.replace(/^بِسْمِ ٱلل(َّ|َّ)هِ ٱلر(َّ|َّ)حْمَٰنِ ٱلر(َّ|َّ)حِيمِ\s*/, '');
+                    
+                    text = text.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\s*/, '');
                 }
 
                 html += `${text} <span class="ayah-marker">۝${arabNum}</span> `;
             });
+            
             content.innerHTML = html;
         }
 
@@ -3200,5 +3378,123 @@ function selectCity(cityName, lat, lng) {
             loadPrayerTimes(-6.2088, 106.8456, "Jakarta");
         });
     </script>
+
+    <script>
+        /* --- LOGIKA TASBIH DIGITAL --- */
+let tasbihCounter = 0;
+
+function openTasbih() {
+    document.getElementById('view-tasbih').classList.add('open');
+    // Ambil nilai terakhir dari localStorage
+    tasbihCounter = parseInt(localStorage.getItem('tasbih_count') || '0');
+    updateTasbihDisplay();
+}
+
+function closeTasbih() {
+    document.getElementById('view-tasbih').classList.remove('open');
+}
+
+function addTasbihCount() {
+    tasbihCounter++;
+    updateTasbihDisplay();
+    
+    // Efek getar HP jika didukung
+    if(navigator.vibrate) navigator.vibrate(30);
+}
+
+function resetTasbih() {
+    if(confirm("Reset hitungan ke 0?")) {
+        tasbihCounter = 0;
+        updateTasbihDisplay();
+        if(navigator.vibrate) navigator.vibrate(50);
+    }
+}
+
+function updateTasbihDisplay() {
+    document.getElementById('tasbih-count').innerText = tasbihCounter;
+    localStorage.setItem('tasbih_count', tasbihCounter);
+}
+
+
+/* --- LOGIKA DOA HARIAN (VERSI API JSON) --- */
+let allDoaData = []; // Variabel global untuk menampung data API
+
+function openDoa() {
+    document.getElementById('view-doa').classList.add('open');
+    
+    // Cek apakah data sudah pernah diambil? Jika belum, ambil dari API
+    if (allDoaData.length === 0) {
+        getDoaFromApi();
+    }
+}
+
+function closeDoa() {
+    document.getElementById('view-doa').classList.remove('open');
+}
+
+function getDoaFromApi() {
+    const listEl = document.getElementById('list-doa');
+    listEl.innerHTML = '<div class="loading"><i class="ri-loader-4-line spin"></i><br><br>Mengambil Data Doa...</div>';
+
+    // Menggunakan API Publik
+    fetch('https://open-api.my.id/api/doa')
+        .then(response => response.json())
+        .then(data => {
+            allDoaData = data; // Simpan ke variabel global agar pencarian cepat
+            renderDoaList(allDoaData);
+        })
+        .catch(err => {
+            console.error(err);
+            listEl.innerHTML = `
+                <div class="empty-state">
+                    <i class="ri-wifi-off-line"></i>
+                    <p>Gagal memuat doa. Periksa koneksi internet.</p>
+                    <button class="btn-explore" onclick="getDoaFromApi()" style="margin-top:10px;">Coba Lagi</button>
+                </div>`;
+        });
+}
+
+/* GANTI FUNGSI renderDoaList YANG LAMA DENGAN INI */
+function renderDoaList(data) {
+    const listEl = document.getElementById('list-doa');
+    listEl.innerHTML = '';
+    
+    if (data.length === 0) {
+        listEl.innerHTML = '<div class="empty-state">Doa tidak ditemukan</div>';
+        return;
+    }
+
+    data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        
+        // --- PERBAIKAN UTAMA DI SINI ---
+        // Memaksa kartu untuk memanjang otomatis mengikuti isi teks
+        div.style.flexDirection = 'column'; 
+        div.style.alignItems = 'flex-start';
+        div.style.gap = '10px';
+        div.style.height = 'auto';           // KUNCI: Biarkan tinggi otomatis
+        div.style.minHeight = 'fit-content'; // KUNCI: Sesuaikan dengan konten
+        div.style.paddingBottom = '30px';    // Tambahan padding bawah agar lega
+        
+        div.innerHTML = `
+            <h3 style="font-size: 16px; color: var(--text-main); width:100%; border-bottom:1px dashed #eee; padding-bottom:10px; margin-bottom:5px;">
+                ${item.judul}
+            </h3>
+            <div class="doa-arabic">${item.arab}</div>
+            <div class="doa-latin">${item.latin}</div>
+            <div class="doa-arti">${item.terjemah}</div>
+        `;
+        listEl.appendChild(div);
+    });
+}
+
+function filterDoa(val) {
+    const v = val.toLowerCase();
+    // Filter berdasarkan variabel global allDoaData
+    const filtered = allDoaData.filter(item => item.judul.toLowerCase().includes(v));
+    renderDoaList(filtered);
+}    
+</script>
 </body>
 </html>
