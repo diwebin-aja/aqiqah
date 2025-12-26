@@ -1814,16 +1814,25 @@
 
 /* Doa Styles - Menggunakan ulang style card yang ada */
 .doa-arabic {
-    font-family: 'amiri', serif;
-    font-size: 30px; /* Ukuran font diperbesar */
+    /* UBAH PRIORITAS FONT KE AMIRI */
+    font-family: 'Amiri', 'LPMQ Isep Misbah', 'Scheherazade New', serif;
+    
+    font-size: 30px; /* Amiri sedikit lebih tebal, size 30px sudah cukup */
     color: var(--text-main);
     text-align: right;
-    margin: 20px 0; /* Jarak atas bawah agar tidak mepet */
-    line-height: 2.4; /* PENTING: Jarak antar baris diperbesar agar harakat tidak terpotong */
+    margin: 15px 0;
+    
+    /* PENTING UNTUK DOA: Jarak baris harus longgar */
+    line-height: 2.4; 
+    
     width: 100%;
     display: block;
-    padding: 5px 2px; /* Bantalan aman */
-    white-space: normal; /* Pastikan teks turun ke bawah (wrap) */
+    padding: 5px 2px;
+    white-space: normal;
+    
+    /* PENTING: Memaksa browser merender ligatur Arab dengan benar */
+    direction: rtl; 
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1; 
 }
 
 .doa-latin {
