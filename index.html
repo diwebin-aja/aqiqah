@@ -1854,7 +1854,7 @@
     padding: 0 20px; /* Padding kiri-kanan */
     
     /* Transisi halus */
-    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 /* Saat drawer terbuka */
@@ -1909,6 +1909,185 @@
     color: var(--text-muted);
     line-height: 1.5;
 }
+
+/* --- SETTING VIEW STYLES --- */
+.setting-container {
+    padding: 0 20px 80px 20px;
+}
+
+.setting-group-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin: 20px 0 10px 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.setting-card {
+    background: var(--surface);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: background 0.2s;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item:active {
+    background: #F9FAFB;
+}
+
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.setting-label i {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* iOS Switch Style */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #E5E7EB;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--primary);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Range Slider */
+.range-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: #E5E7EB;
+    outline: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- DARK MODE VARIABLES --- */
+body.dark-mode {
+    --bg-body: #111827;
+    --surface: #1F2937;
+    --text-main: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --primary-light: #064E3B; /* Hijau tua sekali */
+    --primary-dark: #34D399;  /* Hijau terang */
+}
+
+/* Dark mode overrides specific */
+body.dark-mode .view-container { background: #111827; }
+body.dark-mode .header { background: #1F2937; border-bottom-color: #374151; }
+body.dark-mode .search-input { background: #374151; color: white; }
+body.dark-mode .nav-item { color: #6B7280; }
+body.dark-mode .bottom-nav { background: #1F2937; border-top-color: #374151; }
+body.dark-mode .card, 
+body.dark-mode .exp-card, 
+body.dark-mode .setting-card,
+body.dark-mode .verse-item,
+body.dark-mode .surah-box,
+body.dark-mode .mushaf-controls,
+body.dark-mode .detail-header,
+body.dark-mode .overlay-view,
+body.dark-mode .modal-content,
+body.dark-mode .location-modal-content {
+    background: #1F2937;
+    border-color: #374151;
+    color: #F9FAFB;
+}
+body.dark-mode .detail-content,
+body.dark-mode .mushaf-container,
+body.dark-mode .qibla-container,
+body.dark-mode .tasbih-container {
+    background: #111827;
+}
+
+body.dark-mode .verse-num { background: #374151; color: var(--primary-dark); }
+body.dark-mode .verse-toolbar { background: #374151; }
+body.dark-mode .verse-latin { color: #D1D5DB; }
+body.dark-mode .btn-back { background: #374151; border-color: #4B5563; color: white; }
+body.dark-mode .compass-wrap { background: #374151; box-shadow: none; border: 1px solid #4B5563; }
+body.dark-mode .compass-disc { background: #1F2937; }
+body.dark-mode .qibla-status { background: #374151; color: #D1D5DB; }
     </style>
 </head>
 <body>
@@ -1986,12 +2165,86 @@
             </div>
 
             <div id="view-setting" class="view-section">
-                <div class="empty-state">
-                    <i class="ri-settings-4-line"></i>
-                    <h3>Pengaturan</h3>
-                    <p>Sesuaikan aplikasi dengan preferensi Anda.</p>
+    <div class="header">
+        <h1>Pengaturan</h1>
+        <p>Sesuaikan preferensi aplikasi</p>
+    </div>
+    
+    <div class="setting-container">
+        
+        <div class="setting-group-title">Tampilan</div>
+        <div class="setting-card">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <i class="ri-moon-line" style="background:#EEF2FF; color:#6366F1;"></i>
+                    <span>Mode Gelap</span>
                 </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-dark-mode" onchange="toggleDarkMode(this)">
+                    <span class="slider round"></span>
+                </label>
             </div>
+            
+            <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                <div class="setting-label" style="width: 100%; justify-content: space-between;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <i class="ri-font-size" style="background:#F0FDF4; color:#16A34A;"></i>
+                        <span>Ukuran Teks Arab</span>
+                    </div>
+                    <span id="font-size-val" style="font-size:12px; font-weight:700; color:var(--primary);">28px</span>
+                </div>
+                <input type="range" min="20" max="50" value="28" class="range-slider" id="slider-font-size" oninput="changeArabicFontSize(this.value)">
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-label">
+                    <i class="ri-translate-2" style="background:#FFF7ED; color:#EA580C;"></i>
+                    <span>Tampilkan Terjemahan</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-translation" checked onchange="toggleTranslation(this)">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="setting-group-title">Audio & Murottal</div>
+        <div class="setting-card">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <i class="ri-disc-line" style="background:#FDF2F8; color:#DB2777;"></i>
+                    <span>Putar Otomatis</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-autoplay" onchange="saveSetting('autoplay', this.checked)">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="setting-group-title">Data & Info</div>
+        <div class="setting-card">
+            <div class="setting-item" onclick="resetAppData()">
+                <div class="setting-label">
+                    <i class="ri-delete-bin-line" style="background:#FEF2F2; color:#DC2626;"></i>
+                    <span style="color:#DC2626;">Reset Aplikasi</span>
+                </div>
+                <i class="ri-arrow-right-s-line" style="color:#9CA3AF;"></i>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <i class="ri-information-line" style="background:#F3F4F6; color:#4B5563;"></i>
+                    <span>Versi Aplikasi</span>
+                </div>
+                <span style="font-size:12px; color:#9CA3AF;">v1.0.0 (Beta)</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+            <p style="font-size: 11px; color: var(--text-muted); opacity: 0.7;">Dibuat dengan ❤️ untuk Umat</p>
+        </div>
+    </div>
+</div>
 
             <div id="view-tasbih" class="overlay-view">
     <div class="detail-header">
@@ -2393,6 +2646,7 @@
                 div.className = 'card';
                 div.onclick = () => openDetail(s);
                 div.innerHTML = `
+                
                     <div class="info">
                         <div class="badge" style="background: #F3F4F6; color: #374151;">${s.nomor}</div>
                         <div class="details">
@@ -2452,6 +2706,10 @@
                         `;
                     });
                     list.innerHTML = html;
+
+                    // Apply font size setting
+const savedSize = localStorage.getItem('setting_font_size') || '28';
+document.querySelectorAll('.verse-arabic').forEach(el => el.style.fontSize = savedSize + 'px');
                     
                     // Set up scroll tracking for last read
                     setupScrollTracking(surah.nomor);
@@ -2609,7 +2867,34 @@
 
         audio.addEventListener('playing', () => { if(activeAudioId) document.getElementById(`icon-${activeAudioId}`).className = 'ri-pause-fill'; });
         audio.addEventListener('pause', () => { if(activeAudioId) document.getElementById(`icon-${activeAudioId}`).className = 'ri-play-fill'; });
-        audio.addEventListener('ended', () => { if(activeAudioId) resetUI(activeAudioId); activeAudioId = null; });
+        audio.addEventListener('ended', () => {
+    if(activeAudioId) {
+        resetUI(activeAudioId);
+
+        // LOGIK AUTOPLAY
+        const isAutoplay = localStorage.getItem('setting_autoplay') === 'true';
+        if(isAutoplay) {
+            // Cari surat berikutnya
+            const nextId = activeAudioId + 1;
+            if(nextId <= 114) {
+                // Kita butuh data URL audio surat berikutnya. 
+                // Karena array allSurahData ada di memori, kita cari:
+                const nextSurah = allSurahData.find(s => s.nomor === nextId);
+                if(nextSurah) {
+                    // Scroll ke kartu surat berikutnya (opsional)
+                    const nextCard = document.getElementById(`card-${nextId}`);
+                    if(nextCard) nextCard.scrollIntoView({behavior: "smooth", block: "center"});
+
+                    // Mainkan dengan delay sedikit
+                    setTimeout(() => {
+                        togglePlay(new Event('click'), nextId, nextSurah.audioFull['05']);
+                    }, 1000);
+                }
+            }
+        }
+        activeAudioId = null;
+    }
+});
 
         audio.addEventListener('timeupdate', () => {
             if(!activeAudioId) return;
@@ -3582,37 +3867,28 @@ function toggleDoaSearch() {
     const isOpen = searchBar.classList.contains('open');
 
     if (isOpen) {
-        // --- MENUTUP ---
         searchBar.classList.remove('open');
         btn.classList.remove('active');
         
         // Kembalikan ikon search
         icon.className = 'ri-search-2-line';
         
-        // Opsional: Kosongkan pencarian saat ditutup
-        // input.value = ''; 
-        // filterDoa('');
-        
     } else {
-        // --- MEMBUKA ---
+        
         searchBar.classList.add('open');
         btn.classList.add('active');
         
-        // Ganti ke ikon silang (X)
         icon.className = 'ri-close-line';
         
-        // Fokus otomatis ke input agar keyboard muncul
         setTimeout(() => {
             input.focus();
         }, 100); // Delay sedikit menunggu animasi
     }
 }
 
-// Update fungsi closeDoa agar mereset tampilan pencarian saat keluar
 function closeDoa() {
     document.getElementById('view-doa').classList.remove('open');
     
-    // Reset Search Bar ke keadaan tertutup (default)
     const searchBar = document.getElementById('doa-search-bar');
     const icon = document.getElementById('icon-search-doa');
     const btn = document.querySelector('.btn-search-toggle');
@@ -3621,6 +3897,96 @@ function closeDoa() {
         searchBar.classList.remove('open');
         btn.classList.remove('active');
         icon.className = 'ri-search-2-line';
+    }
+}
+</script>
+
+<script>
+    /* --- LOGIKA PENGATURAN --- */
+
+// Panggil fungsi ini saat dokumen dimuat
+document.addEventListener("DOMContentLoaded", () => {
+    // ... kode inisialisasi lainnya ...
+    loadSettings();
+});
+
+function loadSettings() {
+    // 1. Load Dark Mode
+    const isDark = localStorage.getItem('setting_dark_mode') === 'true';
+    document.getElementById('toggle-dark-mode').checked = isDark;
+    if(isDark) document.body.classList.add('dark-mode');
+
+    // 2. Load Font Size
+    const fontSize = localStorage.getItem('setting_font_size') || '28';
+    document.getElementById('slider-font-size').value = fontSize;
+    applyFontSize(fontSize);
+
+    // 3. Load Translation Toggle
+    const showTrans = localStorage.getItem('setting_show_trans') !== 'false'; // default true
+    document.getElementById('toggle-translation').checked = showTrans;
+    applyTranslationVisibility(showTrans);
+
+    // 4. Load Autoplay
+    const autoplay = localStorage.getItem('setting_autoplay') === 'true';
+    document.getElementById('toggle-autoplay').checked = autoplay;
+}
+
+function saveSetting(key, value) {
+    localStorage.setItem('setting_' + key, value);
+}
+
+// --- FUNGSI SPESIFIK ---
+
+function toggleDarkMode(el) {
+    const isDark = el.checked;
+    if(isDark) document.body.classList.add('dark-mode');
+    else document.body.classList.remove('dark-mode');
+    saveSetting('dark_mode', isDark);
+}
+
+function changeArabicFontSize(val) {
+    document.getElementById('font-size-val').innerText = val + 'px';
+    applyFontSize(val);
+    saveSetting('font_size', val);
+}
+
+function applyFontSize(val) {
+    // Terapkan variable CSS global untuk font Arab
+    document.documentElement.style.setProperty('--font-arab-size', val + 'px');
+    
+    // Terapkan langsung ke elemen yang mungkin sudah ter-render
+    const verses = document.querySelectorAll('.verse-arabic');
+    verses.forEach(v => v.style.fontSize = val + 'px');
+    
+    // Terapkan juga ke Mushaf (karena Mushaf pakai class mushaf-page-text)
+    const mushaf = document.querySelector('.mushaf-page-text');
+    if(mushaf) mushaf.style.fontSize = val + 'px';
+}
+
+function toggleTranslation(el) {
+    const show = el.checked;
+    applyTranslationVisibility(show);
+    saveSetting('show_trans', show);
+}
+
+function applyTranslationVisibility(show) {
+    const displayVal = show ? 'block' : 'none';
+    
+    // Gunakan CSS class injection agar performa lebih baik saat render list panjang
+    let styleEl = document.getElementById('dynamic-trans-style');
+    if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'dynamic-trans-style';
+        document.head.appendChild(styleEl);
+    }
+    styleEl.innerHTML = `.verse-latin, .meaning { display: ${displayVal} !important; }`;
+}
+
+function resetAppData() {
+    if(confirm("Apakah Anda yakin ingin mereset aplikasi? Semua riwayat lokasi, bacaan terakhir, dan pengaturan akan dihapus.")) {
+        localStorage.clear();
+        location.reload();
+        toast("Aplikasi berhasil direset");
     }
 }
 </script>
