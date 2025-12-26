@@ -2981,130 +2981,148 @@ document.querySelectorAll('.verse-arabic').forEach(el => el.style.fontSize = sav
         }
 
         function renderLastReadOptions() {
-            const container = document.getElementById('last-read-options');
-            container.innerHTML = '';
+    const container = document.getElementById('last-read-options');
+    // 1. Ambil elemen header
+    const header = document.querySelector('.last-read-header'); 
+    
+    container.innerHTML = '';
+    
+    // Get last read data
+    const lastReadSurah = JSON.parse(localStorage.getItem('last_read_surah') || 'null');
+    const lastReadMushafPage = localStorage.getItem('last_read_mushaf_page');
+    
+    // Check if there's any data
+    if (!lastReadSurah && !lastReadMushafPage) {
+        // 2. JIKA KOSONG: Sembunyikan Header
+        if(header) header.style.display = 'none';
+
+        container.innerHTML = `
+            <div class="empty-last-read">
+                <i class="ri-book-2-line"></i>
+                <h3>Belum Ada Riwayat Bacaan</h3>
+                <p>Anda belum memiliki riwayat membaca. Mulai membaca untuk menyimpan posisi terakhir Anda.</p>
+                <button class="btn-explore" onclick="closeLastRead(); switchTab('membaca', document.querySelector('.nav-item:nth-child(2)'))">
+                    <i class="ri-book-open-line"></i> Mulai Membaca
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    // 3. JIKA ADA DATA: Tampilkan Header
+    if(header) header.style.display = 'block';
+    
+    // Render surah option if available
+    if (lastReadSurah) {
+        const surahData = allSurahData.find(s => s.nomor === lastReadSurah.surah);
+        if (surahData) {
+            const date = new Date(lastReadSurah.timestamp);
+            const formattedDate = date.toLocaleDateString('id-ID', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
             
-            // Get last read data
-            const lastReadSurah = JSON.parse(localStorage.getItem('last_read_surah') || 'null');
-            const lastReadMushafPage = localStorage.getItem('last_read_mushaf_page');
+            const surahOption = document.createElement('div');
+            surahOption.className = 'last-read-option surah';
+            surahOption.innerHTML = `
+                <div class="last-read-option-icon">
+                    <i class="ri-book-2-line"></i>
+                </div>
+                <div class="last-read-option-info">
+                    <div class="last-read-option-title">${surahData.namaLatin} - Ayat ${lastReadSurah.ayah}</div>
+                    <div class="last-read-option-desc">${formattedDate}</div>
+                </div>
+                <div class="last-read-option-arrow">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            `;
             
-            // Check if there's any data
-            if (!lastReadSurah && !lastReadMushafPage) {
-                container.innerHTML = `
-                    <div class="empty-last-read">
-                        <i class="ri-book-2-line"></i>
-                        <h3>Belum Ada Riwayat Bacaan</h3>
-                        <p>Anda belum memiliki riwayat membaca. Mulai membaca untuk menyimpan posisi terakhir Anda.</p>
-                        <button class="btn-explore" onclick="closeLastRead(); switchTab('membaca', document.querySelector('.nav-item:nth-child(2)'))">
-                            <i class="ri-book-open-line"></i> Mulai Membaca
-                        </button>
-                    </div>
-                `;
-                return;
-            }
+            surahOption.addEventListener('click', () => {
+                closeLastRead();
+                openDetailAndScrollToAyah(surahData, lastReadSurah.ayah);
+            });
             
-            // Render surah option if available
-            if (lastReadSurah) {
-                const surahData = allSurahData.find(s => s.nomor === lastReadSurah.surah);
-                if (surahData) {
-                    const date = new Date(lastReadSurah.timestamp);
-                    const formattedDate = date.toLocaleDateString('id-ID', { 
-                        day: 'numeric', 
-                        month: 'long', 
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    const surahOption = document.createElement('div');
-                    surahOption.className = 'last-read-option surah';
-                    surahOption.innerHTML = `
-                        <div class="last-read-option-icon">
-                            <i class="ri-book-2-line"></i>
-                        </div>
-                        <div class="last-read-option-info">
-                            <div class="last-read-option-title">${surahData.namaLatin} - Ayat ${lastReadSurah.ayah}</div>
-                            <div class="last-read-option-desc">${formattedDate}</div>
-                        </div>
-                        <div class="last-read-option-arrow">
-                            <i class="ri-arrow-right-s-line"></i>
-                        </div>
-                    `;
-                    
-                    surahOption.addEventListener('click', () => {
-                        closeLastRead();
-                        openDetailAndScrollToAyah(surahData, lastReadSurah.ayah);
-                    });
-                    
-                    container.appendChild(surahOption);
-                }
-            }
-            
-            // Render mushaf option if available
-            if (lastReadMushafPage) {
-                const mushafOption = document.createElement('div');
-                mushafOption.className = 'last-read-option mushaf';
-                mushafOption.innerHTML = `
-                    <div class="last-read-option-icon">
-                        <i class="ri-book-open-line"></i>
-                    </div>
-                    <div class="last-read-option-info">
-                        <div class="last-read-option-title">Halaman Mushaf ${lastReadMushafPage}</div>
-                        <div class="last-read-option-desc">Lanjutkan membaca dari halaman ${lastReadMushafPage}</div>
-                    </div>
-                    <div class="last-read-option-arrow">
-                        <i class="ri-arrow-right-s-line"></i>
-                    </div>
-                `;
-                
-                mushafOption.addEventListener('click', () => {
-                    closeLastRead();
-                    openMushafAndJumpToPage(parseInt(lastReadMushafPage));
-                });
-                
-                container.appendChild(mushafOption);
-            }
+            container.appendChild(surahOption);
         }
+    }
+    
+    // Render mushaf option if available
+    if (lastReadMushafPage) {
+        const mushafOption = document.createElement('div');
+        mushafOption.className = 'last-read-option mushaf';
+        mushafOption.innerHTML = `
+            <div class="last-read-option-icon">
+                <i class="ri-book-open-line"></i>
+            </div>
+            <div class="last-read-option-info">
+                <div class="last-read-option-title">Halaman Mushaf ${lastReadMushafPage}</div>
+                <div class="last-read-option-desc">Lanjutkan membaca dari halaman ${lastReadMushafPage}</div>
+            </div>
+            <div class="last-read-option-arrow">
+                <i class="ri-arrow-right-s-line"></i>
+            </div>
+        `;
+        
+        mushafOption.addEventListener('click', () => {
+            closeLastRead();
+            openMushafAndJumpToPage(parseInt(lastReadMushafPage));
+        });
+        
+        container.appendChild(mushafOption);
+    }
+}
 
         function openDetailAndScrollToAyah(surah, ayahNumber) {
     // 1. Buka view detail
     openDetail(surah);
     
-    // 2. Tunggu sebentar agar konten termuat (Fetch API selesai & DOM render)
-    // Kita gunakan interval checking agar lebih akurat daripada sekadar setTimeout statis
+    // 2. Tunggu sebentar agar konten termuat
     const checkExist = setInterval(() => {
         const detailList = document.getElementById('detail-list');
+        // Cari elemen ayat yang dituju
         const targetVerse = detailList.querySelector(`.verse-item[data-ayah="${ayahNumber}"]`);
         
-        // Jika elemen sudah ditemukan di DOM
+        // Jika elemen sudah ditemukan
         if (targetVerse) {
             clearInterval(checkExist); // Hentikan pengecekan
 
-            // --- LOGIKA SCROLL BARU (MENGGUNAKAN SCROLLTOP) ---
-            // Rumus: Posisi Element - (Setengah Tinggi Layar) + (Setengah Tinggi Element)
-            // Ini akan menaruh elemen persis di tengah container tanpa menggeser body
-            
-            const elementPosition = targetVerse.offsetTop;
-            const containerHeight = detailList.clientHeight;
-            const elementHeight = targetVerse.clientHeight;
-            
-            detailList.scrollTo({
-                top: elementPosition - (containerHeight / 2) + (elementHeight / 2),
-                behavior: 'smooth'
-            });
-
-            // --- LOGIKA HIGHLIGHT (TETAP SAMA) ---
-            targetVerse.style.transition = "background 0.5s";
-            targetVerse.style.background = 'var(--primary-light)';
-            
+            // --- METODE BARU: KALKULASI ABSOLUT ---
+            // Kita gunakan setTimeout kecil untuk memastikan layout sudah stabil
             setTimeout(() => {
-                targetVerse.style.background = '';
-            }, 2000);
-        }
-    }, 100); // Cek setiap 100ms
+                // 1. Ambil posisi kotak container dan kotak ayat
+                const containerRect = detailList.getBoundingClientRect();
+                const targetRect = targetVerse.getBoundingClientRect();
+                
+                // 2. Hitung selisih jarak antara atas container dengan atas ayat
+                // (Ini mendapatkan posisi ayat relatif terhadap viewport container)
+                const relativeTop = targetRect.top - containerRect.top;
+                
+                // 3. Hitung posisi scroll yang harus dituju:
+                // Posisi Scroll Sekarang + Jarak Relatif - 15px (Gap)
+                const targetScrollPos = detailList.scrollTop + relativeTop - 15;
+                
+                // 4. Eksekusi Scroll
+                detailList.scrollTo({
+                    top: targetScrollPos,
+                    behavior: 'smooth'
+                });
 
-    // Safety timeout: Hentikan interval jika data tidak muncul dalam 5 detik (misal error jaringan)
-    setTimeout(() => clearInterval(checkExist), 5000);
+                // Efek Highlight
+                targetVerse.style.transition = "background 0.5s";
+                targetVerse.style.background = 'var(--primary-light)';
+                setTimeout(() => {
+                    targetVerse.style.background = '';
+                }, 2000);
+
+            }, 100); // Delay 100ms agar aman dari glitch animasi
+        }
+    }, 100); // Cek ketersediaan elemen setiap 100ms
+
+    // Safety timeout: Berhenti jika lebih dari 10 detik (koneksi lambat)
+    setTimeout(() => clearInterval(checkExist), 10000);
 }
 
         function openMushafAndJumpToPage(pageNumber) {
